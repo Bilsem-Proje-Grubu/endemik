@@ -75,7 +75,7 @@ export const flora = [
   ['Kum Emziği', 'Onosma propontica'],
   ['Gezertere', 'Physoptychis hausknechtii'],
   ['Samsun Madımağı', 'Polygonum samsunicum'],
-  ['Dişli Çakşır', 'Prangos denticulata'],
+  ['Dişli Çakşı', 'Prangos denticulata'],
   ['Has Tülübaşı', 'Psephellus brevifimbriatus'],
   ['Koyak Tülübaşı', 'Psephellus hadimensis'],
   ['Yurt Tülübaşı', 'Psephellus turcicus'],

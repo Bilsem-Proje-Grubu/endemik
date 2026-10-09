@@ -14,7 +14,7 @@ let map = null;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icon = (s) => (s.group === 'fauna' ? '🦎' : '🌿');
-const thumb = (s, cls = '') => `<div class="thumb ${cls}">${s.image ? `<img loading="lazy" src="${esc(s.image)}" alt="${esc(s.name)}">` : icon(s)}</div>`;
+const thumb = (s, cls = '') => `<div class="thumb ${cls}">${s.image ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(s.image)}" alt="${esc(s.name)}" onerror="this.replaceWith(document.createTextNode('${icon(s)}'))">` : icon(s)}</div>`;
 
 function toast(msg, ms = 3500) {
   const t = document.createElement('div');
