@@ -1,12 +1,17 @@
 // species.json üretir: node scripts/build-species.mjs
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { fauna, flora, BASE_PDF } from './species-list.mjs';
 import { details } from './details.mjs';
+import { details2 } from './details2.mjs';
 
 const slug = (s) => s.toLocaleLowerCase('tr')
   .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+const pdfLinks = JSON.parse(readFileSync(new URL('./pdf-links.json', import.meta.url)));
+const nk = (x) => x.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase().replace(/[^a-zçğıöşü0-9]/g, '');
+const imgPath = new URL('../src/data/images.json', import.meta.url);
+const images = existsSync(imgPath) ? JSON.parse(readFileSync(imgPath)) : {};
 const out = [];
 for (const [name, sci, pdf] of fauna) out.push({ name, sci, group: 'fauna', pdf: BASE_PDF + encodeURIComponent(pdf).replace(/%2F/g, '/') });
 for (const [name, sci] of flora) {
@@ -19,15 +24,17 @@ const list = out.map((s) => ({
   name: s.name,
   sci: s.sci,
   group: s.group,
-  image: null,
+  image: images[slug(s.name)]?.url || null,
+  imageCredit: images[slug(s.name)] ? { author: images[slug(s.name)].author, license: images[slug(s.name)].license, source: images[slug(s.name)].source } : null,
   description: '',
   morphology: '',
   flowering: '',
   statusNational: '',
   statusIntl: '',
   localities: [],
-  pdf: s.pdf,
+  pdf: pdfLinks[nk(s.name)] || pdfLinks[nk(s.name.replace('ır', 'ı'))] || s.pdf,
   ...(details[s.name] || {}),
+  ...(details2[s.name] || {}),
 }));
 
 // Ayrıntısı olan türler başa gelsin.
