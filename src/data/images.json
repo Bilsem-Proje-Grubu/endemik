@@ -259,10 +259,66 @@
     "page": "https://www.inaturalist.org/taxa/194638"
   },
   "has-tulubasi": {
-    "url": "https://www.floranatolica.com/eukaria/images/640X480/046/xx4666_1785216716.jpg",
-    "license": "CC BY",
+    "url": "./species-img/has-tulubasi.jpg",
+    "license": "CC BY-SA 4.0",
     "author": "Serdar Ölez",
     "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031",
     "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031"
+  },
+  "tuz-begendiotu": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Iberis_halophila.jpg/960px-Iberis_halophila.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "license": "CC BY 4.0",
+    "author": "Mecit Vural, Zeki Aytaç, Nezaket Adıgüzel",
+    "source": "https://commons.wikimedia.org/wiki/File:Iberis_halophila.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Iberis_halophila.jpg"
+  },
+  "dicle-korugu": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Rosularia_blepharophylla.jpg/960px-Rosularia_blepharophylla.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "license": "CC BY-SA 4.0",
+    "author": "Dûrzan Cîrano",
+    "source": "https://commons.wikimedia.org/wiki/File:Rosularia_blepharophylla.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Rosularia_blepharophylla.jpg"
+  },
+  "govrek": {
+    "url": "./species-img/govrek.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Serdar Ölez",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=118070",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=118070"
+  },
+  "er-geveni": {
+    "url": "./species-img/er-geveni.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Mustafa Gökmen",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=98213",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=98213"
+  },
+  "ayas-cancicegi": {
+    "url": "./species-img/ayas-cancicegi.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Mustafa Gökmen",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=111030",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=111030"
+  },
+  "erzincan-sutotu": {
+    "url": "./species-img/erzincan-sutotu.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Serdar Ölez",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=109865",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=109865"
+  },
+  "sari-dag-gulu": {
+    "url": "./species-img/sari-dag-gulu.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Mustafa Gökmen",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=94193",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=94193"
+  },
+  "koca-soda": {
+    "url": "./species-img/koca-soda.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Ahmet Demirtaş",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682"
   }
 }
