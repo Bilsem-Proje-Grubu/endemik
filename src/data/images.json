@@ -243,5 +243,26 @@
     "author": "Luis Miguel Bugallo Sánchez (Lmbuga Commons)(Lmbuga Galipedia)",
     "source": "https://commons.wikimedia.org/wiki/File:Cabo_da_Roca_-_Sintra_-_060415_34.JPG",
     "page": "https://tr.wikipedia.org/wiki/Centaurea_hermannii"
+  },
+  "marmaris-semenderi": {
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/175713486/medium.jpg",
+    "license": "CC BY",
+    "author": "Kseniia Marianna Prondzynska",
+    "source": "https://www.inaturalist.org/photos/175713486",
+    "page": "https://www.inaturalist.org/taxa/66092"
+  },
+  "tuylu-cancicegi": {
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/440362304/medium.jpg",
+    "license": "CC BY",
+    "author": "Joey Bom",
+    "source": "https://www.inaturalist.org/photos/440362304",
+    "page": "https://www.inaturalist.org/taxa/194638"
+  },
+  "has-tulubasi": {
+    "url": "https://www.floranatolica.com/eukaria/images/640X480/046/xx4666_1785216716.jpg",
+    "license": "CC BY",
+    "author": "Serdar Ölez",
+    "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031",
+    "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031"
   }
 }

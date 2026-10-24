@@ -462,8 +462,12 @@
     "name": "Marmaris Semenderi",
     "sci": "Lyciasalamandra flavimembris",
     "group": "fauna",
-    "image": null,
-    "imageCredit": null,
+    "image": "https://inaturalist-open-data.s3.amazonaws.com/photos/175713486/medium.jpg",
+    "imageCredit": {
+      "author": "Kseniia Marianna Prondzynska",
+      "license": "CC BY",
+      "source": "https://www.inaturalist.org/photos/175713486"
+    },
     "description": "Sudan tamamen bağımsız yaşayan ve üremek için suya ihtiyaç duymayan bir kuyruklu kurbağadır. Gün boyu taş ve kayaların altında saklanır; deniz seviyesinden 850 m’ye kadar bulunur.",
     "morphology": "",
     "flowering": "",
@@ -1013,8 +1017,12 @@
     "name": "Tüylü Çançiçeği",
     "sci": "Campanula tomentosa",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "https://inaturalist-open-data.s3.amazonaws.com/photos/440362304/medium.jpg",
+    "imageCredit": {
+      "author": "Joey Bom",
+      "license": "CC BY",
+      "source": "https://www.inaturalist.org/photos/440362304"
+    },
     "description": "Aydın yöresinde Söke ve Kuşadası dolaylarında görülen bir çançiçeğidir.",
     "morphology": "",
     "flowering": "",
@@ -1588,8 +1596,12 @@
     "name": "Has Tülübaşı",
     "sci": "Psephellus brevifimbriatus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "https://www.floranatolica.com/eukaria/images/640X480/046/xx4666_1785216716.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031"
+    },
     "description": "Temel yayılış alanı Malatya’da Darende ve Gürün ilçeleri arasından geçen Tohma Vadisi’dir.",
     "morphology": "",
     "flowering": "",
