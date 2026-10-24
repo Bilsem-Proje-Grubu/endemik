@@ -67,3 +67,9 @@ export async function adminSetStatus(id, status) {
   const { error } = await supabase.from('sightings').update({ status }).eq('id', id);
   if (error) throw error;
 }
+// Kaydı kalıcı olarak siler. Silinen satır yoksa (yetki yok / kayıt yok) hata verir.
+export async function adminDelete(id) {
+  const { data, error } = await supabase.from('sightings').delete().eq('id', id).select('id');
+  if (error) throw error;
+  if (!data || !data.length) throw new Error('Kayıt silinemedi.');
+}
