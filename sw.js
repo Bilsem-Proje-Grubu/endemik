@@ -1,5 +1,5 @@
 // Basit çevrimdışı önbellek: kabuk dosyaları ve tür verisi.
-const CACHE = 'endemik-v1';
+const CACHE = 'endemik-v2';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
@@ -18,6 +18,14 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   // Supabase ve harita karoları her zaman ağdan (karolar başarılı olursa önbelleğe girer).
   if (url.hostname.endsWith('supabase.co')) return;
+  // Sayfanın kendisi (index.html) önce ağdan gelir: yeni sürüm yayınlanınca eski kabuk takılı kalmasın.
+  if (req.mode === 'navigate') {
+    e.respondWith(fetch(req).then((res) => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
+      return res;
+    }).catch(() => caches.match(req)));
+    return;
+  }
   e.respondWith(
     caches.match(req).then((hit) => {
       const net = fetch(req).then((res) => {
