@@ -28,7 +28,21 @@ const FAUNA_ICON = {
   'sakalli-yarasa': '🦇', 'saz-kedisi': '🐈', 'cizgili-sirtlan': '🐺',
   'igdir-col-faresi': '🐀', 'yer-yediuyuru': '🐭',
 };
-const icon = (s) => (s.group === 'fauna' ? FAUNA_ICON[s.id] || '🐾' : '🌿');
+// Bitkiler cinse (bilimsel adın ilk sözcüğü) göre gruplanır.
+const FLORA_ICON = {
+  '🌷': ['Tulipa', 'Fritillaria'],
+  '🪻': ['Iris', 'Crocus', 'Bellevalia', 'Hyacinthus', 'Scilla', 'Ornithogalum'],
+  '🔔': ['Campanula'],
+  '🌸': ['Lilium', 'Galanthus', 'Aubrieta', 'Alyssum', 'Iberis', 'Aethionema', 'Silene', 'Saponaria', 'Alkanna', 'Anchusa', 'Onosma', 'Tchihatchewia'],
+  '🌼': ['Centaurea', 'Psephellus', 'Rhaponticoides', 'Senecio', 'Sonchus', 'Hypericum', 'Thermopsis', 'Gentiana'],
+  '🌺': ['Rhodothamnus', 'Adonis'],
+  '🌱': ['Astragalus', 'Dorycnium', 'Vicia', 'Glycyrrhiza'],
+  '🌵': ['Salsola', 'Asparagus', 'Polygonum', 'Amphoricarpos', 'Acantholimon', 'Ekimia', 'Rosularia'],
+  '🌾': ['Ferula', 'Prangos', 'Cephalaria', 'Pseudodelphinium', 'Physoptychis', 'Erodium'],
+  '🍃': ['Verbascum', 'Stachys', 'Sideritis', 'Salvia', 'Ajuga'],
+};
+const FLORA_BY_GENUS = Object.fromEntries(Object.entries(FLORA_ICON).flatMap(([e, gs]) => gs.map((g) => [g, e])));
+const icon = (s) => (s.group === 'fauna' ? FAUNA_ICON[s.id] || '🐾' : FLORA_BY_GENUS[(s.sci || '').split(' ')[0]] || '🌿');
 const thumb = (s, cls = '') => `<div class="thumb ${cls}">${s.image ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(s.image)}" alt="${esc(s.name)}" onerror="this.replaceWith(document.createTextNode('${icon(s)}'))">` : icon(s)}</div>`;
 
 function toast(msg, ms = 3500) {
