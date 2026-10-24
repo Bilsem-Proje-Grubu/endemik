@@ -13,13 +13,6 @@
     "source": "https://commons.wikimedia.org/wiki/File:Northern_Bald_Ibis_Geronticus_eremita_(8470600428).jpg",
     "page": "https://en.wikipedia.org/wiki/Northern_bald_ibis"
   },
-  "truva-kardeleni": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Distribution_of_the_galanthus_species.png/960px-Distribution_of_the_galanthus_species.png?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "license": "CC BY-SA 4.0",
-    "author": "Nalagtus",
-    "source": "https://commons.wikimedia.org/wiki/File:Distribution_of_the_galanthus_species.png",
-    "page": "https://tr.wikipedia.org/wiki/Galanthus_trojanus"
-  },
   "manisa-lalesi": {
     "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Tulipa_orphanidea_060506.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "license": "CC BY 2.5",
@@ -229,20 +222,6 @@
     "author": "The original uploader was Dawson at English Wikipedia.",
     "source": "https://commons.wikimedia.org/wiki/File:Vipera_albizona.jpg",
     "page": "https://tr.wikipedia.org/wiki/Beyaz_bantl%C4%B1_da%C4%9F_engere%C4%9Fi"
-  },
-  "iskenderun-kertenkelesi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/84558885/medium.jpg",
-    "license": "CC BY",
-    "author": "Karim Haddad, some rights reserved (CC BY), uploaded by Karim Haddad",
-    "source": "https://www.inaturalist.org/taxa/35437",
-    "page": "https://www.inaturalist.org/taxa/35437"
-  },
-  "kulindor": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Cabo_da_Roca_-_Sintra_-_060415_34.JPG/960px-Cabo_da_Roca_-_Sintra_-_060415_34.JPG?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "license": "CC BY-SA 2.5 es",
-    "author": "Luis Miguel Bugallo Sánchez (Lmbuga Commons)(Lmbuga Galipedia)",
-    "source": "https://commons.wikimedia.org/wiki/File:Cabo_da_Roca_-_Sintra_-_060415_34.JPG",
-    "page": "https://tr.wikipedia.org/wiki/Centaurea_hermannii"
   },
   "marmaris-semenderi": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/175713486/medium.jpg",
@@ -520,5 +499,20 @@
     "author": "Royal Botanic Garden Edinburgh",
     "source": "https://www.gbif.org/occurrence/575058773",
     "page": "https://www.gbif.org/occurrence/575058773"
+  },
+  "iskenderun-kertenkelesi": {
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/280396246/medium.jpg",
+    "license": "CC BY",
+    "author": "Morgan Caygill",
+    "source": "https://www.inaturalist.org/photos/280396246",
+    "page": "https://www.inaturalist.org/taxa/35413"
+  },
+  "kulindor": {
+    "url": "./species-img/kulindor.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575178715",
+    "page": "https://www.gbif.org/occurrence/575178715"
   }
 }

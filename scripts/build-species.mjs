@@ -39,6 +39,9 @@ const list = out.map((s) => ({
   ...(details3[s.name] || {}),
 }));
 
+// PDF'lerden gelen özel tire (U+2010/2011) ve benzerlerini düz tireye çevir.
+for (const s of list) for (const k of ['description', 'morphology', 'flowering', 'statusNational', 'statusIntl']) s[k] = (s[k] || '').replace(/[\u2010\u2011]/g, '-');
+
 // Ayrıntısı olan türler başa gelsin.
 list.sort((a, b) => (b.localities.length > 0) - (a.localities.length > 0));
 

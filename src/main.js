@@ -106,10 +106,10 @@ function viewSpecies(id) {
     ${s.imageCredit ? `<div class="sc" style="text-align:right">${s.imageCredit.type === 'specimen' ? 'Herbaryum örneği (müze taraması)' : 'Fotoğraf'}: ${esc(s.imageCredit.author || 'Wikimedia Commons')} · <a href="${esc(s.imageCredit.source)}" target="_blank" rel="noopener">${esc(s.imageCredit.license)}</a></div>` : ''}
     <h1>${esc(s.name)}</h1>
     <div class="sci">${esc(s.sci)} · ${s.group === 'fauna' ? 'Fauna' : 'Flora'}</div>
-    ${s.description ? `<p>${esc(s.description)}</p>` : '<p class="note">Bu tür için ayrıntılı bilgi henüz eklenmedi. Kaynak: Tür Eylem Planı.</p>'}
+    ${s.description ? `<p>${esc(s.description)}</p>` : s.morphology || s.statusNational || s.statusIntl ? '' : '<p class="note">Bu tür için ayrıntılı bilgi henüz eklenmedi. Kaynak: Tür Eylem Planı.</p>'}
     <dl class="kv">
       ${row('Morfolojik özellikler', s.morphology)}
-      ${row('Çiçeklenme tarihi', s.group === 'flora' ? s.flowering : 'Floraya özgü')}
+      ${s.group === 'flora' ? row('Çiçeklenme tarihi', s.flowering) : ''}
       ${row('Ulusal statü', s.statusNational)}
       ${row('Uluslararası statü', s.statusIntl)}
     </dl>
