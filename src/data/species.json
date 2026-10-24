@@ -824,8 +824,12 @@
     "name": "Gövrek",
     "sci": "Anchusa limbata",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/govrek.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=118070"
+    },
     "description": "Antalya’dan Elmalı’ya giderken Gümüş Bucağı mevkiinde de kaydedilmiş bir bitkidir. Elmalı yöresinde bilinir.",
     "morphology": "Taban yaprakları şeritsi-dar tersmızraksı, 4–10 × 0,4–0,8 cm, tam kenarlı veya hafif dalgalıdır.",
     "flowering": "",
@@ -897,8 +901,12 @@
     "name": "Er Geveni",
     "sci": "Astragalus bozakmanii",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/er-geveni.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=98213"
+    },
     "description": "Bugün yalnızca Ankara’nın Çamlıdere ve Kızılcahamam ilçelerinde yerel olarak yayılış gösterir.",
     "morphology": "",
     "flowering": "",
@@ -987,8 +995,12 @@
     "name": "Ayaş Çançiçeği",
     "sci": "Campanula damboldtiana",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/ayas-cancicegi.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=111030"
+    },
     "description": "Ankara’da Ayaş’ın Aysantıbeli geçidi yol kenarı ile Kahramankazan’ın Orhaniye (Çal Tepesi) çevresinde yayılış gösterir.",
     "morphology": "",
     "flowering": "",
@@ -1374,8 +1386,12 @@
     "name": "Tuz Beğendiotu",
     "sci": "Iberis halophila",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Iberis_halophila.jpg/960px-Iberis_halophila.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageCredit": {
+      "author": "Mecit Vural, Zeki Aytaç, Nezaket Adıgüzel",
+      "license": "CC BY 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Iberis_halophila.jpg"
+    },
     "description": "İran-Turan bölgesine endemik; Tuz Gölü’nün güney-güneybatısında, Konya Cihanbeyli’de Tersakan Gölü kıyılarında ve Aksaray Eskil’de yayılış gösterir.",
     "morphology": "Çiçekleri lilamsı beyazımsı, çok yıllık bir bitkidir.",
     "flowering": "",
@@ -1596,10 +1612,10 @@
     "name": "Has Tülübaşı",
     "sci": "Psephellus brevifimbriatus",
     "group": "flora",
-    "image": "https://www.floranatolica.com/eukaria/images/640X480/046/xx4666_1785216716.jpg",
+    "image": "./species-img/has-tulubasi.jpg",
     "imageCredit": {
       "author": "Serdar Ölez",
-      "license": "CC BY",
+      "license": "CC BY-SA 4.0",
       "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031"
     },
     "description": "Temel yayılış alanı Malatya’da Darende ve Gürün ilçeleri arasından geçen Tohma Vadisi’dir.",
@@ -1715,8 +1731,12 @@
     "name": "Dicle Koruğu",
     "sci": "Rosularia blepharophylla",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Rosularia_blepharophylla.jpg/960px-Rosularia_blepharophylla.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageCredit": {
+      "author": "Dûrzan Cîrano",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Rosularia_blepharophylla.jpg"
+    },
     "description": "Diyarbakır ilinde yayılış gösteren, kirpikli yapraklarından adını alan bir koruk otu türüdür.",
     "morphology": "",
     "flowering": "",
@@ -1860,8 +1880,12 @@
     "name": "Erzincan Sütotu",
     "sci": "Sonchus erzincanicus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/erzincan-sutotu.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=109865"
+    },
     "description": "Erzincan ili sınırları içinde yayılış gösteren endemik bir bitkidir.",
     "morphology": "",
     "flowering": "",
@@ -2214,8 +2238,12 @@
     "name": "Sarı Dağ Gülü",
     "sci": "Adonis cyllenea var. paryadrica",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/sari-dag-gulu.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=94193"
+    },
     "description": "",
     "morphology": "",
     "flowering": "",
@@ -2304,8 +2332,12 @@
     "name": "Koca Soda",
     "sci": "Salsola grandis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/koca-soda.jpg",
+    "imageCredit": {
+      "author": "Ahmet Demirtaş",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682"
+    },
     "description": "",
     "morphology": "",
     "flowering": "",
