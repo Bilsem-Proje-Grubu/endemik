@@ -153,8 +153,10 @@ function viewAdd(preselect) {
       <label>Tür adı<input name="name" list="sp" required placeholder="Listeden seçin veya yeni tür yazın" value="${esc(preselect ? byId.get(preselect)?.name : '')}" autocomplete="off"></label>
       <datalist id="sp">${species.map((s) => `<option value="${esc(s.name)}">`).join('')}</datalist>
       <div class="row"><button type="button" class="btn ghost" id="gps">📍 Konumumu kullan</button></div>
-      <label>Enlem<input name="lat" type="number" step="any" min="-90" max="90" required></label>
-      <label>Boylam<input name="lng" type="number" step="any" min="-180" max="180" required></label>
+      <p class="note">Ya da türü gördüğünüz yere haritada dokunarak işaretleyin.</p>
+      <div id="pm" class="map"></div>
+      <input name="lat" type="hidden"><input name="lng" type="hidden">
+      <p class="note" id="pick">Konum henüz seçilmedi.</p>
       <label>Not (isteğe bağlı)<textarea name="note" rows="3" maxlength="500"></textarea></label>
       <div class="row"><button type="button" class="btn ghost" id="ai">✨ Tür bilgisini yapay zekâ ile doldur (demo)</button></div>
       <div id="aiout"></div>
@@ -163,9 +165,20 @@ function viewAdd(preselect) {
     </form>`, 'add');
   const f = document.getElementById('f');
   let ai = null;
+  // Konum, GPS ile ya da haritaya dokunarak seçilir (koordinat yazmak gerekmez).
+  map = L.map('pm').setView([39, 35], 5);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+  let marker = null;
+  const setPoint = (lat, lng) => {
+    f.lat.value = lat.toFixed(6); f.lng.value = lng.toFixed(6);
+    if (marker) marker.setLatLng([lat, lng]); else marker = L.circleMarker([lat, lng], { radius: 9, color: '#e8b84a', fillOpacity: 0.8 }).addTo(map);
+    document.getElementById('pick').textContent = `Seçilen konum: ${f.lat.value}, ${f.lng.value}`;
+  };
+  map.on('click', (e) => setPoint(e.latlng.lat, e.latlng.lng));
   document.getElementById('gps').onclick = () => navigator.geolocation.getCurrentPosition((p) => {
-    f.lat.value = p.coords.latitude.toFixed(6); f.lng.value = p.coords.longitude.toFixed(6);
-  }, () => toast('Konum alınamadı. İzin verdiğinizden emin olun.'), { enableHighAccuracy: true, timeout: 15000 });
+    setPoint(p.coords.latitude, p.coords.longitude);
+    map.setView([p.coords.latitude, p.coords.longitude], 13);
+  }, () => toast('Konum alınamadı. Haritaya dokunarak konumu seçebilirsiniz.'), { enableHighAccuracy: true, timeout: 15000 });
   document.getElementById('ai').onclick = async (e) => {
     if (!f.name.value.trim()) return toast('Önce tür adını yazın.');
     e.target.disabled = true;
@@ -178,6 +191,7 @@ function viewAdd(preselect) {
   };
   f.onsubmit = async (e) => {
     e.preventDefault();
+    if (!f.lat.value) return toast('Önce konumu seçin: haritaya dokunun veya “Konumumu kullan”a basın.');
     const name = f.name.value.trim();
     const known = species.find((s) => s.name.toLocaleLowerCase('tr') === name.toLocaleLowerCase('tr'));
     try {
