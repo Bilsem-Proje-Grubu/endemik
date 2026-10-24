@@ -13,7 +13,22 @@ let approved = []; // Supabase'ten gelen onaylı kullanıcı kayıtları
 let map = null;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const icon = (s) => (s.group === 'fauna' ? '🦎' : '🌿');
+// Resmi olmayan (veya yüklenemeyen) türler için hayvan grubuna uygun simge.
+const FAUNA_ICON = {
+  'agri-kertenkelesi': '🦎', 'iskenderun-kertenkelesi': '🦎', 'van-kertenkelesi': '🦎', 'col-varani': '🦎',
+  'marmaris-semenderi': '🦎', 'kafkas-semenderi': '🦎',
+  'anadolu-engeregi': '🐍', 'beyazbantli-dag-engeregi': '🐍', 'hopa-engeregi': '🐍',
+  'firat-kaplumbagasi': '🐢', 'trakya-tosbagasi': '🐢',
+  'tavas-kurbagasi': '🐸',
+  'karadeniz-alabaligi': '🐟', 'siraz-baligi': '🐟',
+  'akbez-geyik-bocegi': '🪲', 'avrupa-kirmizi-orman-karincasi': '🐜',
+  'kelaynak': '🐦', 'tepeli-pelikan': '🐦', 'turna': '🐦', 'dag-horozu': '🐦', 'toy': '🐦',
+  'alageyik': '🦌', 'hatay-dag-ceylani': '🦌',
+  'mugla-ili-akdeniz-foku': '🦭', 'mersin-ili-akdeniz-foku': '🦭',
+  'sakalli-yarasa': '🦇', 'saz-kedisi': '🐈', 'cizgili-sirtlan': '🐺',
+  'igdir-col-faresi': '🐀', 'yer-yediuyuru': '🐭',
+};
+const icon = (s) => (s.group === 'fauna' ? FAUNA_ICON[s.id] || '🐾' : '🌿');
 const thumb = (s, cls = '') => `<div class="thumb ${cls}">${s.image ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(s.image)}" alt="${esc(s.name)}" onerror="this.replaceWith(document.createTextNode('${icon(s)}'))">` : icon(s)}</div>`;
 
 function toast(msg, ms = 3500) {
