@@ -5,6 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
+import { initTheme, getTheme, setTheme } from './theme.js';
 
 const app = document.getElementById('app');
 const LIST_PAGE = 'https://www.tarimorman.gov.tr/DKMP/Menu/49/Tur-Eylem-Planlari';
@@ -221,10 +222,17 @@ function viewSettings() {
       <p class="note">Bir türün yayılış lokalitesine girdiğinizde bildirim gönderilir. Tarayıcı tabanlı (PWA) olduğu için güvenilir çalışması uygulama açıkken ya da kısa süre arka plandayken mümkündür.</p>
       <button class="btn ${on ? 'ghost' : ''}" id="nt">${on ? 'Bildirimi kapat' : 'Bildirimi aç'}</button>
       <div id="st" class="sci"></div></div>
+    <div class="panel"><b>Tema</b>
+      <div class="seg" id="theme">${[['auto', '🌓 Otomatik'], ['dark', '🌙 Koyu'], ['light', '☀️ Açık']].map(([k, l]) => `<button data-t="${k}" class="${getTheme() === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+      <p class="note">Otomatik: telefonunuzun koyu/açık ayarını izler.</p></div>
     <div class="panel"><b>Sunucu durumu</b><p>${hasBackend ? 'Supabase bağlı.' : 'Supabase bağlı değil (yerel mod).'}</p>
       ${local.length ? `<p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p>` : ''}</div>
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
+  document.querySelectorAll('#theme button').forEach((b) => b.onclick = () => {
+    setTheme(b.dataset.t);
+    document.querySelectorAll('#theme button').forEach((x) => x.classList.toggle('on', x === b));
+  });
   document.getElementById('nt').onclick = async () => {
     if (notifyEnabled()) { stopWatching(); return viewSettings(); }
     try {
@@ -282,6 +290,7 @@ function route() {
 }
 window.addEventListener('hashchange', route);
 
+initTheme();
 getApprovedSightings().then((a) => { approved = a; });
 route();
 
