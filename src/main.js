@@ -153,6 +153,7 @@ function viewAdd(preselect) {
       <label>Tür adı<input name="name" list="sp" required placeholder="Listeden seçin veya yeni tür yazın" value="${esc(preselect ? byId.get(preselect)?.name : '')}" autocomplete="off"></label>
       <datalist id="sp">${species.map((s) => `<option value="${esc(s.name)}">`).join('')}</datalist>
       <div class="row"><button type="button" class="btn ghost" id="gps">📍 Konumumu kullan</button></div>
+      <div id="gpshelp"></div>
       <p class="note">Ya da türü gördüğünüz yere haritada dokunarak işaretleyin.</p>
       <div id="pm" class="map"></div>
       <input name="lat" type="hidden"><input name="lng" type="hidden">
@@ -178,7 +179,16 @@ function viewAdd(preselect) {
   document.getElementById('gps').onclick = () => navigator.geolocation.getCurrentPosition((p) => {
     setPoint(p.coords.latitude, p.coords.longitude);
     map.setView([p.coords.latitude, p.coords.longitude], 13);
-  }, () => toast('Konum alınamadı. Haritaya dokunarak konumu seçebilirsiniz.'), { enableHighAccuracy: true, timeout: 15000 });
+    document.getElementById('gpshelp').innerHTML = '';
+  }, (err) => {
+    const why = err.code === 1 ? 'Konum izni kapalı görünüyor.' : err.code === 3 ? 'Konum zamanında alınamadı.' : 'Konum alınamadı (telefonun konum/GPS özelliği kapalı olabilir).';
+    document.getElementById('gpshelp').innerHTML = `<div class="panel"><b>${why}</b>
+      <p class="note">Açmak için:<br>
+      • <b>Android (Chrome):</b> adres çubuğunun solundaki simgeye (kilit) dokunun → <i>İzinler</i> → <i>Konum</i> → <i>İzin ver</i>, sonra sayfayı yenileyin.<br>
+      • <b>iPhone (Safari):</b> Ayarlar → Gizlilik ve Güvenlik → Konum Servisleri → Safari Web Siteleri → <i>Uygulamayı Kullanırken</i>.<br>
+      • Sayfa WhatsApp, Instagram gibi başka bir uygulamanın içinde açıldıysa izin menüsü çıkmaz: ⋮ menüsünden <i>Tarayıcıda aç</i> deyip Chrome/Safari'de açın.</p>
+      <p class="note"><b>Hiçbiri olmadıysa sorun değil:</b> aşağıdaki haritaya dokunarak konumu seçebilirsiniz.</p></div>`;
+  }, { enableHighAccuracy: true, timeout: 15000 });
   document.getElementById('ai').onclick = async (e) => {
     if (!f.name.value.trim()) return toast('Önce tür adını yazın.');
     e.target.disabled = true;
