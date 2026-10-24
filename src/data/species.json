@@ -312,11 +312,11 @@
     "name": "İskenderun Kertenkelesi",
     "sci": "Acanthodactylus schreiberi",
     "group": "fauna",
-    "image": "https://inaturalist-open-data.s3.amazonaws.com/photos/84558885/medium.jpg",
+    "image": "https://inaturalist-open-data.s3.amazonaws.com/photos/280396246/medium.jpg",
     "imageCredit": {
-      "author": "Karim Haddad, some rights reserved (CC BY), uploaded by Karim Haddad",
+      "author": "Morgan Caygill",
       "license": "CC BY",
-      "source": "https://www.inaturalist.org/taxa/35437"
+      "source": "https://www.inaturalist.org/photos/280396246"
     },
     "description": "Türkiye’de Adana Yumurtalık’tan Hatay Dörtyol’a kadar uzanan sahil boyunca kumluk alanlarda kesintili yayılış gösterir. İsrail, Kıbrıs ve Lübnan’da da bulunur.",
     "morphology": "Boyu 20-25 cm kadardır; erginlerde sırt yeşilimsi gri ve koyu kahverengi, gençlerde sırtta uzunlamasına 7-8 sarımsı gri çizgi bulunur; üreme zamanında yeşilimsi sarı veya parlak kırmızımsıdır.",
@@ -1120,11 +1120,12 @@
     "name": "Kulindor",
     "sci": "Centaurea hermannii",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Cabo_da_Roca_-_Sintra_-_060415_34.JPG/960px-Cabo_da_Roca_-_Sintra_-_060415_34.JPG?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/kulindor.jpg",
     "imageCredit": {
-      "author": "Luis Miguel Bugallo Sánchez (Lmbuga Commons)(Lmbuga Galipedia)",
-      "license": "CC BY-SA 2.5 es",
-      "source": "https://commons.wikimedia.org/wiki/File:Cabo_da_Roca_-_Sintra_-_060415_34.JPG"
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575178715",
+      "type": "specimen"
     },
     "description": "İstanbul’da Anadolu yakasında Aydos Dağı ve Avrupa yakasında Subaşı çevresinde en iyi popülasyonları bulunan bir bitkidir.",
     "morphology": "İki yıllık (nadiren çok yıllık); gövde 30-60 cm, dallanmaz, genç iken yünsü tüylü. Çiçek durumu 15-25 x 10-18 mm; çiçekler genellikle portakal renkli, dilsi çiçek yok; akenler 4-5 mm, kahverengi.",
@@ -1322,12 +1323,8 @@
     "name": "Truva Kardeleni",
     "sci": "Galanthus trojanus",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Distribution_of_the_galanthus_species.png/960px-Distribution_of_the_galanthus_species.png?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Nalagtus",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Distribution_of_the_galanthus_species.png"
-    },
+    "image": null,
+    "imageCredit": null,
     "description": "Dünyada yalnızca Çanakkale’de parçalı olarak yayılış gösteren yerel endemik, soğanlı bir bitkidir. Denizden 400–600 m yükseklikte yetişir. Çanakkale yöresinde “boynueğri” olarak da bilinir.",
     "morphology": "Soğan 1.5-2 x 1-1.6 cm; yapraklar çizgimsi, (6-) 8-19 x 0.4-0.8 cm, üst yüz koyu yeşil, alt yüz parlak yeşil. Çiçek durumu sapı (6-)8-17 cm; dış tepaller (1.2-) 2-2.6 (-3.4) x 0.7-1.3 cm.",
     "flowering": "Kış sonu – erken ilkbahar",
@@ -1707,7 +1704,7 @@
       "type": "specimen"
     },
     "description": "Konya’nın Hadim ilçesinde Gevne Vadisi’nde yayılış gösterir.",
-    "morphology": "Yaklaşık 40 cm’ye kadar boylanan, tabanda odunsu rizomlu, çok yıllık otsu bitki; gövde yatık-yükselici, yoğun tomentoz tüylü. Kapitula 29‐39 mm; dış çiçekler pembe, merkezi çiçekler beyaz-krem.",
+    "morphology": "Yaklaşık 40 cm’ye kadar boylanan, tabanda odunsu rizomlu, çok yıllık otsu bitki; gövde yatık-yükselici, yoğun tomentoz tüylü. Kapitula 29-39 mm; dış çiçekler pembe, merkezi çiçekler beyaz-krem.",
     "flowering": "Haziran – Temmuz",
     "statusNational": "Lokal endemik; IUCN tehlike kategorisi CR (B1a+b) olarak önerilmiş",
     "statusIntl": "",
