@@ -112,6 +112,101 @@ export const details3 = {
     "statusNational": "4915 sayılı Kara Avcılığı Kanunu, Çevre Kanunu ve Merkez Av Komisyonu kararları kapsamında koruma altında",
     "statusIntl": "IUCN: NT (Yakın Tehdit) · CITES Ek-2 · Bern Ek-2"
   },
+  "Edirne Sümbülü": {
+    "morphology": "Soğan küresel-ovoit, 2.5-3.5 cm çapında; yapraklar (2-)3-4, 30–42 cm x 15-20 mm, çok dar oblanseolat, undulat. Çiçek durumu yoğun, 50-60 çiçekli salkım; skapus 15-33 cm; perigon 8–11 mm, krem renkli.",
+    "flowering": "Nisan ortası – Mayıs başı",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern ve CITES ek listelerinde yok"
+  },
+  "İspir Çıngırağı": {
+    "morphology": "Çok yıllık, yoğun tüylü bitki; gövde 12-17 cm, yapraklar ovat-kordat, tırtıklı, altı grimsi ipeksi. Çiçekler 1-3 adet, korolla geniş huni şeklinde (2 x 3-4,5 cm); tomurcuklar açık pembe veya beyaz.",
+    "flowering": "Haziran",
+    "statusNational": "Endemik; plan değerlendirmesi: EN (Tehlikede)"
+  },
+  "Kelaynak": {
+    "statusNational": "Kara Avcılığı Kanunu kapsamında koruma altında",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Ek-2 · CITES Ek-I"
+  },
+  "Çöl Varanı": {
+    "morphology": "Türkiye'deki en büyük kertenkele; boyu 1 metreyi geçer. Sırt sarımsı-turuncumsu gri, sırtta ve kuyrukta koyu enine şeritler; boyun uzun, kuyruk enine kesitte yuvarlak ve kırbaç gibi kullanılabilir.",
+    "statusNational": "Ulusal koruma statüsü olarak VU (Hassas) belirlenmesi gerektiği vurgulanmış",
+    "statusIntl": "IUCN: NE (Değerlendirilmemiş) · CITES Ek-I · Bern Ek-3"
+  },
+  "Niğde Obrizyası": {
+    "morphology": "Narin, çok yıllık otsu bitki; tüysüz veya seyrek çatallı tüylü. Yapraklar çok dar eliptik–dar ters mızraksı; petaller 6-7 mm, açık mordan beyaza, tabanda yeşilimsi sarı; silikula meyve 8-10 x 3-3,2 mm.",
+    "flowering": "Mayıs başı – Temmuz ortası",
+    "statusNational": "Nokta endemiği; Türkiye Bitkileri Kırmızı Kitabı: DD (Veri Yetersiz); sonraki yayında CR önerilmiş",
+    "statusIntl": "Bern ve CITES kapsamında değerlendirmesi yok; IUCN listelerinde yer almıyor"
+  },
+  "Testi Otu": {
+    "morphology": "Çok yıllık, otsu bitki; gövde basit, 6-32 cm, beyaz yünsü. Yapraklar obovat (22-52 x 10-12 mm); kapitulum uçta tek, 12-14 x 12-13 mm; çiçekler soluk pembe (8-9 mm).",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: LR (cd) (Düşük Riskli – korumaya bağlı); plan çalışmasında EN önerilmiş",
+    "statusIntl": "Bern, CITES ve CBD kapsamında değerlendirmesi yok"
+  },
+  "Manisa Lalesi": {
+    "morphology": "Bitki 24.0-50.0 cm; soğan 1.9-3.0 x 1.5-2.6 cm, tunik derimsi koyu kahverengi. Yapraklar 3-6, mavimsi-yeşil, doğrusal-mızraksı; çiçekler 1(-2), huni şekilli–yıldızsı, kıpkırmızıdan turuncu kırmızıya.",
+    "statusNational": "Kırmızı Kitap'ta kategori önerilmemiş; Eker ve ark. (2014): NT (Yakın Tehdit)",
+    "statusIntl": "IUCN'de değerlendirilmemiş"
+  },
+  "Kafkas Semenderi": {
+    "statusIntl": "IUCN: VU (Zarar Görebilir) · Bern Ek-2 · CITES liste dışı"
+  },
+  "Aydın Gaşağı": {
+    "morphology": "Kalın rizomlu, 3 metreye kadar boylanabilen çok yıllık otsu bitki. Bazal yapraklar ikili derin tüysü, 40 x 12 cm; çiçekler açık sarı-altın sarısı, yaklaşık 5 cm; involukrum tüysüz, 4 x 3 cm.",
+    "flowering": "Haziran – Temmuz (en iyi dönem 15 Haziran – 15 Temmuz)",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern ve CITES ek listelerinde yok"
+  },
+  "Konya Meyanı": {
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Lokal endemik; Türkiye Bitkileri Kırmızı Listesi: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern Sözleşmesi Ek-1; IUCN (1997): E (Tehlikede)"
+  },
+  "Anadolu Engereği": {
+    "statusNational": "Nokta endemiği; Merkez Av Komisyonu kararlarında Ek-I (koruma altındaki yaban hayvanları); CR (Kritik Tehlikede)"
+  },
+  "Güdük İğnelik": {
+    "flowering": "Temmuz – Ağustos",
+    "statusNational": "Lokal endemik",
+    "statusIntl": "IUCN: CR (Kritik Seviyede Tehdit Altında)"
+  },
+  "Kulindor": {
+    "morphology": "İki yıllık (nadiren çok yıllık); gövde 30-60 cm, dallanmaz, genç iken yünsü tüylü. Çiçek durumu 15-25 x 10-18 mm; çiçekler genellikle portakal renkli, dilsi çiçek yok; akenler 4-5 mm, kahverengi."
+  },
+  "Peygamber Çiçeği": {
+    "morphology": "Çok yıllık, tabanı odunsu otlar; gövde dik veya yükselici, 25–50 cm. Yapraklar şeritsi, tam; kapitula tek, diskoid, involukrum 15–22 x 8–15 mm; çiçekler erdişi, sarı.",
+    "flowering": "Mayıs sonu – Temmuz ortası",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede); Bern ve CITES kapsamında değerlendirmesi yok"
+  },
+  "Fırat Kaplumbağası": {
+    "morphology": "Orta büyüklükte yumuşak kabuklu kaplumbağa; üst kabuk yassı, oval, boyu 1 metreyi geçmez. Kabuk yumuşak deriyle örtülü, başın ucunda hortum var; erginde üst kabuk koyu yeşil veya kahverengi, alt taraf beyazımsı."
+  },
+  "Ak Navruz": {
+    "morphology": "6-12 cm boylu soğanlı bitki; soğan 1.5-2 cm çapında. Yapraklar 4-10 adet, dik ve dar, çiçeklenme sonrası 10-20 x 0.5-1 cm. Çiçekler genellikle tek, menekşe mavisi veya leylak mavisi, lamina sarı veya portakal lekeli.",
+    "flowering": "Şubat ortası – Mayıs başı",
+    "statusNational": "Lokal endemik; Kırmızı Kitap'ta kategorisi yok, EN (Tehlikede) önerilmiş"
+  },
+  "Kır Navruzu": {
+    "morphology": "Çok yıllık, tek çiçekli; çiçek zamanı toprak üstü 10-15 cm, yapraklar 8-40 cm. Soğan 1,5-2,5x1,2-1,6 cm. Çiçekler mor, dış tepaller sarı ibikli, periant tüpü 8-11,5 cm.",
+    "flowering": "Mart",
+    "statusNational": "Nokta endemiği",
+    "statusIntl": "IUCN: henüz değerlendirilmemiş"
+  },
+  "Yer Sasalı": {
+    "morphology": "Bitki 46-73 cm; soğan oval-yuvarlak, 1.5-2.5 cm çapında, tunika beyazımsı. Gövde 34–53 cm, tüysüz, beyaz; yapraklar 5-7, şeritsi, kenarları tüylü. Çiçek düzeni silindirik, 12-20 cm, 20-30 çiçekli.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Endemik; Kırmızı Kitap'ta kategorisi yok, çalışmada EN (Tehlikede) önerilmiş"
+  },
+  "Avrupa Kırmızı Orman Karıncası": {
+    "morphology": "F. rufa'ya benzer ama daha koyu renkli. İşçi: gaster, başın arkası ve alın mat siyah; boy 4,5-10,0 mm. Kraliçe daha iri ve tombul, 9,5-11,5 mm.",
+    "statusNational": "Edirne'de EN (Tehlikede) konumunda; CR'ye gidiş riski (uzman görüşü)"
+  },
+  "Sinop Çiğdemi": {
+    "morphology": "Periant boğazı sarı. Yapraklar 3-4 adet, 4-5 mm genişlikte, çiçeklerden sonra gelişir; segmentler 2,5-6 x 0,8-2,2 cm, anterler sarı (Crocus speciosus tür tanımı).",
+    "flowering": "Eylül – Ekim",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede)"
+  },
   "Nezaket Kevkesi": {
     "morphology": "Yarı çalımsı, çok gövdeli, çok yıllık bir bitki. Gövdeler dik, 3-6 cm; sık tüylerden dolayı grimsi beyaz görünümlü. Yapraklar şeritsi-ters mızrak biçiminde, 5-13 x 1.5-2,5 mm; tohumlar yumurtamsı, kahverengimsi.",
     "flowering": "Mayıs ortası",
@@ -308,11 +403,6 @@ export const details3 = {
     "flowering": "Mart",
     "statusNational": "Şanlıurfa’ya ait lokal endemik; CR (Kritik Tehlikede)",
     "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern ve CITES listelerinde değerlendirmesi yok"
-  },
-  "Sakallı Yarasa": {
-    "morphology": "Gövde 37-51 mm, kuyruk 32-44 mm, kanat açıklığı 210-250 mm, ağırlık 4,3-9,5 g. Sırt kürkü gri-kırmızı-kahverengi ve genellikle altın parıltılı; karın kürkü çok solgun, kirli beyazdan açık griye.",
-    "statusNational": "Türkiye Memelileri Red List (Demirsoy 1996): V (Hassas); MAK kararlarında Ek-I’de korunan tür",
-    "statusIntl": "IUCN: LC (Asgari Endişe) · Bern Ek-II · AB Habitat Direktifi Ek-IV"
   },
   "Sultan Pelemiri": {
     "statusNational": "Endemik (dünyada yalnızca İstanbul’un Avrupa yakasında, çok lokal yayılışlı)"
