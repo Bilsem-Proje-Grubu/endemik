@@ -57,3 +57,5 @@ form.f input, form.f select, form.f textarea { padding: 11px 12px; border-radius
 .nav a { display: grid; place-items: center; align-content: center; gap: 2px; color: var(--muted); text-decoration: none; font-size: 12px; }
 .nav a span { font-size: 22px; line-height: 1; }
 .nav a.on { color: var(--accent); }
+.thumb.specimen { background: #e9e4d6; }
+.thumb.specimen img { object-fit: contain; }

@@ -320,5 +320,205 @@
     "author": "Ahmet Demirtaş",
     "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682",
     "page": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682"
+  },
+  "nigde-obrizyasi": {
+    "url": "./species-img/nigde-obrizyasi.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "JE",
+    "source": "https://www.gbif.org/occurrence/3028975513",
+    "page": "https://www.gbif.org/occurrence/3028975513"
+  },
+  "edirne-sumbulu": {
+    "url": "./species-img/edirne-sumbulu.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Royal Botanic Gardens, Kew",
+    "source": "https://www.gbif.org/occurrence/4607956268",
+    "page": "https://www.gbif.org/occurrence/4607956268"
+  },
+  "kizil-kaplanotu": {
+    "url": "./species-img/kizil-kaplanotu.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "UNIBAS:HERBARIA",
+    "source": "https://www.gbif.org/occurrence/6572644408",
+    "page": "https://www.gbif.org/occurrence/6572644408"
+  },
+  "kum-emzigi": {
+    "url": "./species-img/kum-emzigi.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "UNIBAS:HERBARIA",
+    "source": "https://www.gbif.org/occurrence/6572707865",
+    "page": "https://www.gbif.org/occurrence/6572707865"
+  },
+  "aydin-gasagi": {
+    "url": "./species-img/aydin-gasagi.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Meise Botanic Garden",
+    "source": "https://www.gbif.org/occurrence/2595655643",
+    "page": "https://www.gbif.org/occurrence/2595655643"
+  },
+  "karausmen": {
+    "url": "./species-img/karausmen.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Royal Botanic Gardens, Kew",
+    "source": "https://www.gbif.org/occurrence/5083003376",
+    "page": "https://www.gbif.org/occurrence/5083003376"
+  },
+  "trabzon-kanaryaotu": {
+    "url": "./species-img/trabzon-kanaryaotu.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Royal Botanic Gardens, Kew",
+    "source": "https://www.gbif.org/occurrence/4866495771",
+    "page": "https://www.gbif.org/occurrence/4866495771"
+  },
+  "bozdag-sivri-cayi": {
+    "url": "./species-img/bozdag-sivri-cayi.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Royal Botanic Gardens, Kew",
+    "source": "https://www.gbif.org/occurrence/5004290817",
+    "page": "https://www.gbif.org/occurrence/5004290817"
+  },
+  "denizli-nakili": {
+    "url": "./species-img/denizli-nakili.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Royal Botanic Gardens, Kew",
+    "source": "https://www.gbif.org/occurrence/5085132266",
+    "page": "https://www.gbif.org/occurrence/5085132266"
+  },
+  "terli-sigirkuyrugu": {
+    "url": "./species-img/terli-sigirkuyrugu.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "UNIBAS:HERBARIA",
+    "source": "https://www.gbif.org/occurrence/6572886359",
+    "page": "https://www.gbif.org/occurrence/6572886359"
+  },
+  "hos-sumbul": {
+    "url": "./species-img/hos-sumbul.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "Meise Botanic Garden",
+    "source": "https://www.gbif.org/occurrence/4072668566",
+    "page": "https://www.gbif.org/occurrence/4072668566"
+  },
+  "alligelin": {
+    "url": "./species-img/alligelin.jpg",
+    "type": "specimen",
+    "license": "CC BY",
+    "author": "W",
+    "source": "https://www.gbif.org/occurrence/2846650306",
+    "page": "https://www.gbif.org/occurrence/2846650306"
+  },
+  "kabamayasil": {
+    "url": "./species-img/kabamayasil.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575030734",
+    "page": "https://www.gbif.org/occurrence/575030734"
+  },
+  "yali-havacivasi": {
+    "url": "./species-img/yali-havacivasi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/574894737",
+    "page": "https://www.gbif.org/occurrence/574894737"
+  },
+  "nezaket-kevkesi": {
+    "url": "./species-img/nezaket-kevkesi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575111117",
+    "page": "https://www.gbif.org/occurrence/575111117"
+  },
+  "tuz-kirgini": {
+    "url": "./species-img/tuz-kirgini.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/574975020",
+    "page": "https://www.gbif.org/occurrence/574975020"
+  },
+  "guduk-ignelik": {
+    "url": "./species-img/guduk-ignelik.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/574843708",
+    "page": "https://www.gbif.org/occurrence/574843708"
+  },
+  "kir-navruzu": {
+    "url": "./species-img/kir-navruzu.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/912729834",
+    "page": "https://www.gbif.org/occurrence/912729834"
+  },
+  "pesmen-navruzu": {
+    "url": "./species-img/pesmen-navruzu.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/912729844",
+    "page": "https://www.gbif.org/occurrence/912729844"
+  },
+  "malatya-kantaronu": {
+    "url": "./species-img/malatya-kantaronu.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/574946286",
+    "page": "https://www.gbif.org/occurrence/574946286"
+  },
+  "koyak-tulubasi": {
+    "url": "./species-img/koyak-tulubasi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575083949",
+    "page": "https://www.gbif.org/occurrence/575083949"
+  },
+  "testi-otu": {
+    "url": "./species-img/testi-otu.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/574668456",
+    "page": "https://www.gbif.org/occurrence/574668456"
+  },
+  "carsak-cayi": {
+    "url": "./species-img/carsak-cayi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/4420474749",
+    "page": "https://www.gbif.org/occurrence/4420474749"
+  },
+  "karacafigi": {
+    "url": "./species-img/karacafigi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575164363",
+    "page": "https://www.gbif.org/occurrence/575164363"
+  },
+  "yurt-tulubasi": {
+    "url": "./species-img/yurt-tulubasi.jpg",
+    "type": "specimen",
+    "license": "CC0",
+    "author": "Royal Botanic Garden Edinburgh",
+    "source": "https://www.gbif.org/occurrence/575058773",
+    "page": "https://www.gbif.org/occurrence/575058773"
   }
 }
