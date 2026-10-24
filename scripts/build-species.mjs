@@ -25,7 +25,7 @@ const list = out.map((s) => ({
   sci: s.sci,
   group: s.group,
   image: images[slug(s.name)]?.url || null,
-  imageCredit: images[slug(s.name)] ? { author: images[slug(s.name)].author, license: images[slug(s.name)].license, source: images[slug(s.name)].source } : null,
+  imageCredit: images[slug(s.name)] ? { author: images[slug(s.name)].author, license: images[slug(s.name)].license, source: images[slug(s.name)].source, ...(images[slug(s.name)].type ? { type: images[slug(s.name)].type } : {}) } : null,
   description: '',
   morphology: '',
   flowering: '',

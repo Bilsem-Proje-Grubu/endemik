@@ -43,7 +43,7 @@ const FLORA_ICON = {
 };
 const FLORA_BY_GENUS = Object.fromEntries(Object.entries(FLORA_ICON).flatMap(([e, gs]) => gs.map((g) => [g, e])));
 const icon = (s) => (s.group === 'fauna' ? FAUNA_ICON[s.id] || '🐾' : FLORA_BY_GENUS[(s.sci || '').split(' ')[0]] || '🌿');
-const thumb = (s, cls = '') => `<div class="thumb ${cls}">${s.image ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(s.image)}" alt="${esc(s.name)}" onerror="this.replaceWith(document.createTextNode('${icon(s)}'))">` : icon(s)}</div>`;
+const thumb = (s, cls = '') => `<div class="thumb ${cls}${s.imageCredit?.type === 'specimen' ? ' specimen' : ''}">${s.image ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(s.image)}" alt="${esc(s.name)}" onerror="this.replaceWith(document.createTextNode('${icon(s)}'))">` : icon(s)}</div>`;
 
 function toast(msg, ms = 3500) {
   const t = document.createElement('div');
@@ -103,7 +103,7 @@ function viewSpecies(id) {
   const row = (k, v) => `<dt>${k}</dt><dd>${v ? esc(v) : '<span class="badge">Bilgi eklenecek</span>'}</dd>`;
   shell(`<a class="back" href="#/">← Türler</a>
     ${thumb(s, 'hero')}
-    ${s.imageCredit ? `<div class="sc" style="text-align:right">Fotoğraf: ${esc(s.imageCredit.author || 'Wikimedia Commons')} · <a href="${esc(s.imageCredit.source)}" target="_blank" rel="noopener">${esc(s.imageCredit.license)}</a></div>` : ''}
+    ${s.imageCredit ? `<div class="sc" style="text-align:right">${s.imageCredit.type === 'specimen' ? 'Herbaryum örneği (müze taraması)' : 'Fotoğraf'}: ${esc(s.imageCredit.author || 'Wikimedia Commons')} · <a href="${esc(s.imageCredit.source)}" target="_blank" rel="noopener">${esc(s.imageCredit.license)}</a></div>` : ''}
     <h1>${esc(s.name)}</h1>
     <div class="sci">${esc(s.sci)} · ${s.group === 'fauna' ? 'Fauna' : 'Flora'}</div>
     ${s.description ? `<p>${esc(s.description)}</p>` : '<p class="note">Bu tür için ayrıntılı bilgi henüz eklenmedi. Kaynak: Tür Eylem Planı.</p>'}
