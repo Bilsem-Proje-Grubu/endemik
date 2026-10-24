@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
-import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus } from './supabase.js';
+import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 
@@ -250,12 +250,22 @@ async function viewAdmin() {
     };
     return;
   }
-  const pending = await adminList('pending');
+  const [pending, live] = await Promise.all([adminList('pending'), adminList('approved')]);
+  const card = (p, btns) => `<div class="panel"><b>${esc(p.species_name)}</b><div class="sci">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)} · ${new Date(p.created_at).toLocaleDateString('tr')}</div>
+      <p>${esc(p.note)}</p><div class="row">${btns}</div></div>`;
+  const del = (p) => `<button class="btn danger" data-del="${esc(p.id)}" data-name="${esc(p.species_name)}">Sil</button>`;
   shell(`<a class="back" href="#/ayarlar">←</a><h2 class="section-title">Onay bekleyenler (${pending.length})</h2>
-    ${pending.map((p) => `<div class="panel"><b>${esc(p.species_name)}</b><div class="sci">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)} · ${new Date(p.created_at).toLocaleDateString('tr')}</div>
-      <p>${esc(p.note)}</p><div class="row"><button class="btn" data-a="approved" data-id="${esc(p.id)}">Onayla</button><button class="btn danger" data-a="rejected" data-id="${esc(p.id)}">Reddet</button></div></div>`).join('') || '<div class="empty">Bekleyen kayıt yok.</div>'}
+    ${pending.map((p) => card(p, `<button class="btn" data-a="approved" data-id="${esc(p.id)}">Onayla</button><button class="btn ghost" data-a="rejected" data-id="${esc(p.id)}">Reddet</button>${del(p)}`)).join('') || '<div class="empty">Bekleyen kayıt yok.</div>'}
+    <h2 class="section-title">Yayındaki kayıtlar (${live.length})</h2>
+    ${live.map((p) => card(p, del(p))).join('') || '<div class="empty">Yayında kullanıcı kaydı yok.</div>'}
     <button class="btn ghost" id="lo">Çıkış</button>`, 'set');
-  document.querySelectorAll('[data-a]').forEach((b) => b.onclick = async () => { await adminSetStatus(b.dataset.id, b.dataset.a); approved = await getApprovedSightings(); viewAdmin(); });
+  document.querySelectorAll('[data-a]').forEach((b) => b.onclick = async () => {
+    try { await adminSetStatus(b.dataset.id, b.dataset.a); approved = await getApprovedSightings(); viewAdmin(); } catch (err) { toast('İşlem başarısız: ' + (err.message || 'bilinmeyen hata')); }
+  });
+  document.querySelectorAll('[data-del]').forEach((b) => b.onclick = async () => {
+    if (!confirm(`“${b.dataset.name}” kaydı kalıcı olarak silinsin mi? Bu işlem geri alınamaz.`)) return;
+    try { await adminDelete(b.dataset.del); approved = await getApprovedSightings(); toast('Kayıt silindi.'); viewAdmin(); } catch (err) { toast('Silinemedi: ' + (err.message || 'bilinmeyen hata')); }
+  });
   document.getElementById('lo').onclick = async () => { await adminLogout(); viewAdmin(); };
 }
 
