@@ -6,6 +6,7 @@ import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, admin
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { waitSeconds } from './ratelimit.js';
+import * as offline from './offline.js';
 import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
@@ -241,6 +242,7 @@ function viewSettings() {
     <div class="panel"><b>Çevrimdışı kullanım</b>
       <p class="note">Tür bilgileri ve harita daireleri uygulama bir kez açıldıktan sonra internetsiz de çalışır. Fotoğrafları da telefona indirmek için aşağıdaki düğmeyi kullanın. Harita zemini (yol/arazi çizimi) yalnızca daha önce görüntülediğiniz bölgelerde görünür.</p>
       <div id="offst" class="sci"></div>
+      <label class="chk"><input type="checkbox" id="offauto"> Wi‑Fi'deyken fotoğrafları otomatik indir <small>(mobil veride önce size sorulur)</small></label>
       <div class="row"><button class="btn" id="offdl">📥 Fotoğrafları indir</button></div></div>
     <div class="panel"><b>Tema</b>
       <div class="themes" id="theme">${[['auto', '🌓 Otomatik', null], ...Object.entries(PRESETS).map(([k, p]) => [k, p.label, p.swatch])].map(([k, l, sw]) => `<button class="tbtn ${getTheme() === k ? 'on' : ''}" data-t="${k}"><span class="sw">${(sw || []).map((c) => `<i style="background:${c}"></i>`).join('')}</span>${l}</button>`).join('')}</div>
@@ -254,31 +256,24 @@ function viewSettings() {
     ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
-  const OFF = 'endemik-offline-images';
-  const imgUrls = () => [...new Set(species.map((x) => x.image).filter(Boolean).map((u) => new URL(u, location.href).href))];
   const offStatus = async () => {
     const el = document.getElementById('offst'), btn = document.getElementById('offdl');
     if (!el) return;
-    if (!('caches' in window)) { el.textContent = 'Bu tarayıcı çevrimdışı önbelleği desteklemiyor.'; btn.disabled = true; return; }
-    const c = await caches.open(OFF), urls = imgUrls();
-    let have = 0;
-    for (const u of urls) if (await c.match(u)) have++;
-    el.textContent = have >= urls.length ? `Fotoğraflar indirildi (${have}/${urls.length}) ✓` : `Fotoğraflar: ${have}/${urls.length} indirildi.`;
-    btn.textContent = have >= urls.length ? '✓ Hazır, tekrar kontrol et' : '📥 Fotoğrafları indir (~6 MB)';
+    if (!offline.supported()) { el.textContent = 'Bu tarayıcı çevrimdışı önbelleği desteklemiyor.'; btn.disabled = true; return; }
+    const { have, need } = await offline.counts(species);
+    el.textContent = have >= need ? `Fotoğraflar indirildi (${have}/${need}) ✓` : `Fotoğraflar: ${have}/${need} indirildi.`;
+    btn.textContent = have >= need ? '✓ Hazır, tekrar kontrol et' : '📥 Fotoğrafları indir (~6 MB)';
   };
+  const auto = document.getElementById('offauto');
+  auto.checked = offline.autoEnabled();
+  auto.onchange = () => offline.setAutoEnabled(auto.checked);
   document.getElementById('offdl').onclick = async (e) => {
-    if (!('caches' in window)) return;
+    if (!offline.supported()) return;
     if (navigator.onLine === false) return toast('İndirmek için internet gerekir.');
     e.target.disabled = true;
-    const c = await caches.open(OFF), urls = imgUrls();
-    let done = 0;
-    for (const u of urls) {
-      if (!(await c.match(u))) { try { const r = await fetch(u); if (r.ok) await c.put(u, r); } catch { /* sonra yeniden denenir */ } }
-      done++;
-      const el = document.getElementById('offst'); if (el) el.textContent = `İndiriliyor… ${done}/${urls.length}`; else return;
-    }
+    await offline.download(species, (done, total) => { const el = document.getElementById('offst'); if (el) el.textContent = `İndiriliyor… ${done}/${total}`; });
     await offStatus();
-    e.target.disabled = false;
+    const btn = document.getElementById('offdl'); if (btn) btn.disabled = false;
   };
   offStatus();
   // Sunucu durumu yalnızca yönetici oturumu açıkken görünür.
@@ -364,6 +359,21 @@ window.addEventListener('online', async () => {
   toast(n ? `Bağlantı geldi: bekleyen ${n} kayıt gönderildi.` : 'İnternet bağlantısı geri geldi.', 4000);
 });
 flushQueue().catch(() => {});
+
+// Mobil veride fotoğraf indirmek için izin kartı (ekranın altında, bildirim gibi).
+function askDownload(cb) {
+  if (document.getElementById('askcard')) return;
+  const d = document.createElement('div');
+  d.id = 'askcard'; d.className = 'askcard';
+  d.innerHTML = `<b>Fotoğraflar internetsiz de görünsün mü?</b>
+    <p>Mobil veri kullanıyorsunuz. Tür fotoğraflarını telefona indirmek yaklaşık 6 MB veri harcar.</p>
+    <div class="row"><button class="btn" id="askyes">İndir</button><button class="btn ghost" id="askno">Şimdi değil</button></div>`;
+  document.body.appendChild(d);
+  const done = (yes) => { d.remove(); cb(yes); };
+  d.querySelector('#askyes').onclick = () => done(true);
+  d.querySelector('#askno').onclick = () => done(false);
+}
+offline.initAuto({ species, toast, ask: askDownload });
 getApprovedSightings().then((a) => { approved = a; });
 route();
 
