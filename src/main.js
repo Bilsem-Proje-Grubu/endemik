@@ -8,7 +8,7 @@ import { aiFillSpeciesInfo } from './ai.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
-import { initSwipe, swipeEnabled, setSwipeEnabled, swipeNatural, setSwipeNatural } from './swipe.js';
+import { initSwipe, swipeEnabled, setSwipeEnabled, swipeReverse, setSwipeReverse } from './swipe.js';
 import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
@@ -298,7 +298,7 @@ function viewSettings() {
       <div class="row"><button class="btn" id="offdl">📥 Fotoğrafları indir</button></div></div>
     <div class="panel"><b>Gezinme</b>
       <label class="chk"><input type="checkbox" id="swon"> Ekranı yana kaydırarak sekme değiştir</label>
-      <label class="chk"><input type="checkbox" id="swnat"> Yönü ters çevir <small>(kapalıyken: sola kaydırınca soldaki sekmeye, sağa kaydırınca sağdaki sekmeye geçilir)</small></label>
+      <label class="chk"><input type="checkbox" id="swnat"> Yönü ters çevir <small>(kapalıyken: sola kaydırınca sağdaki sekmeye, sağa kaydırınca soldaki sekmeye geçilir)</small></label>
       <p class="note">Harita, metin kutuları ve yana kayan düğme satırları üzerinde kaydırma o öğeye aittir; sekme değişmez. Lokalite ekle sayfasında yazdığınız bir şey varsa kaydırarak çıkılmaz.</p></div>
     <div class="panel"><b>Tema</b>
       <div class="themes" id="theme">${[['auto', '🌓 Otomatik', null], ...Object.entries(PRESETS).map(([k, p]) => [k, p.label, p.swatch])].map(([k, l, sw]) => `<button class="tbtn ${getTheme() === k ? 'on' : ''}" data-t="${k}"><span class="sw">${(sw || []).map((c) => `<i style="background:${c}"></i>`).join('')}</span>${l}</button>`).join('')}</div>
@@ -313,9 +313,9 @@ function viewSettings() {
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
   const swon = document.getElementById('swon'), swnat = document.getElementById('swnat');
-  swon.checked = swipeEnabled(); swnat.checked = swipeNatural(); swnat.disabled = !swon.checked;
+  swon.checked = swipeEnabled(); swnat.checked = swipeReverse(); swnat.disabled = !swon.checked;
   swon.onchange = () => { setSwipeEnabled(swon.checked); swnat.disabled = !swon.checked; };
-  swnat.onchange = () => setSwipeNatural(swnat.checked);
+  swnat.onchange = () => setSwipeReverse(swnat.checked);
   const offStatus = async () => {
     const el = document.getElementById('offst'), btn = document.getElementById('offdl');
     if (!el) return;
