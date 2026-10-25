@@ -375,6 +375,7 @@ function viewPrivacy() {
       <ul><li><b>Tür adı ve notunuz.</b> Notu siz yazarsınız; kişisel bilgi yazmamanızı öneririz.</li>
       <li><b>Yaklaşık konum.</b> Gördüğünüz yer, yaklaşık 5 km'lik bir karenin ortasına yuvarlanır. Tam nokta ne sunucuya kaydedilir ne de haritada görünür. Amaç, nadir türlerin tam yerinin öğrenilmemesidir.</li>
       <li><b>Fotoğraf (isteğe bağlı).</b> Fotoğrafı eklemek sizin kararınızdır. Fotoğraftaki konum, tarih ve cihaz bilgisi gönderilmeden önce silinir.</li>
+      <li><b>İnternet adresiniz (IP), geçici.</b> Sistemin kötüye kullanılmaması için en fazla 10 dakika tutulur, sonra silinir ve kaydınızla ilişkilendirilmez.</li>
       <li><b>Fotoğraf sahibi adı (isteğe bağlı).</b> Yazarsanız fotoğrafın altında herkese görünür. Boş bırakırsanız “Anonim” yazılır.</li></ul></div>
     <div class="panel"><b>Kimler görür?</b>
       <p>Kaydınız önce yalnızca proje yöneticisine görünür. Onaylanırsa tür sayfasında ve haritada herkese gösterilir. Onaylanmayan kayıtlar yayınlanmaz.</p>
@@ -383,8 +384,6 @@ function viewPrivacy() {
       <p>Kamera yalnızca “Fotoğraf çek” düğmesine bastığınızda açılır ve fotoğrafı çektiğinizde ya da vazgeçtiğinizde kapanır. Görüntü kaydedilmez. Çekilen fotoğraf, siz “Gönder”e basmadıkça cihazınızdan çıkmaz.</p></div>
     <div class="panel"><b>Konumunuz ve bildirimler</b>
       <p>“Konumumu kullan” ve yakındaki tür bildirimi için konumunuz yalnızca telefonunuzda kullanılır. Bildirim için konumunuz sunucuya gönderilmez. Konum iznini tarayıcı ayarlarından istediğiniz zaman kapatabilirsiniz.</p></div>
-    <div class="panel"><b>Spam koruması</b>
-      <p>Sistemin kötüye kullanılmaması için aynı bağlantıdan dakikada en fazla 5 kayıt kabul edilir. Bunun için internet adresiniz (IP) en fazla 10 dakika geçici olarak tutulur, sonra silinir ve kaydınızla ilişkilendirilmez.</p></div>
     <div class="panel"><b>Sohbet botu</b>
       <p>“Sor” bölümüne yazdığınız sorular, cevap üretilmesi için bir yapay zekâ servisine (Anthropic) gönderilir. Sohbet geçmişiniz sunucuda saklanmaz; yalnızca kötüye kullanımı sınırlamak için kaç soru sorulduğu sayılır ve internet adresiniz bu sayımda geri döndürülemez biçimde karıştırılarak (özet olarak) tutulur, 1 gün sonra silinir. Sorulara ad, telefon, adres gibi kişisel bilgi yazmayın.</p></div>
     <div class="panel"><b>Başka kimler veri alır?</b>
