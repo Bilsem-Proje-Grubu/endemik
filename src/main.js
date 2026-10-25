@@ -2,11 +2,12 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
-import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue } from './supabase.js';
+import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
+import { prepareImage } from './photo.js';
 import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
@@ -120,8 +121,24 @@ function viewSpecies(id) {
     ${locs.length ? `<div id="m" class="map"></div>
       <ul>${locs.map((l) => `<li>${esc(l.name)}${l.approx ? ' <span class="badge">yaklaşık</span>' : ''}${l.user ? ' <span class="badge loc">kullanıcı</span>' : ''}</li>`).join('')}</ul>`
       : '<div class="note">Bu tür için lokalite verisi henüz eklenmedi.</div>'}
+    <div id="ph"></div>
     <p><a href="${esc(s.pdf || LIST_PAGE)}" target="_blank" rel="noopener">Tür eylem planı (DKMP) ↗</a></p>
     <a class="btn" style="display:inline-block;text-decoration:none" href="#/ekle?tur=${s.id}">Bu türü gördüm, lokalite ekle</a>`, 'home');
+  if (hasBackend && navigator.onLine !== false) {
+    getSpeciesPhotos(s.id).then((rows) => {
+      const el = document.getElementById('ph');
+      if (!el || !rows.length) return;
+      el.innerHTML = `<h3 class="section-title">Kullanıcı fotoğrafları (${rows.length})</h3>
+        <div class="note">Kullanıcı katkısıdır; uzman doğrulaması yapılmamıştır.</div>
+        <div class="pgrid">${rows.map((r) => `<figure><img loading="lazy" alt="${esc(s.name)} – kullanıcı fotoğrafı" src="data:image/jpeg;base64,${r.photo_data}"><figcaption>Fotoğraf: ${esc(r.photo_author || 'Anonim')} · CC BY-SA 4.0</figcaption></figure>`).join('')}</div>`;
+      el.querySelectorAll('.pgrid img').forEach((img) => img.onclick = () => {
+        const o = document.createElement('div');
+        o.className = 'lightbox'; o.innerHTML = `<img alt="" src="${img.src}">`;
+        o.onclick = () => o.remove();
+        document.body.appendChild(o);
+      });
+    }).catch(() => {});
+  }
   if (locs.length) {
     map = L.map('m');
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
@@ -162,6 +179,15 @@ function viewAdd(preselect) {
       <input name="lat" type="hidden"><input name="lng" type="hidden">
       <p class="note" id="pick">Konum henüz seçilmedi.</p>
       <label>Not (isteğe bağlı)<textarea name="note" rows="3" maxlength="500"></textarea></label>
+      ${hasBackend ? `<div class="panel" id="photobox"><b>📷 Fotoğraf (isteğe bağlı)</b>
+        <p class="note">Gördüğünüz türün fotoğrafını ekleyebilirsiniz. Fotoğraftaki konum ve cihaz bilgisi (EXIF) silinir; yönetici onayından sonra türün sayfasında gösterilir.</p>
+        <input type="file" id="photo" accept="image/*">
+        <div id="photoprev"></div>
+        <div id="photoopts" hidden>
+          <label>Fotoğraf sahibi adı (isteğe bağlı)<input name="pauthor" maxlength="60" placeholder="Boş bırakırsanız “Anonim” yazılır" autocomplete="off"></label>
+          <label class="chk"><input type="checkbox" name="pconsent"> <span>Bu fotoğrafı ben çektim; CC BY-SA 4.0 lisansıyla, adım belirtilerek bu uygulamada gösterilmesine izin veriyorum.</span></label>
+          <button type="button" class="btn ghost" id="photorm">Fotoğrafı kaldır</button>
+        </div></div>` : ''}
       <div class="row"><button type="button" class="btn ghost" id="ai">✨ Tür bilgisini yapay zekâ ile doldur (demo)</button></div>
       <div id="aiout"></div>
       <button class="btn" type="submit" id="send">Gönder</button>
@@ -202,6 +228,25 @@ function viewAdd(preselect) {
       <dl class="kv"><dt>Bilimsel ad</dt><dd>${esc(ai.sci || '—')}</dd><dt>Çiçeklenme</dt><dd>${esc(ai.flowering || '—')}</dd>
       <dt>Ulusal statü</dt><dd>${esc(ai.statusNational || '—')}</dd><dt>Uluslararası statü</dt><dd>${esc(ai.statusIntl || '—')}</dd></dl></div>`;
   };
+  // Fotoğraf: seçilince küçültülür, EXIF silinir, önizleme gösterilir.
+  let photo = null;
+  const photoIn = document.getElementById('photo');
+  if (photoIn) {
+    photoIn.onchange = async () => {
+      const file = photoIn.files[0];
+      if (!file) return;
+      try {
+        photo = await prepareImage(file);
+        document.getElementById('photoprev').innerHTML = `<img class="pphoto" alt="Seçilen fotoğraf" src="${photo.dataUrl}">`;
+        document.getElementById('photoopts').hidden = false;
+      } catch (err) { photo = null; photoIn.value = ''; toast(err.message || 'Fotoğraf işlenemedi.'); }
+    };
+    document.getElementById('photorm').onclick = () => {
+      photo = null; photoIn.value = '';
+      document.getElementById('photoprev').innerHTML = '';
+      document.getElementById('photoopts').hidden = true;
+    };
+  }
   // Hak dolunca "Gönder" düğmesi 60 saniye geri sayım gösterir.
   let timer = null;
   const tick = () => {
@@ -217,11 +262,12 @@ function viewAdd(preselect) {
   f.onsubmit = async (e) => {
     e.preventDefault();
     if (!f.lat.value) return toast('Önce konumu seçin: haritaya dokunun veya “Konumumu kullan”a basın.');
+    if (photo && !f.pconsent.checked) return toast('Fotoğraf için izin kutusunu işaretleyin (fotoğrafı siz çektiniz ve paylaşılmasına izin veriyorsunuz).', 5000);
     const name = f.name.value.trim();
     const known = species.find((s) => s.name.toLocaleLowerCase('tr') === name.toLocaleLowerCase('tr'));
     try {
-      const r = await addSighting({ species_id: known ? known.id : 'yeni:' + name.toLocaleLowerCase('tr'), species_name: name, lat: +f.lat.value, lng: +f.lng.value, note: f.note.value.trim(), ai_info: ai });
-      toast(r.queued ? 'İnternet yok: kayıt bu cihaza alındı, bağlantı gelince otomatik gönderilecek.' : r.local ? 'Kaydedildi (yalnızca bu cihazda).' : 'Gönderildi. Onaydan sonra yayınlanacak.', 5000);
+      const r = await addSighting({ species_id: known ? known.id : 'yeni:' + name.toLocaleLowerCase('tr'), species_name: name, lat: +f.lat.value, lng: +f.lng.value, note: f.note.value.trim(), ai_info: ai, photo: photo ? { b64: photo.b64, author: f.pauthor.value } : null });
+      toast(photo ? 'Gönderildi. Kayıt ve fotoğrafınız onaydan sonra yayınlanacak.' : r.queued ? 'İnternet yok: kayıt bu cihaza alındı, bağlantı gelince otomatik gönderilecek.' : r.local ? 'Kaydedildi (yalnızca bu cihazda).' : 'Gönderildi. Onaydan sonra yayınlanacak.', 5000);
       location.hash = '#/';
     } catch (err) {
       if (err.rate) { toast(err.message, 5000); startCountdown(); return; }
@@ -321,8 +367,10 @@ async function viewAdmin() {
     return;
   }
   const [pending, live] = await Promise.all([adminList('pending'), adminList('approved')]);
-  const card = (p, btns) => `<div class="panel"><b>${esc(p.species_name)}</b><div class="sci">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)} · ${new Date(p.created_at).toLocaleDateString('tr')}</div>
-      <p>${esc(p.note)}</p><div class="row">${btns}</div></div>`;
+  const card = (p, btns) => `<div class="panel"><b>${esc(p.species_name)}</b>${p.photo_consent ? ' <span class="badge loc">📷 fotoğraflı</span>' : ''}<div class="sci">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)} · ${new Date(p.created_at).toLocaleDateString('tr')}</div>
+      <p>${esc(p.note)}</p>
+      ${p.photo_data ? `<img class="pphoto" alt="Kullanıcı fotoğrafı" src="data:image/jpeg;base64,${esc(p.photo_data)}"><div class="sci">Fotoğraf sahibi: ${esc(p.photo_author || 'Anonim')} · CC BY-SA 4.0 izni onaylandı</div>` : ''}
+      <div class="row">${btns}</div></div>`;
   const del = (p) => `<button class="btn danger" data-del="${esc(p.id)}" data-name="${esc(p.species_name)}">Sil</button>`;
   shell(`<a class="back" href="#/ayarlar">←</a><h2 class="section-title">Onay bekleyenler (${pending.length})</h2>
     ${pending.map((p) => card(p, `<button class="btn" data-a="approved" data-id="${esc(p.id)}">Onayla</button><button class="btn ghost" data-a="rejected" data-id="${esc(p.id)}">Reddet</button>${del(p)}`)).join('') || '<div class="empty">Bekleyen kayıt yok.</div>'}
@@ -363,6 +411,13 @@ flushQueue().catch(() => {});
 // Mobil veride fotoğraf indirmek için izin kartı (ekranın altında, bildirim gibi).
 function askDownload(cb) {
   if (document.getElementById('askcard')) return;
+  // Form doldururken (Lokalite ekle) veya yönetici sayfasında kart çıkmaz; sayfadan ayrılınca gösterilir.
+  const busy = () => /^#\/(ekle|yonetim)/.test(location.hash);
+  if (busy()) {
+    const again = () => { if (!busy()) { window.removeEventListener('hashchange', again); askDownload(cb); } };
+    window.addEventListener('hashchange', again);
+    return;
+  }
   const d = document.createElement('div');
   d.id = 'askcard'; d.className = 'askcard';
   d.innerHTML = `<b>Fotoğraflar internetsiz de görünsün mü?</b>
@@ -374,7 +429,11 @@ function askDownload(cb) {
   d.querySelector('#askno').onclick = () => done(false);
 }
 offline.initAuto({ species, toast, ask: askDownload });
-getApprovedSightings().then((a) => { approved = a; });
+getApprovedSightings().then((a) => {
+  approved = a;
+  // Harita/tür sayfası kayıtlar gelmeden çizilmiş olabilir; yeniden çiz (form sayfalarına dokunma).
+  if (/^#\/(harita|tur\/)/.test(location.hash)) route();
+});
 route();
 
 if ('serviceWorker' in navigator) {
