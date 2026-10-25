@@ -13,7 +13,7 @@ function readLocal() {
   try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); } catch { return []; }
 }
 function writeLocal(list) {
-  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(list)); } catch { /* yoksay */ }
+  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(list)); return true; } catch { return false; }
 }
 
 // Gizlilik: kayıt konumu yaklaşık 5 km'lik ızgaranın (0,05°) merkezine yuvarlanır; türün tam yeri saklanmaz.
@@ -28,7 +28,8 @@ const isNetworkError = (e) => /failed to fetch|networkerror|network request fail
 function queueRow(row) {
   const list = readLocal();
   list.push({ ...row, id: crypto.randomUUID(), created_at: new Date().toISOString(), queued: true });
-  writeLocal(list);
+  // Fotoğraflı kayıtlar büyük olduğundan cihaz belleği dolabilir; sessizce kaybetmeyiz.
+  if (!writeLocal(list)) throw new Error('Cihaz belleği dolu: kayıt bu cihaza alınamadı. Önce bekleyen kayıtların gitmesini bekleyin veya fotoğrafı kaldırın.');
   recordSend();
   return { local: true, queued: true };
 }
@@ -65,9 +66,8 @@ export async function addSighting(s) {
     status: 'pending',
   };
   if (s.photo) {
-    // Fotoğraflı kayıt kuyruğa alınmaz (cihaz belleği küçük); internet gerekir.
+    // İnternet yoksa fotoğraflı kayıt da cihaz kuyruğuna alınır (aşağıda); bağlantı gelince gönderilir.
     if (!supabase) throw new Error('Fotoğraf göndermek için sunucu bağlantısı gerekir.');
-    if (navigator.onLine === false) throw Object.assign(new Error('Fotoğraf göndermek için internet gerekir. Fotoğrafı kaldırıp kaydı internetsiz de gönderebilirsiniz.'), { photoOffline: true });
     row.photo_data = s.photo.b64;
     row.photo_author = (s.photo.author || '').trim().slice(0, 60) || null;
     row.photo_consent = true;
@@ -84,7 +84,6 @@ export async function addSighting(s) {
   const { error } = await supabase.from('sightings').insert(row);
   if (error) {
     if (isNetworkError(error)) {
-      if (row.photo_data) throw new Error('Bağlantı sorunu: fotoğraflı kayıt gönderilemedi. Tekrar deneyin veya fotoğrafsız gönderin.');
       return queueRow(row);
     }
     // Veritabanındaki hız sınırı kuralı (rate-limit.sql) reddederse satır güvenlik ihlali (42501) döner.
