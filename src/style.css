@@ -93,3 +93,6 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 .view.slide-right { animation: slideFromRight .22s ease-out; }
 @keyframes slideFromLeft { from { transform: translateX(-28px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes slideFromRight { from { transform: translateX(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.camview { margin: 8px 0; }
+.camview video { display: block; width: 100%; max-height: 60vh; background: #000; border-radius: 8px; object-fit: cover; }
