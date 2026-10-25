@@ -220,7 +220,7 @@ export const details2 = {
     description: 'Malatya’da Pötürge yöresinde bilinen bir Iris türüdür.',
     localities: [P('Pötürge yöresi (Malatya)', 38.17, 38.58)],
   },
-  'Yer Sasalı': { description: 'Malatya ilinde bilinen bir ornithogalum türüdür.', localities: [P('Malatya çevresi', 38.35, 38.31, 15)] },
+  'Yer Sasalı': { description: 'Malatya ilinde bilinen, Ornithogalum cinsinden bir bitkidir.', localities: [P('Malatya çevresi', 38.35, 38.31, 15)] },
   'Malatya Kantaronu': { description: 'Malatya ilinde bilinen bir kantaron türüdür.', localities: [P('Malatya çevresi', 38.35, 38.31, 15)] },
   'Ak Navruz': {
     description: 'Osmaniye ilinde 21 lokalitede tespit edilmiş bir Iris alttürüdür.',
