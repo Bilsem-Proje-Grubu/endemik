@@ -36,7 +36,7 @@ for (const s of todo) {
     files = (sr?.query?.search || []).map((m) => m.title).filter((t) => t.toLowerCase().includes(bin.toLowerCase()));
   }
   // Harita, dağılım şeması, simge gibi fotoğraf olmayan dosyalar alınmaz.
-  files = files.filter((t) => /\.(jpe?g|png)$/i.test(t) && !/map|distribution|range|harita|locator|diagram|logo|icon|chart/i.test(t));
+  files = files.filter((t) => /\.(jpe?g|png)$/i.test(t) && !/map|distribution|range|harita|locator|diagram|logo|icon|chart|poster|banner|flyer|brosür|afiş/i.test(t));
   if (!files.length) { console.log('✗ Commons\'ta yok:', s.name, bin); continue; }
   const info = await api({ action: 'query', titles: files.slice(0, 8).join('|'), prop: 'imageinfo', iiprop: 'extmetadata|url', iiurlwidth: 640 });
   let pick = null;

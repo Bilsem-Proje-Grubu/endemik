@@ -4,6 +4,7 @@ import { fauna, flora, BASE_PDF } from './species-list.mjs';
 import { details } from './details.mjs';
 import { details2 } from './details2.mjs';
 import { details3 } from './details3.mjs';
+import { details4 } from './details4.mjs';
 
 const slug = (s) => s.toLocaleLowerCase('tr')
   .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
@@ -37,6 +38,7 @@ const list = out.map((s) => ({
   ...(details[s.name] || {}),
   ...(details2[s.name] || {}),
   ...(details3[s.name] || {}),
+  ...(details4[s.name] || {}),
 }));
 
 // PDF'lerden gelen özel tire (U+2010/2011) ve benzerlerini düz tireye çevir.
