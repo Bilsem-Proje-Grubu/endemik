@@ -16,6 +16,7 @@ const LIST_PAGE = 'https://www.tarimorman.gov.tr/DKMP/Menu/49/Tur-Eylem-Planlari
 const byId = new Map(species.map((s) => [s.id, s]));
 let approved = []; // Supabase'ten gelen onaylı kullanıcı kayıtları
 let map = null;
+let cleanup = null; // sayfadan çıkarken çalışır (kamerayı kapatır)
 let dirtyCheck = null; // doluysa true döner (yazılmış form varken kaydırarak sayfadan çıkılmasın)
 let slideDir = null;   // sekme geçişi animasyonunun yönü
 
@@ -70,6 +71,7 @@ function shell(inner, active, top = '') {
     <a href="#/ayarlar" class="${active === 'set' ? 'on' : ''}"><span>🔔</span>Ayarlar</a>
   </nav>`;
   window.scrollTo(0, 0);
+  if (cleanup) { cleanup(); cleanup = null; }
   dirtyCheck = null; // her sayfa kendi kilidini yeniden tanımlar
   if (slideDir) { document.querySelector('main.view')?.classList.add('slide-' + slideDir); slideDir = null; }
 }
@@ -175,6 +177,20 @@ function viewAdd(preselect) {
   shell(`<h2 class="section-title">Yeni lokalite ekle</h2>
     ${hasBackend ? '' : '<div class="note">Sunucu bağlı değil. Kaydınız yalnızca bu cihazda saklanır.</div>'}
     <form class="f" id="f">
+      ${hasBackend ? `<div class="panel" id="photobox"><b>📷 Fotoğraf (isteğe bağlı)</b>
+        <p class="note">Gördüğünüz türün fotoğrafını ekleyebilirsiniz. Fotoğraftaki konum ve cihaz bilgisi (EXIF) silinir; yönetici onayından sonra türün sayfasında gösterilir.</p>
+        <div class="row"><button type="button" class="btn" id="camopen">📷 Fotoğraf çek</button>
+        <button type="button" class="btn ghost" id="galopen">🖼️ Galeriden seç</button></div>
+        <input type="file" id="photo" accept="image/*" hidden>
+        <input type="file" id="photocap" accept="image/*" capture="environment" hidden>
+        <div id="camview" class="camview" hidden><video id="camvid" playsinline muted autoplay></video>
+          <div class="row"><button type="button" class="btn" id="camshot">⚪ Çek</button><button type="button" class="btn ghost" id="camclose">Vazgeç</button></div></div>
+        <div id="photoprev"></div>
+        <div id="photoopts" hidden>
+          <label>Fotoğraf sahibi adı (isteğe bağlı)<input name="pauthor" maxlength="60" placeholder="Boş bırakırsanız “Anonim” yazılır" autocomplete="off"></label>
+          <label class="chk"><input type="checkbox" name="pconsent"> <span>Bu fotoğrafı ben çektim; CC BY-SA 4.0 lisansıyla, adım belirtilerek bu uygulamada gösterilmesine izin veriyorum.</span></label>
+          <button type="button" class="btn ghost" id="photorm">Fotoğrafı kaldır</button>
+        </div></div>` : ''}
       <label>Tür adı<input name="name" list="sp" required placeholder="Listeden seçin veya yeni tür yazın" value="${esc(preselect ? byId.get(preselect)?.name : '')}" autocomplete="off"></label>
       <datalist id="sp">${species.map((s) => `<option value="${esc(s.name)}">`).join('')}</datalist>
       <div class="row"><button type="button" class="btn ghost" id="gps">📍 Konumumu kullan</button></div>
@@ -184,15 +200,6 @@ function viewAdd(preselect) {
       <input name="lat" type="hidden"><input name="lng" type="hidden">
       <p class="note" id="pick">Konum henüz seçilmedi.</p>
       <label>Not (isteğe bağlı)<textarea name="note" rows="3" maxlength="500"></textarea></label>
-      ${hasBackend ? `<div class="panel" id="photobox"><b>📷 Fotoğraf (isteğe bağlı)</b>
-        <p class="note">Gördüğünüz türün fotoğrafını ekleyebilirsiniz. Fotoğraftaki konum ve cihaz bilgisi (EXIF) silinir; yönetici onayından sonra türün sayfasında gösterilir.</p>
-        <input type="file" id="photo" accept="image/*">
-        <div id="photoprev"></div>
-        <div id="photoopts" hidden>
-          <label>Fotoğraf sahibi adı (isteğe bağlı)<input name="pauthor" maxlength="60" placeholder="Boş bırakırsanız “Anonim” yazılır" autocomplete="off"></label>
-          <label class="chk"><input type="checkbox" name="pconsent"> <span>Bu fotoğrafı ben çektim; CC BY-SA 4.0 lisansıyla, adım belirtilerek bu uygulamada gösterilmesine izin veriyorum.</span></label>
-          <button type="button" class="btn ghost" id="photorm">Fotoğrafı kaldır</button>
-        </div></div>` : ''}
       <div class="row"><button type="button" class="btn ghost" id="ai">✨ Tür bilgisini yapay zekâ ile doldur (demo)</button></div>
       <div id="aiout"></div>
       <button class="btn" type="submit" id="send">Gönder</button>
@@ -238,17 +245,45 @@ function viewAdd(preselect) {
   let photo = null;
   const photoIn = document.getElementById('photo');
   if (photoIn) {
-    photoIn.onchange = async () => {
-      const file = photoIn.files[0];
+    const capIn = document.getElementById('photocap');
+    const view = document.getElementById('camview'), vid = document.getElementById('camvid');
+    let stream = null;
+    const stopCam = () => { if (stream) stream.getTracks().forEach((t) => t.stop()); stream = null; vid.srcObject = null; view.hidden = true; };
+    cleanup = stopCam;
+    const useFile = async (file, input) => {
       if (!file) return;
       try {
         photo = await prepareImage(file);
         document.getElementById('photoprev').innerHTML = `<img class="pphoto" alt="Seçilen fotoğraf" src="${photo.dataUrl}">`;
         document.getElementById('photoopts').hidden = false;
-      } catch (err) { photo = null; photoIn.value = ''; toast(err.message || 'Fotoğraf işlenemedi.'); }
+      } catch (err) { photo = null; if (input) input.value = ''; toast(err.message || 'Fotoğraf işlenemedi.'); }
+    };
+    photoIn.onchange = () => useFile(photoIn.files[0], photoIn);
+    capIn.onchange = () => { useFile(capIn.files[0], capIn); if (!f.lat.value) document.getElementById('gps').click(); };
+    document.getElementById('galopen').onclick = () => photoIn.click();
+    document.getElementById('camopen').onclick = async () => {
+      if (!navigator.mediaDevices?.getUserMedia) return capIn.click();
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1600 } }, audio: false });
+        vid.srcObject = stream; view.hidden = false; await vid.play().catch(() => {});
+        view.scrollIntoView({ block: 'center' });
+        // Konumu şimdiden iste: çekim bitince hazır olsun.
+        if (!f.lat.value) document.getElementById('gps').click();
+      } catch (err) {
+        stopCam();
+        if (err && (err.name === 'NotAllowedError' || err.name === 'SecurityError')) toast('Kamera izni verilmedi; telefonun kamerasını açıyorum.', 4000);
+        capIn.click();
+      }
+    };
+    document.getElementById('camclose').onclick = stopCam;
+    document.getElementById('camshot').onclick = () => {
+      if (!vid.videoWidth) return toast('Kamera henüz hazır değil, bir saniye bekleyin.');
+      const c = document.createElement('canvas'); c.width = vid.videoWidth; c.height = vid.videoHeight;
+      c.getContext('2d').drawImage(vid, 0, 0);
+      c.toBlob((b) => { stopCam(); if (b) useFile(new File([b], 'kamera.jpg', { type: 'image/jpeg' })); }, 'image/jpeg', 0.92);
     };
     document.getElementById('photorm').onclick = () => {
-      photo = null; photoIn.value = '';
+      photo = null; photoIn.value = ''; capIn.value = '';
       document.getElementById('photoprev').innerHTML = '';
       document.getElementById('photoopts').hidden = true;
     };
