@@ -9,8 +9,12 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <script>
-    // Sayfa çizilmeden önce temayı uygula (ilk açılışta renk titremesi olmasın).
-    try { var t = localStorage.getItem('endemik.theme'); var l = t === 'light' || (t !== 'dark' && matchMedia('(prefers-color-scheme: light)').matches); document.documentElement.dataset.theme = l ? 'light' : 'dark'; } catch (e) {}
+    // Sayfa çizilmeden önce son temayı uygula (ilk açılışta renk titremesi olmasın).
+    try {
+      var d = JSON.parse(localStorage.getItem('endemik.theme.vars'));
+      var r = document.documentElement;
+      if (d && d.vars) { for (var k in d.vars) r.style.setProperty('--' + k, d.vars[k]); r.dataset.theme = d.scheme; r.style.colorScheme = d.scheme; }
+    } catch (e) {}
   </script>
   <title>Endemik</title>
 </head>
