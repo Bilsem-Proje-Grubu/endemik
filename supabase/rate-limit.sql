@@ -1,4 +1,5 @@
--- Supabase SQL Editor'de BİR KEZ çalıştırın (schema.sql'den sonra).
+-- Supabase SQL Editor'de BİR KEZ çalıştırın (schema.sql'den sonra). Tek seferde çalıştırılır;
+-- bir adım hata verirse hiçbir şey değişmez.
 -- Aynı internet adresinden (IP) dakikada en fazla 5 kayıt gönderilebilir.
 -- IP adresi yalnızca bu kontrol için, en çok 10 dakika saklanır; sightings tablosuna yazılmaz.
 
@@ -11,23 +12,26 @@ create index if not exists send_log_sender_at on public.send_log (sender, at);
 alter table public.send_log enable row level security;
 
 create or replace function public.check_send_limit() returns boolean
-language plpgsql security definer set search_path = public as $$
-declare
-  h json := coalesce(nullif(current_setting('request.headers', true), '')::json, '{}'::json);
-  -- Önce Cloudflare/Supabase'in güvenilir başlıkları, yoksa x-forwarded-for'un ilk adresi.
-  ip text := coalesce(
-    nullif(trim(h ->> 'cf-connecting-ip'), ''),
-    nullif(trim(h ->> 'x-real-ip'), ''),
-    nullif(trim(split_part(coalesce(h ->> 'x-forwarded-for', ''), ',', 1)), ''),
-    'bilinmiyor');
-  n int;
-begin
-  delete from public.send_log where at < now() - interval '10 minutes';
-  select count(*) into n from public.send_log where sender = ip and at > now() - interval '1 minute';
-  if n >= 5 then return false; end if;
-  insert into public.send_log (sender) values (ip);
-  return true;
-end $$;
+language sql security definer set search_path = public as $fn$
+  with c as (
+    select coalesce(
+      nullif(trim(h ->> 'cf-connecting-ip'), ''),
+      nullif(trim(h ->> 'x-real-ip'), ''),
+      nullif(trim(split_part(coalesce(h ->> 'x-forwarded-for', ''), ',', 1)), ''),
+      'bilinmiyor') as ip
+    from (select coalesce(nullif(current_setting('request.headers', true), '')::json, '{}'::json) as h) x
+  ),
+  cleanup as (
+    delete from public.send_log where at < now() - interval '10 minutes' returning 1
+  ),
+  cnt as (
+    select count(*) as n from public.send_log, c where sender = c.ip and at > now() - interval '1 minute'
+  ),
+  ins as (
+    insert into public.send_log (sender) select ip from c, cnt where n < 5 returning 1
+  )
+  select n < 5 from cnt;
+$fn$;
 
 grant execute on function public.check_send_limit() to anon, authenticated;
 
