@@ -308,7 +308,7 @@ function viewAdd(preselect) {
     const known = species.find((s) => s.name.toLocaleLowerCase('tr') === name.toLocaleLowerCase('tr'));
     try {
       const r = await addSighting({ species_id: known ? known.id : 'yeni:' + name.toLocaleLowerCase('tr'), species_name: name, lat: +f.lat.value, lng: +f.lng.value, note: f.note.value.trim(), ai_info: ai, photo: photo ? { b64: photo.b64, author: f.pauthor.value } : null });
-      toast(photo ? 'Gönderildi. Kayıt ve fotoğrafınız onaydan sonra yayınlanacak.' : r.queued ? 'İnternet yok: kayıt bu cihaza alındı, bağlantı gelince otomatik gönderilecek.' : r.local ? 'Kaydedildi (yalnızca bu cihazda).' : 'Gönderildi. Onaydan sonra yayınlanacak.', 5000);
+      toast(r.queued ? (photo ? 'İnternet yok: kayıt ve fotoğrafınız bu cihaza alındı, bağlantı gelince otomatik gönderilecek.' : 'İnternet yok: kayıt bu cihaza alındı, bağlantı gelince otomatik gönderilecek.') : photo ? 'Gönderildi. Kayıt ve fotoğrafınız onaydan sonra yayınlanacak.' : r.local ? 'Kaydedildi (yalnızca bu cihazda).' : 'Gönderildi. Onaydan sonra yayınlanacak.', 5000);
       location.hash = '#/';
     } catch (err) {
       if (err.rate) { toast(err.message, 5000); startCountdown(); return; }
