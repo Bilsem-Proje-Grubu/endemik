@@ -5,7 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
-import { initTheme, getTheme, setTheme } from './theme.js';
+import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
 const LIST_PAGE = 'https://www.tarimorman.gov.tr/DKMP/Menu/49/Tur-Eylem-Planlari';
@@ -223,16 +223,31 @@ function viewSettings() {
       <button class="btn ${on ? 'ghost' : ''}" id="nt">${on ? 'Bildirimi kapat' : 'Bildirimi aç'}</button>
       <div id="st" class="sci"></div></div>
     <div class="panel"><b>Tema</b>
-      <div class="seg" id="theme">${[['auto', '🌓 Otomatik'], ['dark', '🌙 Koyu'], ['light', '☀️ Açık']].map(([k, l]) => `<button data-t="${k}" class="${getTheme() === k ? 'on' : ''}">${l}</button>`).join('')}</div>
-      <p class="note">Otomatik: telefonunuzun koyu/açık ayarını izler.</p></div>
+      <div class="themes" id="theme">${[['auto', '🌓 Otomatik', null], ...Object.entries(PRESETS).map(([k, p]) => [k, p.label, p.swatch])].map(([k, l, sw]) => `<button class="tbtn ${getTheme() === k ? 'on' : ''}" data-t="${k}"><span class="sw">${(sw || []).map((c) => `<i style="background:${c}"></i>`).join('')}</span>${l}</button>`).join('')}</div>
+      <p class="note">Otomatik: telefonunuzun koyu/açık ayarını izler. WhatsApp, Valorant ve Duolingo temaları yalnızca renk paletlerinden esinlenmiştir; bu markalarla bağlantımız yoktur.</p>
+      <details class="custom" ${getTheme() === 'custom' ? 'open' : ''}><summary>🎨 Kendi temanı oluştur</summary>
+        ${[['bg', 'Arka plan'], ['bg2', 'Kartlar ve paneller'], ['accent', 'Düğmeler / vurgu'], ['text', 'Yazılar']].map(([k, l]) => `<div class="pick"><span>${l}</span><input type="color" data-c="${k}" value="${getCustom()[k]}"></div>`).join('')}
+        <div id="twarn"></div>
+        <div class="row"><button class="btn ghost" id="treset">Sıfırla</button></div>
+      </details></div>
     <div class="panel"><b>Sunucu durumu</b><p>${hasBackend ? 'Supabase bağlı.' : 'Supabase bağlı değil (yerel mod).'}</p>
       ${local.length ? `<p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p>` : ''}</div>
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
+  const warn = () => { document.getElementById('twarn').innerHTML = customWarnings(getCustom()).map((m) => `<div class="note">${m}</div>`).join(''); };
+  const mark = () => document.querySelectorAll('#theme button').forEach((x) => x.classList.toggle('on', x.dataset.t === getTheme()));
   document.querySelectorAll('#theme button').forEach((b) => b.onclick = () => {
-    setTheme(b.dataset.t);
-    document.querySelectorAll('#theme button').forEach((x) => x.classList.toggle('on', x === b));
+    setTheme(b.dataset.t); mark();
+    document.querySelectorAll('[data-c]').forEach((i) => { i.value = getCustom()[i.dataset.c]; });
+    warn();
   });
+  document.querySelectorAll('[data-c]').forEach((i) => i.oninput = () => { setCustomColor(i.dataset.c, i.value); mark(); warn(); });
+  document.getElementById('treset').onclick = () => {
+    resetTheme(); mark();
+    document.querySelectorAll('[data-c]').forEach((i) => { i.value = getCustom()[i.dataset.c]; });
+    warn();
+  };
+  if (getTheme() === 'custom') warn();
   document.getElementById('nt').onclick = async () => {
     if (notifyEnabled()) { stopWatching(); return viewSettings(); }
     try {

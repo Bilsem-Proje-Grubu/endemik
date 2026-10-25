@@ -67,6 +67,12 @@ form.f input, form.f select, form.f textarea { padding: 11px 12px; border-radius
 .nav a.on { color: var(--accent); }
 .thumb.specimen { background: #e9e4d6; }
 .thumb.specimen img { object-fit: contain; }
-.seg { display: flex; gap: 8px; margin-top: 8px; }
-.seg button { flex: 1; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--line); background: none; color: var(--text); font-size: 15px; }
-.seg button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
+.themes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+.tbtn { display: flex; align-items: center; gap: 8px; padding: 10px; border-radius: 10px; border: 2px solid var(--line); background: none; color: var(--text); font-size: 14px; text-align: left; }
+.tbtn.on { border-color: var(--accent); }
+.tbtn .sw { display: flex; flex: none; }
+.tbtn .sw i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(128,128,128,.5); margin-right: -5px; }
+details.custom { margin-top: 12px; }
+details.custom summary { cursor: pointer; font-weight: 600; }
+.pick { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0; }
+.pick input[type=color] { width: 56px; height: 36px; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: none; }
