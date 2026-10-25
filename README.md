@@ -8,8 +8,6 @@ Doğa Koruma ve Milli Parklar Genel Müdürlüğü'nün **Tür Eylem Planı** ha
 - Kullanıcı lokalite ekler → Supabase'de `pending` → yönetici onaylar
 - Yapay zekâ ile tür bilgisi doldurma: şimdilik **demo** (`src/ai.js`)
 
-> **Projeyi devralıyorsanız (kişi veya yapay zekâ) önce [DEVIR-NOTU.md](DEVIR-NOTU.md) dosyasını okuyun.** Projenin tam durumu, kararları, veri hattı, yayın düzeni ve yapılacaklar orada.
-
 ## Geliştirme
 ```
 npm install
