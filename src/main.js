@@ -261,10 +261,11 @@ function viewSettings() {
 
 // ---------- Yönetici ----------
 async function viewAdmin() {
-  if (!hasBackend) return shell('<a class="back" href="#/ayarlar">←</a><p class="note">Yönetim için Supabase bağlantısı gerekir.</p>', 'set');
+  if (!hasBackend) return shell('<a class="back" href="#/ayarlar">←</a><p class="note">Supabase bağlı değil (yerel mod). Yönetim için Supabase bağlantısı gerekir.</p>', 'set');
   const ses = await adminSession();
   if (!ses) {
     shell(`<a class="back" href="#/ayarlar">←</a><h2 class="section-title">Yönetici girişi</h2>
+      <div class="note">Supabase bağlı.</div>
       <form class="f" id="lf"><label>E-posta<input name="e" type="email" required></label><label>Şifre<input name="p" type="password" required></label><button class="btn">Giriş</button></form>`, 'set');
     document.getElementById('lf').onsubmit = async (e) => {
       e.preventDefault();
