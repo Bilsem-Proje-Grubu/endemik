@@ -5,7 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
-import { chatAvailable, ask } from './chat.js';
+import { chatAvailable, ask, preloadLM } from './chat.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -333,17 +333,17 @@ let chatLog = []; // {role:'user'|'assistant', text, ids}
 function viewChat() {
   shell(`<a class="back" href="#/">← Türler</a>
     <h2 class="section-title">💬 Endemik'e sor</h2>
-    <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Bu bot, proje grubumuzun eğittiği küçük bir modelle telefonunuzda çalışır; sorularınız hiçbir yere gönderilmez, internet olmadan da çalışır. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
+    <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Cevapları, proje grubumuzun sıfırdan yazıp eğittiği küçük bir dil modeli telefonunuzda yazar (ilk açılışta yaklaşık 2 MB model indirilir). Sorularınız hiçbir yere gönderilmez. Model bilgiyi kayıtlardan okur; kayıtta olmayan bir şeyi söylerse cevap hazır kalıba döner. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
     <div class="chatbox" id="chat" aria-live="polite"></div>
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
   const box = document.getElementById('chat'), inp = document.getElementById('cq'), btn = document.getElementById('cs');
-  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
+  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
   const draw = () => {
     box.innerHTML = chatLog.length ? chatLog.map(bubble).join('') : '<div class="msg assistant">Merhaba! Ben Endemik. Türkiye\'nin endemik türleri hakkında soru sorabilirsiniz.</div>';
     box.scrollTop = box.scrollHeight;
   };
-  draw();
+  draw(); preloadLM();
   document.getElementById('cf').onsubmit = async (e) => {
     e.preventDefault();
     const q = inp.value.trim();
@@ -353,7 +353,7 @@ function viewChat() {
     inp.value = ''; inp.disabled = btn.disabled = true;
     draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
     const r = await ask(q, { lastIds });
-    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids });
+    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source });
     inp.disabled = btn.disabled = false;
     draw(); inp.focus();
   };

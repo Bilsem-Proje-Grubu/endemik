@@ -22,10 +22,11 @@ export function createBot(species, model) {
   const df = new Map();
   for (const e of idx) for (const w of new Set(e.nameW)) df.set(w, (df.get(w) || 0) + 1);
   // yer adı → o yerde bilinen türler
-  const places = new Map();
-  for (const s of species) for (const l of s.localities) for (const w of ws(l.name)) {
+  const places = new Map(), placeDisp = new Map();
+  for (const s of species) for (const l of s.localities) for (const raw of l.name.split(/[^\p{L}\p{N}]+/u).filter(Boolean)) {
+    const w = fold(raw);
     if (w.length < 4 || SKIP_PLACE.has(w)) continue;
-    if (!places.has(w)) places.set(w, new Set());
+    if (!places.has(w)) { places.set(w, new Set()); placeDisp.set(w, raw); }
     places.get(w).add(s.id);
   }
 
@@ -48,13 +49,13 @@ export function createBot(species, model) {
   }
 
   function findPlaces(qw, speciesWords) {
-    const found = []; const used = new Set();
+    const found = []; const used = new Set(); let disp = '';
     qw.forEach((q, i) => {
       if (speciesWords.has(i) || q.length < 4) return;
       // yer adı ya aynen yazılır ya da ek alır ("Ankara'da" → ankarada); kısa ekten fazlası eşleşme sayılmaz
-      for (const [w, set] of places) if (q === w || (q.startsWith(w) && q.length - w.length <= 4)) { found.push(...set); used.add(i); break; }
+      for (const [w, set] of places) if (q === w || (q.startsWith(w) && q.length - w.length <= 4)) { found.push(...set); used.add(i); disp = disp || placeDisp.get(w); break; }
     });
-    return { ids: [...new Set(found)], used };
+    return { ids: [...new Set(found)], used, disp };
   }
 
   const kind = (s) => (s.group === 'fauna' ? 'hayvan' : 'bitki');
@@ -104,7 +105,19 @@ export function createBot(species, model) {
 
   const EXAMPLES = ['Kelaynak nerede yaşar?', 'Hopa engereği neye benziyor?', 'Ankara çevresinde hangi türler var?', 'Truva kardeleni ne zaman çiçek açar?', 'Endemik ne demek?'];
 
-  function reply(question, ctx = {}) {
+  // Modele verilecek bilgi parçaları (ml/build_data.py'deki biçimle birebir aynı olmalı)
+  const listing = (names, n = 8) => names.slice(0, n).join(', ') + (names.length > n ? ` ve ${names.length - n} tür daha` : '');
+  function speciesCtx(s, intent) {
+    const n = s.name;
+    if (intent === 'ozet') return `${n} | özet | ${kind(s)} | ${s.sci} | ${s.description || 'yok'}`;
+    if (intent === 'yer') return `${n} | yer | ` + (s.localities.length ? s.localities.slice(0, 6).map((x) => x.name).join('; ') + (s.localities.length > 6 ? ` ve ${s.localities.length - 6} yer daha` : '') : 'yok');
+    if (intent === 'gorunum') return `${n} | görünüş | ${s.morphology || 'yok'}`;
+    if (intent === 'cicek') return `${n} | çiçeklenme | ` + (s.group === 'fauna' ? 'hayvan' : (s.flowering || 'yok'));
+    return `${n} | statü | ulusal: ${s.statusNational || 'yok'} | uluslararası: ${s.statusIntl || 'yok'}`;
+  }
+  const sample = (a, n) => a.slice().sort(() => Math.random() - 0.5).slice(0, n);
+
+  function replyCore(question, ctx, info) {
     const raw = fold(question).replace(/[<>]/g, '').split(' ').filter(Boolean);
     const qw = raw.map((w) => (w.length >= 2 ? w : ''));
     const sp = findSpecies(qw);
@@ -113,6 +126,7 @@ export function createBot(species, model) {
     const masked = raw.map((w, i) => (spWords.has(i) ? 'tur' : pl.used.has(i) ? 'yer' : w)).filter((w, i, a) => !((w === 'tur' || w === 'yer') && a[i - 1] === w)).join(' '); // "Fırat kaplumbağası" iki sözcük ama tek tür
     let { intent, prob } = predict(model, masked);
     if (prob < 0.4) intent = 'bilinmiyor';
+    Object.assign(info, { intent, pl, qf: raw.join(' ') });
 
     if (intent === 'selam') return { text: pick(['Merhaba! Ben Endemik. Türkiye\'nin korunan türlerini sorabilirsin.', 'Selam! Hangi türü merak ediyorsun?', 'Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.']), ids: [], intent };
     if (intent === 'tesekkur') return { text: pick(['Rica ederim!', 'Ne demek, başka merak ettiğin bir tür var mı?', 'Memnun oldum. Doğayı korumak hepimizin işi.']), ids: [], intent };
@@ -137,9 +151,38 @@ export function createBot(species, model) {
     let ids = sp.map((h) => h.id);
     if (!ids.length) ids = ctx.lastIds || [];
     if (!ids.length) return { text: `Hangi türü soruyorsun? Tür adını yazarsan söyleyebilirim. Örneğin: "${pick(EXAMPLES)}"`, ids: [], intent };
+    info.ids = ids.slice(0, 2);
     const use = ids.slice(0, 2).map((i) => byId.get(i));
     const text = use.map((s) => compose(intent, s)).join('\n\n');
     return { text, ids, intent };
+  }
+
+  // Dil modeline verilecek bilgi parçaları + modelin yazamadığı durumlarda gösterilecek yedek cevap
+  function reply(question, ctx = {}) {
+    const info = {}; const r = replyCore(question, ctx, info);
+    const q = info.qf || fold(question), e = pick(EXAMPLES), W = (t) => `<bilgi> ${t} <soru> ${q} <cevap>`;
+    let prompts;
+    if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) prompts = info.ids.map((i) => W(speciesCtx(byId.get(i), info.intent)));
+    else if (['selam', 'tesekkur', 'endemik'].includes(info.intent)) prompts = [W(`sohbet | ${info.intent}`)];
+    else if (info.intent === 'yardim') prompts = [W(`sohbet | yardım | örnek: ${e} | tür sayısı: ${species.length}`)];
+    else if (info.intent === 'liste') {
+      if (info.pl?.ids.length) prompts = [W(`yer | ${info.pl.disp} | türler: ${listing(info.pl.ids.map((i) => byId.get(i).name))}`)];
+      else { const nf = species.filter((s) => s.group === 'fauna').length; const pool = species.filter((s) => (q.includes('hayvan') ? s.group === 'fauna' : q.includes('bitki') ? s.group === 'flora' : true)); prompts = [W(`genel | ${species.length} tür: ${nf} hayvan, ${species.length - nf} bitki | örnekler: ${sample(pool, 5).map((s) => s.name).join(', ')}`)]; }
+    } else if (['disi', 'bilinmiyor'].includes(info.intent)) prompts = [W(`sohbet | konu dışı | örnek: ${e}`)];
+    else prompts = [W(`sohbet | tür belirsiz | örnek: ${e}`)];
+    // Cevapta eksiksiz geçmesi gereken bilgiler (uydurma/karıştırma kontrolü)
+    let facts;
+    if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) facts = info.ids.map((i) => {
+      const s = byId.get(i);
+      if (info.intent === 'ozet') return [s.description];
+      if (info.intent === 'yer') return [s.localities.slice(0, 6).map((x) => x.name).join(', ')];
+      if (info.intent === 'gorunum') return [s.morphology];
+      if (info.intent === 'cicek') return [s.group === 'flora' ? s.flowering : null];
+      return [s.statusNational, s.statusIntl];
+    });
+    else if (info.intent === 'liste' && info.pl?.ids.length) facts = [[info.pl.ids.map((i) => byId.get(i).name).slice(0, 8).join(', ')]];
+    else facts = prompts.map(() => []);
+    return { ...r, facts, prompts, parts: info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent) ? info.ids.map((i) => compose(info.intent, byId.get(i))) : [r.text] };
   }
 
   return { reply, findSpecies: (q) => findSpecies(ws(q)).map((h) => h.id), predict: (q) => predict(model, q) };

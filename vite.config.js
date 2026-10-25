@@ -15,7 +15,7 @@ const precacheList = () => {
     configResolved(cfg) { out = cfg.build.outDir; },
     closeBundle() {
       const files = walk(out).map((p) => relative(out, p).split('\\').join('/'))
-        .filter((f) => f !== 'precache.json' && f !== 'sw.js' && !f.startsWith('species-img/'));
+        .filter((f) => f !== 'precache.json' && f !== 'sw.js' && !f.startsWith('species-img/') && !f.startsWith('model/'));
       writeFileSync(join(out, 'precache.json'), JSON.stringify({ core: ['./', ...files.map((f) => './' + f)] }));
     },
   };
