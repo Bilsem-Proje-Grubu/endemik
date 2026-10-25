@@ -204,7 +204,7 @@ function viewAdd(preselect) {
       <div class="row"><button type="button" class="btn ghost" id="ai">✨ Tür bilgisini yapay zekâ ile doldur (demo)</button></div>
       <div id="aiout"></div>
       <button class="btn" type="submit" id="send">Gönder</button>
-      <p class="note">Kayıtlar yönetici onayından sonra yayınlanır. Spam'i önlemek için dakikada en fazla 5 kayıt gönderilebilir.</p>
+      <p class="note">Kayıtlar yönetici onayından sonra yayınlanır. Spam'i önlemek için dakikada en fazla 5 kayıt gönderilebilir. Hangi bilgilerin toplandığını <a href="#/gizlilik">Gizlilik sayfasında</a> okuyabilirsiniz.</p>
     </form>`, 'add');
   const f = document.getElementById('f');
   dirtyCheck = () => !!(f.name.value.trim() || f.note.value.trim() || f.lat.value || document.getElementById('photoprev')?.innerHTML);
@@ -319,6 +319,37 @@ function viewAdd(preselect) {
 }
 
 // ---------- Ayarlar ----------
+function viewPrivacy() {
+  shell(`<a class="back" href="#/ayarlar">← Ayarlar</a>
+    <h2 class="section-title">Gizlilik ve veri kullanımı</h2>
+    <div class="panel"><b>Kısaca</b>
+      <p>Hesap açmanız ya da adınızı, e-postanızı vermeniz gerekmez. Yalnızca siz gönderirseniz bir tür kaydı, isteğe bağlı bir not ve fotoğraf paylaşılır. Konumunuz tam olarak değil, yaklaşık olarak saklanır.</p></div>
+    <div class="panel"><b>Kayıt gönderirseniz neler saklanır?</b>
+      <ul><li><b>Tür adı ve notunuz.</b> Notu siz yazarsınız; kişisel bilgi yazmamanızı öneririz.</li>
+      <li><b>Yaklaşık konum.</b> Gördüğünüz yer, yaklaşık 5 km'lik bir karenin ortasına yuvarlanır. Tam nokta ne sunucuya kaydedilir ne de haritada görünür. Amaç, nadir türlerin tam yerinin öğrenilmemesidir.</li>
+      <li><b>Fotoğraf (isteğe bağlı).</b> Fotoğrafı eklemek sizin kararınızdır. Fotoğraftaki konum, tarih ve cihaz bilgisi gönderilmeden önce silinir.</li>
+      <li><b>Fotoğraf sahibi adı (isteğe bağlı).</b> Yazarsanız fotoğrafın altında herkese görünür. Boş bırakırsanız “Anonim” yazılır.</li></ul></div>
+    <div class="panel"><b>Kimler görür?</b>
+      <p>Kaydınız önce yalnızca proje yöneticisine görünür. Onaylanırsa tür sayfasında ve haritada herkese gösterilir. Onaylanmayan kayıtlar yayınlanmaz.</p>
+      <p>Fotoğraf göndermek için, fotoğrafı sizin çektiğinizi ve <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a> lisansıyla, adınız belirtilerek bu uygulamada gösterilmesine izin verdiğinizi onaylarsınız.</p></div>
+    <div class="panel"><b>Kamera</b>
+      <p>Kamera yalnızca “Fotoğraf çek” düğmesine bastığınızda açılır ve fotoğrafı çektiğinizde ya da vazgeçtiğinizde kapanır. Görüntü kaydedilmez. Çekilen fotoğraf, siz “Gönder”e basmadıkça cihazınızdan çıkmaz.</p></div>
+    <div class="panel"><b>Konumunuz ve bildirimler</b>
+      <p>“Konumumu kullan” ve yakındaki tür bildirimi için konumunuz yalnızca telefonunuzda kullanılır. Bildirim için konumunuz sunucuya gönderilmez. Konum iznini tarayıcı ayarlarından istediğiniz zaman kapatabilirsiniz.</p></div>
+    <div class="panel"><b>Spam koruması</b>
+      <p>Sistemin kötüye kullanılmaması için aynı bağlantıdan dakikada en fazla 5 kayıt kabul edilir. Bunun için internet adresiniz (IP) en fazla 10 dakika geçici olarak tutulur, sonra silinir ve kaydınızla ilişkilendirilmez.</p></div>
+    <div class="panel"><b>Başka kimler veri alır?</b>
+      <ul><li><b>Supabase:</b> Kayıtlar bu hizmette saklanır.</li>
+      <li><b>OpenStreetMap:</b> Harita açıldığında harita parçaları OpenStreetMap sunucularından indirilir; bu sunucular internet adresinizi görebilir.</li>
+      <li><b>GitHub:</b> Site GitHub Pages üzerinde yayınlanır.</li></ul>
+      <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p></div>
+    <div class="panel"><b>Cihazınızda saklananlar</b>
+      <p>Tema ve ayarlarınız, indirilen fotoğraflar ve internet yokken gönderdiğiniz bekleyen kayıtlar yalnızca cihazınızda tutulur.</p></div>
+    <div class="panel"><b>Kaydımı sildirmek istiyorum</b>
+      <p>Hesap olmadığı için kayıtlar kişiye bağlanmaz. Gönderdiğiniz bir kaydın ya da fotoğrafın kaldırılmasını istiyorsanız, hangi tür ve yaklaşık hangi tarihte gönderdiğinizi <a href="https://github.com/Bilsem-Proje-Grubu/endemik/issues" target="_blank" rel="noopener">proje sayfasından</a> bildirin; yönetici kaldırır.</p></div>
+    <p class="note">Bu sayfa projenin çalışma biçimini açıklar; hukuki danışmanlık değildir. Bu bir öğrenci projesidir ve ticari amaç taşımaz.</p>`, 'set');
+}
+
 function viewSettings() {
   const on = notifyEnabled();
   const local = getLocalSightings();
@@ -347,6 +378,7 @@ function viewSettings() {
     <div id="srv"></div>
     ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
+      <p><a href="#/gizlilik">Gizlilik ve veri kullanımı</a></p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
   const swon = document.getElementById('swon'), swnat = document.getElementById('swnat');
   swon.checked = swipeEnabled(); swnat.checked = swipeReverse(); swnat.disabled = !swon.checked;
@@ -445,6 +477,7 @@ function route() {
   if (path === '/harita') return viewMap();
   if (path === '/ekle') return viewAdd(new URLSearchParams(qs || '').get('tur'));
   if (path === '/ayarlar') return viewSettings();
+  if (path === '/gizlilik') return viewPrivacy();
   if (path === '/yonetim') return viewAdmin();
   viewHome();
 }
@@ -456,7 +489,7 @@ function currentTab() {
   const path = location.hash.replace(/^#/, '').split('?')[0];
   if (path === '/harita') return 1;
   if (path === '/ekle') return 2;
-  if (path === '/ayarlar' || path === '/yonetim') return 3;
+  if (path === '/ayarlar' || path === '/yonetim' || path === '/gizlilik') return 3;
   return 0; // ana sayfa ve tür sayfaları
 }
 initSwipe({
