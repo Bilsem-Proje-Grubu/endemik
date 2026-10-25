@@ -5,6 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
+import { waitSeconds } from './ratelimit.js';
 import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
@@ -162,8 +163,8 @@ function viewAdd(preselect) {
       <label>Not (isteğe bağlı)<textarea name="note" rows="3" maxlength="500"></textarea></label>
       <div class="row"><button type="button" class="btn ghost" id="ai">✨ Tür bilgisini yapay zekâ ile doldur (demo)</button></div>
       <div id="aiout"></div>
-      <button class="btn" type="submit">Gönder</button>
-      <p class="note">Kayıtlar yönetici onayından sonra yayınlanır.</p>
+      <button class="btn" type="submit" id="send">Gönder</button>
+      <p class="note">Kayıtlar yönetici onayından sonra yayınlanır. Spam'i önlemek için dakikada en fazla 5 kayıt gönderilebilir.</p>
     </form>`, 'add');
   const f = document.getElementById('f');
   let ai = null;
@@ -200,6 +201,18 @@ function viewAdd(preselect) {
       <dl class="kv"><dt>Bilimsel ad</dt><dd>${esc(ai.sci || '—')}</dd><dt>Çiçeklenme</dt><dd>${esc(ai.flowering || '—')}</dd>
       <dt>Ulusal statü</dt><dd>${esc(ai.statusNational || '—')}</dd><dt>Uluslararası statü</dt><dd>${esc(ai.statusIntl || '—')}</dd></dl></div>`;
   };
+  // Hak dolunca "Gönder" düğmesi 60 saniye geri sayım gösterir.
+  let timer = null;
+  const tick = () => {
+    const btn = document.getElementById('send');
+    if (!btn) { clearInterval(timer); return; }
+    const w = waitSeconds();
+    btn.disabled = w > 0;
+    btn.textContent = w > 0 ? `Bekleyin: ${w} sn` : 'Gönder';
+    if (w <= 0) { clearInterval(timer); timer = null; }
+  };
+  const startCountdown = () => { tick(); if (!timer && waitSeconds() > 0) timer = setInterval(tick, 500); };
+  startCountdown();
   f.onsubmit = async (e) => {
     e.preventDefault();
     if (!f.lat.value) return toast('Önce konumu seçin: haritaya dokunun veya “Konumumu kullan”a basın.');
@@ -209,7 +222,10 @@ function viewAdd(preselect) {
       const r = await addSighting({ species_id: known ? known.id : 'yeni:' + name.toLocaleLowerCase('tr'), species_name: name, lat: +f.lat.value, lng: +f.lng.value, note: f.note.value.trim(), ai_info: ai });
       toast(r.local ? 'Kaydedildi (yalnızca bu cihazda).' : 'Gönderildi. Onaydan sonra yayınlanacak.');
       location.hash = '#/';
-    } catch (err) { console.error(err); toast('Gönderilemedi: ' + (err.message || 'bilinmeyen hata')); }
+    } catch (err) {
+      if (err.rate) { toast(err.message, 5000); startCountdown(); return; }
+      console.error(err); toast('Gönderilemedi: ' + (err.message || 'bilinmeyen hata'));
+    }
   };
 }
 
