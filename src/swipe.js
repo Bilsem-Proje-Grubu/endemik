@@ -1,16 +1,16 @@
 // Ekranı yana kaydırarak sekmeler arasında geçiş.
-// Varsayılan (kullanıcı isteği): parmağı SOLA kaydırınca soldaki sekmeye, SAĞA kaydırınca sağdaki sekmeye geçilir.
-// "Doğal" seçeneğiyle yön ters çevrilir (sola kaydırınca sağdaki sekme, sayfa çevirir gibi).
+// Varsayılan: parmağı SOLA kaydırınca sağdaki sekmeye, SAĞA kaydırınca soldaki sekmeye geçilir (sayfa çevirir gibi).
+// "Yönü ters çevir" seçeneğiyle tersi olur.
 const K_ON = 'endemik.swipe.off';        // '1' ise kapalı
-const K_NAT = 'endemik.swipe.natural';   // '1' ise ters yön
+const K_REV = 'endemik.swipe.reverse';   // '1' ise ters yön
 
 const read = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
 const write = (k, v) => { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch { /* yoksay */ } };
 
 export const swipeEnabled = () => read(K_ON) !== '1';
 export const setSwipeEnabled = (on) => write(K_ON, on ? null : '1');
-export const swipeNatural = () => read(K_NAT) === '1';
-export const setSwipeNatural = (on) => write(K_NAT, on ? '1' : null);
+export const swipeReverse = () => read(K_REV) === '1';
+export const setSwipeReverse = (on) => write(K_REV, on ? '1' : null);
 
 // Bu öğelerin üstünde başlayan kaydırmalar kendi işlerini yapar (harita sürükleme, yatay kayan çipler, renk/kaydırıcı seçimi...).
 const IGNORE = '.leaflet-container, .chips, input[type=range], input[type=color], input[type=file], select, .lightbox, .askcard, [data-noswipe]';
@@ -35,9 +35,8 @@ export function initSwipe({ tabs, current, go, blocked }) {
     if (window.getSelection && String(window.getSelection()).length) return;         // metin seçiliyorsa
     const i = current();
     if (i < 0) return;
-    // Varsayılan: sola kaydır (dx<0) → soldaki sekme (i-1). Doğal: sola kaydır → sağdaki sekme (i+1).
-    const left = dx < 0;
-    const step = (left !== swipeNatural()) ? -1 : 1;
+    // Varsayılan: sola kaydır (dx<0) → sağdaki sekme (i+1); sağa kaydır → soldaki sekme (i-1). Ters çevirme açıksa tersi.
+    const step = (dx < 0 ? 1 : -1) * (swipeReverse() ? -1 : 1);
     const j = i + step;
     if (j < 0 || j >= tabs.length) return;
     if (blocked && blocked()) return;
