@@ -8,6 +8,7 @@ import { aiFillSpeciesInfo } from './ai.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
+import { initSwipe, swipeEnabled, setSwipeEnabled, swipeNatural, setSwipeNatural } from './swipe.js';
 import { initTheme, getTheme, setTheme, getCustom, setCustomColor, resetTheme, customWarnings, PRESETS } from './theme.js';
 
 const app = document.getElementById('app');
@@ -15,6 +16,8 @@ const LIST_PAGE = 'https://www.tarimorman.gov.tr/DKMP/Menu/49/Tur-Eylem-Planlari
 const byId = new Map(species.map((s) => [s.id, s]));
 let approved = []; // Supabase'ten gelen onaylı kullanıcı kayıtları
 let map = null;
+let dirtyCheck = null; // doluysa true döner (yazılmış form varken kaydırarak sayfadan çıkılmasın)
+let slideDir = null;   // sekme geçişi animasyonunun yönü
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // Resmi olmayan (veya yüklenemeyen) türler için hayvan grubuna uygun simge.
@@ -67,6 +70,8 @@ function shell(inner, active, top = '') {
     <a href="#/ayarlar" class="${active === 'set' ? 'on' : ''}"><span>🔔</span>Ayarlar</a>
   </nav>`;
   window.scrollTo(0, 0);
+  dirtyCheck = null; // her sayfa kendi kilidini yeniden tanımlar
+  if (slideDir) { document.querySelector('main.view')?.classList.add('slide-' + slideDir); slideDir = null; }
 }
 
 // ---------- Ana sayfa ----------
@@ -194,6 +199,7 @@ function viewAdd(preselect) {
       <p class="note">Kayıtlar yönetici onayından sonra yayınlanır. Spam'i önlemek için dakikada en fazla 5 kayıt gönderilebilir.</p>
     </form>`, 'add');
   const f = document.getElementById('f');
+  dirtyCheck = () => !!(f.name.value.trim() || f.note.value.trim() || f.lat.value || document.getElementById('photoprev')?.innerHTML);
   let ai = null;
   // Konum, GPS ile ya da haritaya dokunarak seçilir (koordinat yazmak gerekmez).
   map = L.map('pm').setView([39, 35], 5);
@@ -290,6 +296,10 @@ function viewSettings() {
       <div id="offst" class="sci"></div>
       <label class="chk"><input type="checkbox" id="offauto"> Wi‑Fi'deyken fotoğrafları otomatik indir <small>(mobil veride önce size sorulur)</small></label>
       <div class="row"><button class="btn" id="offdl">📥 Fotoğrafları indir</button></div></div>
+    <div class="panel"><b>Gezinme</b>
+      <label class="chk"><input type="checkbox" id="swon"> Ekranı yana kaydırarak sekme değiştir</label>
+      <label class="chk"><input type="checkbox" id="swnat"> Yönü ters çevir <small>(kapalıyken: sola kaydırınca soldaki sekmeye, sağa kaydırınca sağdaki sekmeye geçilir)</small></label>
+      <p class="note">Harita, metin kutuları ve yana kayan düğme satırları üzerinde kaydırma o öğeye aittir; sekme değişmez. Lokalite ekle sayfasında yazdığınız bir şey varsa kaydırarak çıkılmaz.</p></div>
     <div class="panel"><b>Tema</b>
       <div class="themes" id="theme">${[['auto', '🌓 Otomatik', null], ...Object.entries(PRESETS).map(([k, p]) => [k, p.label, p.swatch])].map(([k, l, sw]) => `<button class="tbtn ${getTheme() === k ? 'on' : ''}" data-t="${k}"><span class="sw">${(sw || []).map((c) => `<i style="background:${c}"></i>`).join('')}</span>${l}</button>`).join('')}</div>
       <p class="note">Otomatik: telefonunuzun koyu/açık ayarını izler. WhatsApp, Valorant ve Duolingo temaları yalnızca renk paletlerinden esinlenmiştir; bu markalarla bağlantımız yoktur.</p>
@@ -302,6 +312,10 @@ function viewSettings() {
     ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
+  const swon = document.getElementById('swon'), swnat = document.getElementById('swnat');
+  swon.checked = swipeEnabled(); swnat.checked = swipeNatural(); swnat.disabled = !swon.checked;
+  swon.onchange = () => { setSwipeEnabled(swon.checked); swnat.disabled = !swon.checked; };
+  swnat.onchange = () => setSwipeNatural(swnat.checked);
   const offStatus = async () => {
     const el = document.getElementById('offst'), btn = document.getElementById('offdl');
     if (!el) return;
@@ -399,6 +413,25 @@ function route() {
   viewHome();
 }
 window.addEventListener('hashchange', route);
+
+// Sekme sırası (alt menüyle aynı): Türler, Harita, Lokalite ekle, Ayarlar.
+const TABS = ['#/', '#/harita', '#/ekle', '#/ayarlar'];
+function currentTab() {
+  const path = location.hash.replace(/^#/, '').split('?')[0];
+  if (path === '/harita') return 1;
+  if (path === '/ekle') return 2;
+  if (path === '/ayarlar' || path === '/yonetim') return 3;
+  return 0; // ana sayfa ve tür sayfaları
+}
+initSwipe({
+  tabs: TABS,
+  current: currentTab,
+  blocked: () => { if (dirtyCheck && dirtyCheck()) { toast('Formda yazdıklarınız var; alt menüden geçebilirsiniz.', 2500); return true; } return false; },
+  go: (i, dir) => {
+    if (!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) slideDir = dir;
+    location.hash = TABS[i];
+  },
+});
 
 initTheme();
 window.addEventListener('offline', () => toast('İnternet bağlantısı yok. Kayıtlar bu cihaza alınır.', 4000));
