@@ -5,7 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
-import { chatAvailable, findSpecies, ask } from './chat.js';
+import { chatAvailable, ask } from './chat.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -333,7 +333,7 @@ let chatLog = []; // {role:'user'|'assistant', text, ids}
 function viewChat() {
   shell(`<a class="back" href="#/">← Türler</a>
     <h2 class="section-title">💬 Endemik'e sor</h2>
-    <p class="note">Türlerin neye benzediğini, nerede yaşadığını, korunma durumunu sorabilirsiniz. Cevapları yapay zekâ her seferinde yeniden yazar; yanılabilir, önemli bilgileri tür sayfasından kontrol edin. Sorularınız yapay zekâ servisine gönderilir; kişisel bilgi yazmayın.</p>
+    <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Bu bot, proje grubumuzun eğittiği küçük bir modelle telefonunuzda çalışır; sorularınız hiçbir yere gönderilmez, internet olmadan da çalışır. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
     <div class="chatbox" id="chat" aria-live="polite"></div>
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
@@ -348,19 +348,12 @@ function viewChat() {
     e.preventDefault();
     const q = inp.value.trim();
     if (!q) return;
-    const found = findSpecies(q);
-    const ids = found.length ? found : (chatLog.slice().reverse().find((m) => m.ids?.length)?.ids || []); // "Nerede yaşar?" gibi devam soruları
-    const history = chatLog.map((m) => ({ role: m.role, text: m.text }));
+    const lastIds = chatLog.slice().reverse().find((x) => x.ids?.length)?.ids || []; // "Nerede yaşar?" gibi devam soruları
     chatLog.push({ role: 'user', text: q });
     inp.value = ''; inp.disabled = btn.disabled = true;
     draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
-    try {
-      const answer = await ask(q, ids, history);
-      chatLog.push({ role: 'assistant', text: answer, ids: found });
-    } catch (err) {
-      chatLog.pop();
-      inp.value = q; toast(err.message, 5000);
-    }
+    const r = await ask(q, { lastIds });
+    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids });
     inp.disabled = btn.disabled = false;
     draw(); inp.focus();
   };
@@ -385,11 +378,10 @@ function viewPrivacy() {
     <div class="panel"><b>Konumunuz ve bildirimler</b>
       <p>“Konumumu kullan” ve yakındaki tür bildirimi için konumunuz yalnızca telefonunuzda kullanılır. Bildirim için konumunuz sunucuya gönderilmez. Konum iznini tarayıcı ayarlarından istediğiniz zaman kapatabilirsiniz.</p></div>
     <div class="panel"><b>Sohbet botu</b>
-      <p>“Sor” bölümüne yazdığınız sorular, cevap üretilmesi için bir yapay zekâ servisine (Anthropic) gönderilir. Sohbet geçmişiniz sunucuda saklanmaz; yalnızca kötüye kullanımı sınırlamak için kaç soru sorulduğu sayılır ve internet adresiniz bu sayımda geri döndürülemez biçimde karıştırılarak (özet olarak) tutulur, 1 gün sonra silinir. Sorulara ad, telefon, adres gibi kişisel bilgi yazmayın.</p></div>
+      <p>“Sor” bölümündeki sohbet botu telefonunuzda çalışır. Yazdığınız sorular hiçbir yere gönderilmez ve saklanmaz; sayfayı kapatınca sohbet silinir.</p></div>
     <div class="panel"><b>Başka kimler veri alır?</b>
       <ul><li><b>Supabase:</b> Kayıtlar bu hizmette saklanır.</li>
       <li><b>OpenStreetMap:</b> Harita açıldığında harita parçaları OpenStreetMap sunucularından indirilir; bu sunucular internet adresinizi görebilir.</li>
-      <li><b>Anthropic:</b> Yalnızca sohbet botuna yazdığınız sorular.</li>
       <li><b>GitHub:</b> Site GitHub Pages üzerinde yayınlanır.</li></ul>
       <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p></div>
     <div class="panel"><b>Cihazınızda saklananlar</b>
