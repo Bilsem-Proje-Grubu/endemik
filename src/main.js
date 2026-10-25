@@ -5,6 +5,7 @@ import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
+import { chatAvailable, findSpecies, ask } from './chat.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -81,7 +82,7 @@ let filter = 'all';
 let query = '';
 function viewHome() {
   const top = `<header class="topbar">
-    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small></div>
+    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
     <input class="search" id="q" type="search" placeholder="Tür adı ara…" value="${esc(query)}" autocomplete="off">
     <div class="chips">
       ${[['all', 'Hepsi'], ['fauna', 'Fauna'], ['flora', 'Flora'], ['loc', 'Lokalitesi olanlar']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}
@@ -131,7 +132,16 @@ function viewSpecies(id) {
       : '<div class="note">Bu tür için lokalite verisi henüz eklenmedi.</div>'}
     <div id="ph"></div>
     <p><a href="${esc(s.pdf || LIST_PAGE)}" target="_blank" rel="noopener">Tür eylem planı (DKMP) ↗</a></p>
-    <a class="btn" style="display:inline-block;text-decoration:none" href="#/ekle?tur=${s.id}">Bu türü gördüm, lokalite ekle</a>`, 'home');
+    <div class="row"><a class="btn" style="display:inline-block;text-decoration:none" href="#/ekle?tur=${s.id}">Bu türü gördüm, lokalite ekle</a>
+      <button class="btn ghost" id="share" type="button">↗ Paylaş</button></div>`, 'home');
+  document.getElementById('share').onclick = async () => {
+    const link = location.origin + location.pathname + '#/tur/' + s.id;
+    const data = { title: s.name, text: `${s.name} (${s.sci}) — Türkiye'nin endemik türlerinden biri.`, url: link };
+    try {
+      if (navigator.share) await navigator.share(data);
+      else { await navigator.clipboard.writeText(link); toast('Bağlantı kopyalandı.'); }
+    } catch (err) { if (err && err.name !== 'AbortError') toast('Paylaşılamadı: ' + link, 6000); }
+  };
   if (hasBackend && navigator.onLine !== false) {
     getSpeciesPhotos(s.id).then((rows) => {
       const el = document.getElementById('ph');
@@ -319,6 +329,43 @@ function viewAdd(preselect) {
 }
 
 // ---------- Ayarlar ----------
+let chatLog = []; // {role:'user'|'assistant', text, ids}
+function viewChat() {
+  shell(`<a class="back" href="#/">← Türler</a>
+    <h2 class="section-title">💬 Endemik'e sor</h2>
+    <p class="note">Türlerin neye benzediğini, nerede yaşadığını, korunma durumunu sorabilirsiniz. Cevapları yapay zekâ her seferinde yeniden yazar; yanılabilir, önemli bilgileri tür sayfasından kontrol edin. Sorularınız yapay zekâ servisine gönderilir; kişisel bilgi yazmayın.</p>
+    <div class="chatbox" id="chat" aria-live="polite"></div>
+    <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
+      <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
+  const box = document.getElementById('chat'), inp = document.getElementById('cq'), btn = document.getElementById('cs');
+  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
+  const draw = () => {
+    box.innerHTML = chatLog.length ? chatLog.map(bubble).join('') : '<div class="msg assistant">Merhaba! Ben Endemik. Türkiye\'nin endemik türleri hakkında soru sorabilirsiniz.</div>';
+    box.scrollTop = box.scrollHeight;
+  };
+  draw();
+  document.getElementById('cf').onsubmit = async (e) => {
+    e.preventDefault();
+    const q = inp.value.trim();
+    if (!q) return;
+    const found = findSpecies(q);
+    const ids = found.length ? found : (chatLog.slice().reverse().find((m) => m.ids?.length)?.ids || []); // "Nerede yaşar?" gibi devam soruları
+    const history = chatLog.map((m) => ({ role: m.role, text: m.text }));
+    chatLog.push({ role: 'user', text: q });
+    inp.value = ''; inp.disabled = btn.disabled = true;
+    draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
+    try {
+      const answer = await ask(q, ids, history);
+      chatLog.push({ role: 'assistant', text: answer, ids: found });
+    } catch (err) {
+      chatLog.pop();
+      inp.value = q; toast(err.message, 5000);
+    }
+    inp.disabled = btn.disabled = false;
+    draw(); inp.focus();
+  };
+}
+
 function viewPrivacy() {
   shell(`<a class="back" href="#/ayarlar">← Ayarlar</a>
     <h2 class="section-title">Gizlilik ve veri kullanımı</h2>
@@ -338,15 +385,18 @@ function viewPrivacy() {
       <p>“Konumumu kullan” ve yakındaki tür bildirimi için konumunuz yalnızca telefonunuzda kullanılır. Bildirim için konumunuz sunucuya gönderilmez. Konum iznini tarayıcı ayarlarından istediğiniz zaman kapatabilirsiniz.</p></div>
     <div class="panel"><b>Spam koruması</b>
       <p>Sistemin kötüye kullanılmaması için aynı bağlantıdan dakikada en fazla 5 kayıt kabul edilir. Bunun için internet adresiniz (IP) en fazla 10 dakika geçici olarak tutulur, sonra silinir ve kaydınızla ilişkilendirilmez.</p></div>
+    <div class="panel"><b>Sohbet botu</b>
+      <p>“Sor” bölümüne yazdığınız sorular, cevap üretilmesi için bir yapay zekâ servisine (Anthropic) gönderilir. Sohbet geçmişiniz sunucuda saklanmaz; yalnızca kötüye kullanımı sınırlamak için kaç soru sorulduğu sayılır ve internet adresiniz bu sayımda geri döndürülemez biçimde karıştırılarak (özet olarak) tutulur, 1 gün sonra silinir. Sorulara ad, telefon, adres gibi kişisel bilgi yazmayın.</p></div>
     <div class="panel"><b>Başka kimler veri alır?</b>
       <ul><li><b>Supabase:</b> Kayıtlar bu hizmette saklanır.</li>
       <li><b>OpenStreetMap:</b> Harita açıldığında harita parçaları OpenStreetMap sunucularından indirilir; bu sunucular internet adresinizi görebilir.</li>
+      <li><b>Anthropic:</b> Yalnızca sohbet botuna yazdığınız sorular.</li>
       <li><b>GitHub:</b> Site GitHub Pages üzerinde yayınlanır.</li></ul>
       <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p></div>
     <div class="panel"><b>Cihazınızda saklananlar</b>
       <p>Tema ve ayarlarınız, indirilen fotoğraflar ve internet yokken gönderdiğiniz bekleyen kayıtlar yalnızca cihazınızda tutulur.</p></div>
     <div class="panel"><b>Kaydımı sildirmek istiyorum</b>
-      <p>Hesap olmadığı için kayıtlar kişiye bağlanmaz. Gönderdiğiniz bir kaydın ya da fotoğrafın kaldırılmasını istiyorsanız, hangi tür ve yaklaşık hangi tarihte gönderdiğinizi <a href="https://github.com/Bilsem-Proje-Grubu/endemik/issues" target="_blank" rel="noopener">proje sayfasından</a> bildirin; yönetici kaldırır.</p></div>
+      <p>Hesap olmadığı için kayıtlar kişiye bağlanmaz. Gönderdiğiniz bir kaydın ya da fotoğrafın kaldırılmasını istiyorsanız, hangi tür ve yaklaşık hangi tarihte gönderdiğinizi <a href="mailto:bilsemprojegrubu@gmail.com">bilsemprojegrubu@gmail.com</a> adresine yazın ya da <a href="https://github.com/Bilsem-Proje-Grubu/endemik/issues" target="_blank" rel="noopener">proje sayfasından</a> bildirin; yönetici kaldırır.</p></div>
     <p class="note">Bu sayfa projenin çalışma biçimini açıklar; hukuki danışmanlık değildir. Bu bir öğrenci projesidir ve ticari amaç taşımaz.</p>`, 'set');
 }
 
@@ -478,6 +528,7 @@ function route() {
   if (path === '/ekle') return viewAdd(new URLSearchParams(qs || '').get('tur'));
   if (path === '/ayarlar') return viewSettings();
   if (path === '/gizlilik') return viewPrivacy();
+  if (path === '/sohbet') return viewChat();
   if (path === '/yonetim') return viewAdmin();
   viewHome();
 }
