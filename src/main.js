@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
-import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete } from './supabase.js';
+import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { waitSeconds } from './ratelimit.js';
@@ -95,7 +95,7 @@ function viewHome() {
 
 // ---------- Tür detayı ----------
 function allLocalities(s) {
-  const extra = approved.filter((a) => a.species_id === s.id).map((a) => ({ name: 'Kullanıcı kaydı', lat: a.lat, lng: a.lng, radiusKm: 3, user: true }));
+  const extra = approved.filter((a) => a.species_id === s.id).map((a) => ({ name: 'Kullanıcı kaydı', lat: a.lat, lng: a.lng, radiusKm: USER_RADIUS_KM, user: true }));
   return [...s.localities, ...extra];
 }
 function viewSpecies(id) {
@@ -175,7 +175,7 @@ function viewAdd(preselect) {
   const setPoint = (lat, lng) => {
     f.lat.value = lat.toFixed(6); f.lng.value = lng.toFixed(6);
     if (marker) marker.setLatLng([lat, lng]); else marker = L.circleMarker([lat, lng], { radius: 9, color: '#e8b84a', fillOpacity: 0.8 }).addTo(map);
-    document.getElementById('pick').textContent = `Seçilen konum: ${f.lat.value}, ${f.lng.value}`;
+    document.getElementById('pick').textContent = `Kaydedilecek yaklaşık konum: ${blurCoord(lat).toFixed(3)}, ${blurCoord(lng).toFixed(3)} (gizlilik için ≈5 km'ye yuvarlanır; türün tam yeri paylaşılmaz).`;
   };
   map.on('click', (e) => setPoint(e.latlng.lat, e.latlng.lng));
   document.getElementById('gps').onclick = () => navigator.geolocation.getCurrentPosition((p) => {
