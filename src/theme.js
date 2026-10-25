@@ -13,7 +13,8 @@ export const PRESETS = {
   light: { label: '☀️ Açık', ...mk({ bg: '#f3f5ef', bg2: '#ffffff', card: '#ffffff', line: '#d3dacb', text: '#1c2a19', muted: '#5a6856', accent: '#2e7d1b', warn: '#b7791f', danger: '#c0392b', 'on-accent': '#ffffff', thumb: 'linear-gradient(135deg, #dfe8d6, #c9d6bd)' }, ['#f3f5ef', '#2e7d1b', '#1c2a19']) },
   whatsapp: { label: 'WhatsApp koyu', ...mk({ bg: '#0b141a', bg2: '#202c33', card: '#202c33', line: '#2a3942', text: '#e9edef', muted: '#8696a0', accent: '#00a884', 'on-accent': '#0b141a', thumb: 'linear-gradient(135deg, #2a3942, #111b21)' }, ['#0b141a', '#00a884', '#e9edef']) },
   valorant: { label: 'Valorant', ...mk({ bg: '#0f1923', bg2: '#1f2a33', card: '#1f2a33', line: '#36424d', text: '#ece8e1', muted: '#8b978f', accent: '#ff4655', danger: '#ff7a85', 'on-accent': '#0f1923', thumb: 'linear-gradient(135deg, #2b3844, #0f1923)' }, ['#0f1923', '#ff4655', '#ece8e1']) },
-  duolingo: { label: 'Duolingo', ...mk({ bg: '#ffffff', bg2: '#f4f4f4', card: '#f4f4f4', line: '#e0e0e0', text: '#3c3c3c', muted: '#6b6b6b', accent: '#388200', warn: '#b7791f', danger: '#c0392b', 'on-accent': '#ffffff', thumb: 'linear-gradient(135deg, #e6f7d3, #c9ecab)' }, ['#ffffff', '#58cc02', '#3c3c3c']) },
+  'duolingo-dark': { label: 'Duolingo koyu', ...mk({ bg: '#131f24', bg2: '#1f2c33', card: '#1f2c33', line: '#37464f', text: '#f1f7fb', muted: '#9fb0b9', accent: '#58cc02', danger: '#ff6b6b', 'on-accent': '#131f24', thumb: 'linear-gradient(135deg, #2b3d46, #131f24)' }, ['#131f24', '#58cc02', '#f1f7fb']) },
+  duolingo: { label: 'Duolingo açık', ...mk({ bg: '#ffffff', bg2: '#f4f4f4', card: '#f4f4f4', line: '#e0e0e0', text: '#3c3c3c', muted: '#6b6b6b', accent: '#388200', warn: '#b7791f', danger: '#c0392b', 'on-accent': '#ffffff', thumb: 'linear-gradient(135deg, #e6f7d3, #c9ecab)' }, ['#ffffff', '#58cc02', '#3c3c3c']) },
 };
 
 const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
