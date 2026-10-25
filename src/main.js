@@ -115,6 +115,7 @@ function viewSpecies(id) {
   shell(`<a class="back" href="#/">← Türler</a>
     ${thumb(s, 'hero')}
     ${s.imageCredit ? `<div class="sc" style="text-align:right">${s.imageCredit.type === 'specimen' ? 'Herbaryum örneği (müze taraması)' : 'Fotoğraf'}: ${esc(s.imageCredit.author || 'Wikimedia Commons')} · <a href="${esc(s.imageCredit.source)}" target="_blank" rel="noopener">${esc(s.imageCredit.license)}</a></div>` : ''}
+    ${!s.imageCredit && hasBackend ? '<div class="panel"><b>📷 Bu türün fotoğrafı yok</b><p class="note">Serbest kullanılabilen bir fotoğrafı bulunamadı. Doğada gördüyseniz aşağıdan çekip gönderebilirsiniz; onaydan sonra burada gösterilir.</p></div>' : ''}
     <h1>${esc(s.name)}</h1>
     <div class="sci">${esc(s.sci)} · ${s.group === 'fauna' ? 'Fauna' : 'Flora'}</div>
     ${s.description ? `<p>${esc(s.description)}</p>` : s.morphology || s.statusNational || s.statusIntl ? '' : '<p class="note">Bu tür için ayrıntılı bilgi henüz eklenmedi. Kaynak: Tür Eylem Planı.</p>'}
