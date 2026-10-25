@@ -230,8 +230,7 @@ function viewSettings() {
         <div id="twarn"></div>
         <div class="row"><button class="btn ghost" id="treset">Sıfırla</button></div>
       </details></div>
-    <div class="panel"><b>Sunucu durumu</b><p>${hasBackend ? 'Supabase bağlı.' : 'Supabase bağlı değil (yerel mod).'}</p>
-      ${local.length ? `<p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p>` : ''}</div>
+    ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
     <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
   const warn = () => { document.getElementById('twarn').innerHTML = customWarnings(getCustom()).map((m) => `<div class="note">${m}</div>`).join(''); };
@@ -277,7 +276,8 @@ async function viewAdmin() {
   const card = (p, btns) => `<div class="panel"><b>${esc(p.species_name)}</b><div class="sci">${p.lat.toFixed(4)}, ${p.lng.toFixed(4)} · ${new Date(p.created_at).toLocaleDateString('tr')}</div>
       <p>${esc(p.note)}</p><div class="row">${btns}</div></div>`;
   const del = (p) => `<button class="btn danger" data-del="${esc(p.id)}" data-name="${esc(p.species_name)}">Sil</button>`;
-  shell(`<a class="back" href="#/ayarlar">←</a><h2 class="section-title">Onay bekleyenler (${pending.length})</h2>
+  shell(`<a class="back" href="#/ayarlar">←</a><div class="note">Supabase bağlı. Yönetici oturumu açık.</div>
+    <h2 class="section-title">Onay bekleyenler (${pending.length})</h2>
     ${pending.map((p) => card(p, `<button class="btn" data-a="approved" data-id="${esc(p.id)}">Onayla</button><button class="btn ghost" data-a="rejected" data-id="${esc(p.id)}">Reddet</button>${del(p)}`)).join('') || '<div class="empty">Bekleyen kayıt yok.</div>'}
     <h2 class="section-title">Yayındaki kayıtlar (${live.length})</h2>
     ${live.map((p) => card(p, del(p))).join('') || '<div class="empty">Yayında kullanıcı kaydı yok.</div>'}
