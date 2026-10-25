@@ -16,6 +16,12 @@ function writeLocal(list) {
   try { localStorage.setItem(LOCAL_KEY, JSON.stringify(list)); } catch { /* yoksay */ }
 }
 
+// Gizlilik: kayıt konumu yaklaşık 5 km'lik ızgaranın (0,05°) merkezine yuvarlanır; türün tam yeri saklanmaz.
+// Aynı yuvarlama veritabanında da uygulanır (supabase/location-privacy.sql).
+const GRID = 0.05;
+export const blurCoord = (v) => Math.round((Math.floor(v / GRID) * GRID + GRID / 2) * 1000) / 1000;
+export const USER_RADIUS_KM = 5;
+
 // Yeni lokalite kaydı her zaman "pending" (onay bekliyor) olarak girer.
 export async function addSighting(s) {
   const wait = waitSeconds();
@@ -23,8 +29,8 @@ export async function addSighting(s) {
   const row = {
     species_id: s.species_id,
     species_name: s.species_name,
-    lat: s.lat,
-    lng: s.lng,
+    lat: blurCoord(s.lat),
+    lng: blurCoord(s.lng),
     note: s.note || '',
     ai_info: s.ai_info || null,
     status: 'pending',
