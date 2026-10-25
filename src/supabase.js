@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { waitSeconds, recordSend, blockNow, limitMessage } from './ratelimit.js';
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -17,6 +18,8 @@ function writeLocal(list) {
 
 // Yeni lokalite kaydı her zaman "pending" (onay bekliyor) olarak girer.
 export async function addSighting(s) {
+  const wait = waitSeconds();
+  if (wait > 0) throw Object.assign(new Error(limitMessage(wait)), { rate: true });
   const row = {
     species_id: s.species_id,
     species_name: s.species_name,
@@ -30,10 +33,19 @@ export async function addSighting(s) {
     const list = readLocal();
     list.push({ ...row, id: crypto.randomUUID(), created_at: new Date().toISOString(), local: true });
     writeLocal(list);
+    recordSend();
     return { local: true };
   }
   const { error } = await supabase.from('sightings').insert(row);
-  if (error) throw error;
+  if (error) {
+    // Veritabanındaki hız sınırı kuralı (rate-limit.sql) reddederse satır güvenlik ihlali (42501) döner.
+    if (error.code === '42501' || /row-level security/i.test(error.message || '')) {
+      blockNow();
+      throw Object.assign(new Error(limitMessage(waitSeconds())), { rate: true });
+    }
+    throw error;
+  }
+  recordSend();
   return { local: false };
 }
 
