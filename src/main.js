@@ -375,7 +375,7 @@ function viewSettings() {
   // Sunucu durumu yalnızca yönetici oturumu açıkken görünür.
   if (hasBackend) adminSession().then((ses) => {
     const el = document.getElementById('srv');
-    if (ses && el) el.innerHTML = '<div class="panel"><b>Sunucu durumu</b><p>Supabase bağlı.</p></div>';
+    if (ses && el) el.innerHTML = '<div class="panel"><b>Sunucu durumu</b><p>Supabase bağlı.</p>' + (import.meta.env.VITE_PR_NUMBER ? `<p class="note">Site sürümü: PR #${esc(import.meta.env.VITE_PR_NUMBER)}</p>` : '') + '</div>';
   }).catch(() => {});
   const warn = () => { document.getElementById('twarn').innerHTML = customWarnings(getCustom()).map((m) => `<div class="note">${m}</div>`).join(''); };
   const mark = () => document.querySelectorAll('#theme button').forEach((x) => x.classList.toggle('on', x.dataset.t === getTheme()));

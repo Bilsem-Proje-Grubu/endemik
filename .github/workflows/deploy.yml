@@ -22,6 +22,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Birleştirme kaydından ("Merge pull request #35 ...") PR numarasını alır; yönetici Ayarlar'da gösterir.
+      - name: PR numarası
+        env:
+          MSG: ${{ github.event.head_commit.message }}
+        run: echo "VITE_PR_NUMBER=$(printf '%s' "$MSG" | grep -oE '#[0-9]+' | head -1 | tr -d '#')" >> "$GITHUB_ENV"
       - run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
