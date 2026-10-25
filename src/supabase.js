@@ -23,6 +23,35 @@ export const blurCoord = (v) => Math.round((Math.floor(v / GRID) * GRID + GRID /
 export const USER_RADIUS_KM = 5;
 
 // Yeni lokalite kaydı her zaman "pending" (onay bekliyor) olarak girer.
+const isNetworkError = (e) => /failed to fetch|networkerror|network request failed|load failed|fetch/i.test(e?.message || '') && !e?.code;
+
+function queueRow(row) {
+  const list = readLocal();
+  list.push({ ...row, id: crypto.randomUUID(), created_at: new Date().toISOString(), queued: true });
+  writeLocal(list);
+  recordSend();
+  return { local: true, queued: true };
+}
+
+// Kuyruktaki (internet yokken alınan) kayıtları gönderir; kaç tanesinin gittiğini döndürür.
+export async function flushQueue() {
+  if (!supabase || navigator.onLine === false) return 0;
+  let sent = 0;
+  for (const item of readLocal().filter((x) => x.queued)) {
+    if (waitSeconds() > 0) break;
+    const { id, created_at, local, queued, ...row } = item;
+    const { error } = await supabase.from('sightings').insert(row);
+    if (error) {
+      if (error.code === '42501' || /row-level security/i.test(error.message || '')) blockNow();
+      break;
+    }
+    recordSend();
+    writeLocal(readLocal().filter((x) => x.id !== item.id));
+    sent++;
+  }
+  return sent;
+}
+
 export async function addSighting(s) {
   const wait = waitSeconds();
   if (wait > 0) throw Object.assign(new Error(limitMessage(wait)), { rate: true });
@@ -42,8 +71,11 @@ export async function addSighting(s) {
     recordSend();
     return { local: true };
   }
+  // İnternet yoksa kayıt bu cihazın kuyruğuna alınır; bağlantı gelince flushQueue ile gönderilir.
+  if (navigator.onLine === false) return queueRow(row);
   const { error } = await supabase.from('sightings').insert(row);
   if (error) {
+    if (isNetworkError(error)) return queueRow(row);
     // Veritabanındaki hız sınırı kuralı (rate-limit.sql) reddederse satır güvenlik ihlali (42501) döner.
     if (error.code === '42501' || /row-level security/i.test(error.message || '')) {
       blockNow();
