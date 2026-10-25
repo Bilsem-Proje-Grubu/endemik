@@ -5,7 +5,7 @@
 import species from './data/species.json';
 import model from './data/chat-model.json';
 import { createBot } from './chatlogic.js';
-import { loadLM, generate, unsupportedWords, repair } from './lm.js';
+import { loadLM, generate, accept, repair } from './lm.js';
 
 export const chatAvailable = true;
 const bot = createBot(species, model);
@@ -21,7 +21,7 @@ export async function ask(question, ctx) {
     let t = null;
     try { t = await generate(lm, r.prompts[i], { temp: 0.7 }); } catch { t = null; }
     if (t) t = repair(lm, r.prompts[i], t);
-    if (t && !unsupportedWords(lm, r.prompts[i], t).length) { out.push(t); fromModel++; }
+    if (accept(lm, r.prompts[i], t, r.facts[i])) { out.push(t); fromModel++; }
     else out.push(r.parts[i] ?? r.parts[0]);
   }
   return { ...r, text: out.join('\n\n'), source: fromModel === out.length ? 'model' : fromModel ? 'karisik' : 'kalip' };

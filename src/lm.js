@@ -138,3 +138,10 @@ export function repair(m, prompt, answer) {
     return best && bd <= lim ? best : w;
   });
 }
+
+// Cevap kabul kriteri: (1) her sözcük şablondan ya da bilgiden gelmeli, (2) bilginin kendisi cevapta eksiksiz geçmeli.
+export function accept(m, prompt, answer, facts = []) {
+  if (!answer || unsupportedWords(m, prompt, answer).length) return false;
+  const a = fold(answer);
+  return facts.filter(Boolean).every((f) => a.includes(fold(f)));
+}

@@ -170,7 +170,19 @@ export function createBot(species, model) {
       else { const nf = species.filter((s) => s.group === 'fauna').length; const pool = species.filter((s) => (q.includes('hayvan') ? s.group === 'fauna' : q.includes('bitki') ? s.group === 'flora' : true)); prompts = [W(`genel | ${species.length} tür: ${nf} hayvan, ${species.length - nf} bitki | örnekler: ${sample(pool, 5).map((s) => s.name).join(', ')}`)]; }
     } else if (['disi', 'bilinmiyor'].includes(info.intent)) prompts = [W(`sohbet | konu dışı | örnek: ${e}`)];
     else prompts = [W(`sohbet | tür belirsiz | örnek: ${e}`)];
-    return { ...r, prompts, parts: info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent) ? info.ids.map((i) => compose(info.intent, byId.get(i))) : [r.text] };
+    // Cevapta eksiksiz geçmesi gereken bilgiler (uydurma/karıştırma kontrolü)
+    let facts;
+    if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) facts = info.ids.map((i) => {
+      const s = byId.get(i);
+      if (info.intent === 'ozet') return [s.description];
+      if (info.intent === 'yer') return [s.localities.slice(0, 6).map((x) => x.name).join(', ')];
+      if (info.intent === 'gorunum') return [s.morphology];
+      if (info.intent === 'cicek') return [s.group === 'flora' ? s.flowering : null];
+      return [s.statusNational, s.statusIntl];
+    });
+    else if (info.intent === 'liste' && info.pl?.ids.length) facts = [[info.pl.ids.map((i) => byId.get(i).name).slice(0, 8).join(', ')]];
+    else facts = prompts.map(() => []);
+    return { ...r, facts, prompts, parts: info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent) ? info.ids.map((i) => compose(info.intent, byId.get(i))) : [r.text] };
   }
 
   return { reply, findSpecies: (q) => findSpecies(ws(q)).map((h) => h.id), predict: (q) => predict(model, q) };
