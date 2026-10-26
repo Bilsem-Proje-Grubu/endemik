@@ -154,3 +154,30 @@ export async function getSpeciesPhotos(speciesId) {
   if (error) { console.warn(error); return []; }
   return data;
 }
+
+// ---- Bilgi yarışması sıralaması (supabase/quiz.sql) ----
+const tableMissing = (e) => e && (e.code === '42P01' || e.code === 'PGRST205' || /does not exist|could not find the table/i.test(e.message || ''));
+export const validName = (n) => { const t = (n || '').trim(); return t.length >= 1 && t.length <= 20 && !/[<>&"'/\\]/.test(t); };
+export async function submitScore(name, score) {
+  if (!supabase) throw new Error('Sunucu bağlı değil.');
+  if (navigator.onLine === false) throw new Error('Sıralamaya göndermek için internet gerekir.');
+  const { error } = await supabase.from('quiz_scores').insert({ name: name.trim(), score });
+  if (error) {
+    if (tableMissing(error)) throw new Error('Sıralama henüz etkinleştirilmemiş.');
+    if (error.code === '42501' || /row-level security/i.test(error.message || '')) throw new Error('Çok hızlı gönderiyorsunuz; bir dakika bekleyip tekrar deneyin.');
+    throw error;
+  }
+}
+// En iyi 20 (aynı adı taşıyanlardan yalnızca en yüksek puan)
+export async function getTopScores() {
+  if (!supabase) return [];
+  const { data, error } = await supabase.from('quiz_scores').select('id,name,score,created_at').order('score', { ascending: false }).order('created_at', { ascending: true }).limit(300);
+  if (error) { if (tableMissing(error)) throw new Error('Sıralama henüz etkinleştirilmemiş.'); throw error; }
+  const seen = new Set(), out = [];
+  for (const r of data) { const k = r.name.trim().toLocaleLowerCase('tr'); if (seen.has(k)) continue; seen.add(k); out.push(r); if (out.length === 20) break; }
+  return out;
+}
+export async function adminDeleteScore(id) {
+  const { error } = await supabase.from('quiz_scores').delete().eq('id', id);
+  if (error) throw error;
+}

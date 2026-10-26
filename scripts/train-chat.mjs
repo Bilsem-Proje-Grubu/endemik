@@ -7,6 +7,7 @@ import { DIM, features, fold } from '../src/chatmodel.js';
 import { createBot } from '../src/chatlogic.js';
 
 const species = JSON.parse(readFileSync(new URL('../src/data/species.json', import.meta.url)));
+const SMALL = JSON.parse(readFileSync(new URL('../src/data/chat-small.json', import.meta.url)));
 
 // <tur> = tür adı, <yer> = yer adı (çalışırken bot bunları maskeler)
 const T = {
@@ -33,10 +34,10 @@ const T = {
   endemik: ['endemik ne demek', 'endemik nedir', 'endemik tur ne demek', 'endemik ne anlama geliyor', 'endemik canli nedir', 'endemik ne demek anlat', 'endemik kelimesinin anlami', 'endemik turler nedir',
     'endemik ne anlama gelir', 'endemik olmak ne demek', 'neden endemik turler onemli', 'endemik bitki nedir', 'endemik hayvan nedir', 'yerel endemik nedir', 'endemizm nedir', 'endemik ne', 'endemik tur ne ise yarar',
     'endemik ne demek sence', 'peki endemik ne demek'],
-  selam: ['merhaba', 'selam', 'selamlar', 'merhabalar', 'hey', 'gunaydin', 'iyi gunler', 'iyi aksamlar', 'naber', 'nasilsin', 'merhaba nasilsin', 'selam nasilsin', 'slm', 'mrb', 'hello', 'hi', 'iyi geceler', 'alo', 'orada misin'],
+  selam: ['merhaba', 'selam', 'selamlar', 'merhabalar', 'hey', 'gunaydin', 'iyi gunler', 'iyi aksamlar', 'slm', 'mrb', 'hello', 'hi', 'iyi geceler', 'alo', 'orada misin'],
   tesekkur: ['tesekkurler', 'tesekkur ederim', 'sag ol', 'cok sagol', 'eyvallah', 'saol', 'harika tesekkurler', 'cok tesekkur ederim', 'super tesekkurler', 'sagolasin', 'mersi', 'eline saglik', 'yardimin icin tesekkurler', 'tamam tesekkurler', 'bu kadar yeter tesekkurler'],
-  yardim: ['yardim', 'ne yapabilirsin', 'ne sorabilirim', 'sen kimsin', 'bu ne', 'nasil kullanilir', 'neler yapabiliyorsun', 'bana yardim eder misin', 'ne soracagimi bilmiyorum', 'hangi sorulara cevap verirsin',
-    'ne ise yarasin', 'sen ne is yaparsin', 'bu bot ne yapiyor', 'nasil soru sorayim', 'ornek soru ver', 'yardim lazim', 'kim yapti seni', 'sen nesin', 'komutlar neler', 'neleri biliyorsun'],
+  yardim: ['yardim', 'ne yapabilirsin', 'ne sorabilirim', 'bu ne', 'nasil kullanilir', 'neler yapabiliyorsun', 'bana yardim eder misin', 'ne soracagimi bilmiyorum', 'hangi sorulara cevap verirsin',
+    'ne ise yarasin', 'sen ne is yaparsin', 'bu bot ne yapiyor', 'nasil soru sorayim', 'ornek soru ver', 'yardim lazim', 'komutlar neler', 'neleri biliyorsun'],
 };
 T.zaman = ['<ay> ayinda hangi bitkiler cicek acar', '<ay> da cicek acan bitkiler', '<ay> ayinda cicek acan turler neler', 'hangi bitkiler <ay> da cicek verir', '<ay> ayinda ciceklenen bitkiler hangileri',
   '<ay> aylarinda hangi bitkiler ciceklenir', 'hangi bitkiler <ay> ayinda ciceklenir', '<ay> da hangi turler cicek acar', '<ay> ayinda hangi cicekler acar', '<ay> ayinda cicek veren bitkiler',
@@ -50,6 +51,7 @@ T.disi = ['pizza nasil yapilir', 'hava nasil olacak', 'bugun mac kac kac bitti',
   'yemek tarifi ver', 'film onerir misin', 'saat kac', 'bana sut hakkinda siir yaz', 'ingilizce ceviri yap', 'futbol takimi hangisi', 'oyun oner', 'internet hizi neden yavas', 'sinav sonuclari ne zaman aciklanacak',
   'kedi nasil beslenir', 'arabam bozuldu ne yapayim', 'ders calismak istemiyorum', 'bana fikra anlat', 'dolar kac lira', 'ev odevime yardim et', 'en guzel renk ne', 'sen nerelisin', 'kod yazar misin',
   'instagram nasil acilir', 'yarin okul var mi', 'hangi burcsun', 'hosgeldin partisi nasil olur', 'hava durumu nasil', 'yarin hava nasil olacak', 'film nasildi', 'ders nasil gecti', 'su an hava nasil', 'bu sarki nasil', 'takim nasil oynadi'];
+for (const [k, v] of Object.entries(SMALL)) T[k] = v.q;
 const PRE = ['', '', '', 'peki ', 'acaba ', 'bir de ', 'lutfen ', 'bana soyler misin ', 'merak ettim ', 'soru: ', 'hocam ', 'bir sey sorayim '];
 const POST = ['', '', '', ' acaba', ' lutfen', ' soyler misin', ' bilen var mi', ' ya', ' yani', ' sence'];
 const rnd = (a) => a[Math.floor(Math.random() * a.length)];
@@ -104,9 +106,9 @@ const TEST = {
   statu: ['Kelaynak nesli tehlikede mi?', 'Hopa engereği korunuyor mu', 'Toyun koruma durumu nedir', 'Fırat kaplumbağası ne kadar tehlikede', 'Van kertenkelesi kırmızı listede mi'],
   liste: ['Ankara\'da hangi türler yaşıyor?', 'Malatya çevresinde hangi bitkiler var', 'Hatay\'daki korunan türleri listele', 'Kaç tür var elinde?', 'Muğla yakınında hangi hayvanlar yaşar', 'Hangi hayvanlar var?'],
   endemik: ['Endemik ne demek?', 'Endemik tür neden önemli', 'Endemik canlı ne anlama gelir', 'Endemik kelimesi neyi ifade eder'],
-  selam: ['Merhaba!', 'Selam, nasılsın?', 'Günaydın', 'Merhabalar'],
+  selam: ['Merhaba!', 'Selam, merhaba', 'Günaydın', 'Merhabalar'],
   tesekkur: ['Teşekkürler', 'Sağ ol çok yardımcı oldun', 'Eyvallah'],
-  yardim: ['Ne yapabilirsin?', 'Sen kimsin?', 'Sana ne sorabilirim', 'Nasıl kullanıyorum seni'],
+  yardim: ['Ne yapabilirsin?', 'Neler sorabilirim sana?', 'Sana ne sorabilirim', 'Nasıl kullanıyorum seni'],
 };
 let ok = 0, n = 0; const bad = [];
 for (const [intent, qs] of Object.entries(TEST)) for (const q of qs) {
@@ -128,6 +130,14 @@ const TEST2 = {
   yardim: ['Neler sorabilirim sana', 'Bu uygulama ne işe yarıyor'],
   zaman: ['Nisan ayında hangi bitkiler çiçek açar?', 'Mayısta çiçek açan bitkiler hangileri', 'Haziranda hangi türler çiçeklenir', 'İlkbaharda çiçek açan bitkiler', 'Temmuz ayında çiçek veren bitkiler var mı'],
   tehdit: ['Hangi türlerin nesli tehlikede?', 'Kritik tehlikedeki hayvanlar hangileri', 'Nesli tükenme tehlikesindeki bitkiler neler', 'Tehlike altındaki türleri say'],
+  hal: ['Nasılsın?', 'Naber, iyi misin', 'Ne haber'],
+  yapiyor: ['Neler yapıyorsun?', 'Şu an ne yapıyorsun', 'Bugün ne yaptın'],
+  ad: ['Adın ne?', 'Sen kimsin', 'Kendini tanıtır mısın'],
+  yapan: ['Seni kim yaptı?', 'Kimler geliştirdi seni', 'Seni kim eğitti'],
+  yas: ['Kaç yaşındasın?', 'Yaşın kaç', 'Ne zaman doğdun'],
+  veda: ['Hoşça kal', 'Görüşürüz', 'Ben gidiyorum'],
+  iltifat: ['Harikasın', 'Çok akıllısın', 'Seni seviyorum'],
+  keyifsiz: ['Sıkıldım', 'Canım sıkılıyor', 'Moralim bozuk'],
   disi: ['Bugün hava nasıl?', 'Bana bir fıkra anlat', 'Pasta tarifi verir misin', 'Maç kaç kaç bitti'],
 };
 let ok2 = 0, n2 = 0; const bad2 = [];

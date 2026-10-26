@@ -1,4 +1,4 @@
-import json, os, sys, time, math, random, torch
+import json, os, sys, time, math, random, re, torch
 sys.path.insert(0, os.path.dirname(__file__))
 from tok import train_bpe, Tok
 from model import LM
@@ -21,7 +21,8 @@ def prep(data):
         if len(c) + len(a) <= BLOCK: out.append((c, a))
     return out
 if os.environ.get('FT'):  # ek eğitim: yeni örneklerin hepsi + eski örneklerden rastgele bir kısım
-    new = [e for e in tr if e['ctx'].startswith('<bilgi> kaynak')]; old = [e for e in tr if not e['ctx'].startswith('<bilgi> kaynak')]
+    rx = re.compile(os.environ.get('FT_NEW', r'^<bilgi> kaynak'))
+    new = [e for e in tr if rx.search(e['ctx'])]; old = [e for e in tr if not rx.search(e['ctx'])]
     tr = new + random.sample(old, min(len(old), int(os.environ.get('OLD', 24000))))
 TR, VA = prep(tr), prep(va)
 print('örnek', len(TR), len(VA), 'atılan', len(tr) - len(TR), 'ort. uzunluk', sum(len(c) + len(a) for c, a in TR) / len(TR), 'sözcük', len(T.vocab), flush=True)

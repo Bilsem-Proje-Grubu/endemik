@@ -124,3 +124,10 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 .qopt.bad { background: rgba(192, 57, 43, .28); border-color: var(--danger); }
 .qres { text-align: center; }
 .qscore { font-size: 44px; font-weight: 700; color: var(--accent); }
+
+.qboard { list-style: none; margin: 8px 0; padding: 0; }
+.qboard li { display: flex; align-items: center; gap: 10px; padding: 9px 12px; margin: 6px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--bg2); }
+.qboard li.me { border-color: var(--accent); background: rgba(46, 125, 27, .15); }
+.qboard .rk { width: 30px; text-align: center; }
+.qboard .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qboard .x { border: 0; background: none; color: var(--danger); font-size: 16px; padding: 2px 6px; }
