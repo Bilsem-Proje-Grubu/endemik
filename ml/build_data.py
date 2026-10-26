@@ -172,6 +172,49 @@ def synthetic_lists(n, pool):
           pick([f'Elimde {f_ + b_} tür var: {f_} hayvan, {b_} bitki. Örneğin: {", ".join(ex)}. Bir tür adı yazarsan ayrıntısını anlatırım.', f'Toplam {f_ + b_} tür tanıtıyorum; {f_} tanesi hayvan, {b_} tanesi bitki. Birkaç örnek: {", ".join(ex)}.'])))
     return out
 
+AY = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']
+AY_DA = ['ocakta', 'subatta', 'martta', 'nisanda', 'mayista', 'haziranda', 'temmuzda', 'agustosta', 'eylulde', 'ekimde', 'kasimda', 'aralikta']
+MEV = [('İlkbahar', 'ilkbaharda'), ('Yaz', 'yazin'), ('Sonbahar', 'sonbaharda'), ('Kış', 'kista')]
+Q_ZAMAN = ['{a} ayinda hangi bitkiler cicek acar', '{d} cicek acan bitkiler', '{a} ayinda cicek acan turler neler', 'hangi bitkiler {d} cicek verir', '{a} ayinda ciceklenen bitkiler hangileri',
+  '{a} aylarinda hangi bitkiler ciceklenir', 'hangi bitkiler {a} ayinda ciceklenir', '{d} hangi turler cicek acar', '{a} ayinda cicek veren bitkiler', '{d} ciceklenen turler var mi', '{a} ayinda ciceklenen turleri say']
+Q_MEV = ['{d} hangi bitkiler cicek acar', '{d} cicek acan bitkiler', '{d} ciceklenen turler hangileri', '{m} doneminde cicek acan bitkiler', 'hangi bitkiler {d} ciceklenir']
+Q_TEHDIT = ['nesli tehlikede olan {g} hangileri', 'hangi {g} tehlikede', '{l} olan {g} hangileri', 'tehlike altindaki {g} neler', 'nesli tukenme tehlikesindeki {g}', 'tehlikedeki {g} hangileri', 'en cok tehlikede olan {g}',
+  '{g} arasinda nesli tehlikede olanlar hangileri', 'hangi {g} yok olma tehlikesinde', 'nesli tehlike altinda olan {g} neler', '{l} {g} listele']
+Q_YER_GRUP = ['{y} da hangi {g} var', '{y} civarinda hangi {g} var', '{y} de hangi {g} yasiyor', '{y} bolgesinde hangi {g} bulunur', '{y} da yasayan {g} hangileri', '{y} ile ilgili {g} neler']
+
+def liste_ctx(title, names):
+    return f'liste | {title} | sayı: {len(names)} | türler: ' + (listing(names, 8) if names else 'yok')
+def liste_ans(title, names):
+    if not names: return pick([f'{title} için kayıtlarda tür bulamadım.', f'Kayıtlarda {title} bulunmuyor.'])
+    L = listing(names, 8); n = len(names)
+    return pick([f'{cap(title)}: {L}. Toplam {n} tür.', f'Kayıtlarda {title} şunlar: {L}. Toplam {n} tür.', f'{cap(title)} için {n} tür buldum: {L}.', f'{cap(title)}: {L}.'])
+
+def synthetic_lists2(n_each, pool):
+    """Ay/mevsime göre çiçeklenme, tehlike düzeyi ve yer+grup liste soruları (rastgele isimlerle)."""
+    fake = synthetic_species(600, pool); names_pool = [f['name'] for f in fake] + [s['name'] for s in pool]
+    syl = ['an', 'ka', 'ra', 'zi', 'mu', 'bol', 'sa', 'ge', 'den', 'ni', 'ço', 'hat', 'tun', 'ar', 'şi', 'ev', 'ük', 'ış']
+    def names(maxn):
+        k = 0 if random.random() < 0.08 else random.choice([1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 20, 30, 37])
+        return random.sample(names_pool, min(k, maxn, len(names_pool)))
+    out = []
+    for _ in range(n_each):
+        if random.random() < 0.75:
+            i = random.randrange(12); title = f'{AY[i]} ayında çiçek açan bitki türleri'; q = pick(Q_ZAMAN).format(a=fold(AY[i]), d=AY_DA[i])
+        else:
+            m, d = pick(MEV); title = f'{m} döneminde çiçek açan bitki türleri'; q = pick(Q_MEV).format(d=d, m=fold(m))
+        nm = names(40); out.append((f'<bilgi> {liste_ctx(title, nm)} <soru> {dress(q)} <cevap>', liste_ans(title, nm)))
+    for _ in range(n_each):
+        lead_q, lead_t = pick([('', 'nesli tehlike altındaki'), ('', 'nesli tehlike altındaki'), ('kritik tehlikede', 'kritik tehlikedeki'), ('hassas durumdaki', 'hassas durumdaki')])
+        g, gt = pick([('hayvanlar', 'hayvan türleri'), ('bitkiler', 'bitki türleri'), ('turler', 'türler')])
+        title = f'{lead_t} {gt}'; q = pick(Q_TEHDIT).format(g=g, l=lead_q or 'nesli tehlikede')
+        nm = names(40); out.append((f'<bilgi> {liste_ctx(title, nm)} <soru> {dress(q)} <cevap>', liste_ans(title, nm)))
+    for _ in range(n_each):
+        disp = ''.join(random.choice(syl) for _ in range(random.randint(2, 4))).capitalize()
+        g, gt = pick([('hayvanlar', 'hayvan türleri'), ('bitkiler', 'bitki türleri')])
+        title = f'{disp} çevresinde kayıtlı {gt}'; q = pick(Q_YER_GRUP).format(y=fold(disp), g=g)
+        nm = names(15); out.append((f'<bilgi> {liste_ctx(title, nm)} <soru> {dress(q)} <cevap>', liste_ans(title, nm)))
+    return out
+
 def examples(species, n_variants, places, extras=True):
     out = []
     nf, nb = a_genel(SP)
@@ -241,7 +284,7 @@ if __name__ == '__main__':
     FINAL = os.environ.get('FINAL') == '1'
     hold = SP[:8]; train_sp = SP if FINAL else SP[8:]
     pl_train = places
-    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp); va = examples(hold, 14, {})
+    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp) + synthetic_lists2(2500, train_sp); va = examples(hold, 14, {})
     random.shuffle(tr)
     for name, data in (('train', tr), ('val', va)):
         with open(os.path.join(os.path.dirname(__file__), f'{name}.jsonl'), 'w') as f:

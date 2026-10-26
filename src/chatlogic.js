@@ -13,6 +13,33 @@ const same = (a, b) => {
   let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
   return i >= 4 && i >= Math.min(a.length, b.length) - 2;
 };
+
+// ---- Çiçeklenme ayı ve tehlike düzeyi: veriden hesaplanan listeler ----
+const MON = ['ocak', 'subat', 'mart', 'nisan', 'mayis', 'haziran', 'temmuz', 'agustos', 'eylul', 'ekim', 'kasim', 'aralik'];
+const MON_TR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+const SEASON = [['ilkbahar', 'İlkbahar', [2, 3, 4]], ['sonbahar', 'Sonbahar', [8, 9, 10]]];
+const range = (a, b) => { const o = []; for (let i = a; ; i = (i + 1) % 12) { o.push(i); if (i === b) break; } return o; };
+// "Nisan sonu – Haziran" → {3,4,5}; parantez içi notlar (meyve dönemi vb.) sayılmaz
+export function floweringMonths(str) {
+  if (!str) return null;
+  const clean = str.replace(/\([^)]*\)/g, ' ');
+  const f = fold(clean);
+  const re = /(ocak|subat|mart|nisan|mayis|haziran|temmuz|agustos|eylul|ekim|kasim|aralik)|ilkbahar\w*|sonbahar\w*|\bkis sonu|\bkis\b/g;
+  const men = []; let m;
+  while ((m = re.exec(f))) {
+    if (m[1]) men.push([MON.indexOf(m[1])]);
+    else if (m[0].startsWith('ilkbahar')) men.push([2, 3, 4]);
+    else if (m[0].startsWith('sonbahar')) men.push([8, 9, 10]);
+    else if (m[0] === 'kis sonu') men.push([1]);
+    else men.push([11, 0, 1]);
+  }
+  if (!men.length) return null;
+  if (men.length > 1 && /[–-]/.test(clean)) return new Set(range(men[0][0], men[men.length - 1].slice(-1)[0]));
+  return new Set(men.flat());
+}
+export const threatLevels = (s) => new Set(((s.statusIntl || '') + ' ' + (s.statusNational || '')).match(/\b(CR|EN|VU)\b/g) || []);
+export const listTitle = (t) => t;
+export const listCtx = (title, names) => `liste | ${title} | sayı: ${names.length} | türler: ${names.length ? names.slice(0, 8).join(', ') + (names.length > 8 ? ` ve ${names.length - 8} tür daha` : '') : 'yok'}`;
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const cap = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 
@@ -41,7 +68,7 @@ export function createBot(species, model) {
       });
       if (all) score += 10 + e.nameW.length; // türün adındaki tüm sözcükler soruda varsa kesin eşleşme
       e.sciW.forEach((w) => qw.forEach((q, i) => { if (q === w) { score += w.length; used.add(i); } }));
-      if (score >= 2.5) hits.push({ id: e.id, score, used });
+      if (score >= 2.5) hits.push({ id: e.id, score, used, strong: all });
     }
     hits.sort((a, b) => b.score - a.score);
     const top = hits[0]?.score || 0;
@@ -58,11 +85,28 @@ export function createBot(species, model) {
     return { ids: [...new Set(found)], used, disp };
   }
 
+  function findTime(qw, skip) {
+    const idx = new Set(); let title = '', months = null;
+    qw.forEach((w, i) => {
+      if (skip.has(i) || w.length < 3) return;
+      const mi = MON.findIndex((m) => w === m || (w.startsWith(m) && w.length - m.length <= 4));
+      const si = SEASON.findIndex(([k]) => w.startsWith(k));
+      const sea = si >= 0 ? SEASON[si] : (['yaz', 'yazin', 'yazda'].includes(w) ? ['yaz', 'Yaz', [5, 6, 7]] : ['kis', 'kisin', 'kista'].includes(w) ? ['kis', 'Kış', [11, 0, 1]] : null);
+      if (mi >= 0) { idx.add(i); if (!months) { months = new Set([mi]); title = `${MON_TR[mi]} ayında çiçek açan bitki türleri`; } }
+      else if (sea) { idx.add(i); if (!months) { months = new Set(sea[2]); title = `${sea[1]} döneminde çiçek açan bitki türleri`; } }
+    });
+    return { idx, months, title };
+  }
+  const groupWord = (q) => (q.includes('hayvan') ? 'hayvan' : q.includes('bitki') ? 'bitki' : null);
+  const listNamesFull = (ids) => ids.map((i) => byId.get(i).name);
   const kind = (s) => (s.group === 'fauna' ? 'hayvan' : 'bitki');
   const listNames = (ids, n = 10) => {
     const names = ids.map((i) => byId.get(i).name);
     return names.slice(0, n).join(', ') + (names.length > n ? ` ve ${names.length - n} tür daha` : '');
   };
+
+  const listText = ({ title, names }) => !names.length ? `${title} için kayıtlarda tür bulamadım.`
+    : `${cap(title)}: ${listing(names)}. Toplam ${names.length} tür.`;
 
   function compose(intent, sp, ctx) {
     const s = sp;
@@ -120,13 +164,18 @@ export function createBot(species, model) {
   function replyCore(question, ctx, info) {
     const raw = fold(question).replace(/[<>]/g, '').split(' ').filter(Boolean);
     const qw = raw.map((w) => (w.length >= 2 ? w : ''));
-    const sp = findSpecies(qw);
+    let sp = findSpecies(qw);
+    const strongWords = new Set(sp.filter((h) => h.strong).flatMap((h) => [...h.used]));
+    // "Hatay", "Malatya" hem yer hem tür adının parçası: yer olarak bulunduysa, adı tam yazılmamış türler elenir
+    const early = findTime(qw, strongWords), hasFlower = raw.some((w) => w.startsWith('cicek'));
+    const pl = findPlaces(qw, new Set([...strongWords, ...(hasFlower ? early.idx : [])]));
+    if (pl.ids.length) sp = sp.filter((h) => h.strong);
     const spWords = new Set(sp.flatMap((h) => [...h.used]));
-    const pl = findPlaces(qw, spWords);
-    const masked = raw.map((w, i) => (spWords.has(i) ? 'tur' : pl.used.has(i) ? 'yer' : w)).filter((w, i, a) => !((w === 'tur' || w === 'yer') && a[i - 1] === w)).join(' '); // "Fırat kaplumbağası" iki sözcük ama tek tür
+    const tm = findTime(qw, new Set([...spWords, ...pl.used]));
+    const masked = raw.map((w, i) => (spWords.has(i) ? 'tur' : pl.used.has(i) ? 'yer' : tm.idx.has(i) ? 'ay' : w)).filter((w, i, a) => !((w === 'tur' || w === 'yer' || w === 'ay') && a[i - 1] === w)).join(' '); // "Fırat kaplumbağası" iki sözcük ama tek tür
     let { intent, prob } = predict(model, masked);
     if (prob < 0.4) intent = 'bilinmiyor';
-    Object.assign(info, { intent, pl, qf: raw.join(' ') });
+    Object.assign(info, { intent, pl, tm, qf: raw.join(' ') });
 
     if (intent === 'selam') return { text: pick(['Merhaba! Ben Endemik. Türkiye\'nin korunan türlerini sorabilirsin.', 'Selam! Hangi türü merak ediyorsun?', 'Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.']), ids: [], intent };
     if (intent === 'tesekkur') return { text: pick(['Rica ederim!', 'Ne demek, başka merak ettiğin bir tür var mı?', 'Memnun oldum. Doğayı korumak hepimizin işi.']), ids: [], intent };
@@ -135,7 +184,27 @@ export function createBot(species, model) {
       'Endemik, bir canlının yalnızca belirli bir bölgede doğal olarak yaşaması, dünyanın başka yerinde bulunmaması demek. Türkiye\'de çok sayıda endemik bitki ve hayvan var; bu uygulamadaki türlerin hepsi koruma altında.',
       'Endemik tür, sadece tek bir bölgeye ya da ülkeye özgü olan türdür. O bölgede yok olursa dünyadan da yok olmuş olur; bu yüzden korunmaları çok önemli.',
     ]), ids: [], intent };
+    if (intent === 'zaman') {
+      if (!tm.months) return { text: 'Hangi ayı ya da mevsimi soruyorsun? Örneğin: "Nisan ayında hangi bitkiler çiçek açar?"', ids: [], intent };
+      const ids = species.filter((x) => { const m = floweringMonths(x.flowering); return m && [...tm.months].some((k) => m.has(k)); }).map((x) => x.id);
+      info.list = { title: tm.title, names: listNamesFull(ids) };
+      return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+    }
+    if (intent === 'tehdit') {
+      const g = groupWord(masked + ' ' + raw.join(' '));
+      const lv = raw.some((w) => w.startsWith('kritik')) ? ['CR'] : raw.some((w) => w.startsWith('hassas')) ? ['VU'] : ['CR', 'EN', 'VU'];
+      const ids = species.filter((x) => (!g || (g === 'hayvan' ? x.group === 'fauna' : x.group === 'flora')) && lv.some((l) => threatLevels(x).has(l))).map((x) => x.id);
+      const lead = lv.length === 1 ? (lv[0] === 'CR' ? 'kritik tehlikedeki' : 'hassas durumdaki') : 'nesli tehlike altındaki';
+      info.list = { title: `${lead} ${g ? g + ' türleri' : 'türler'}`, names: listNamesFull(ids) };
+      return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+    }
     if (intent === 'liste') {
+      const gw = groupWord(raw.join(' '));
+      if (pl.ids.length && gw) {
+        const ids = pl.ids.filter((i) => (gw === 'hayvan' ? byId.get(i).group === 'fauna' : byId.get(i).group === 'flora'));
+        info.list = { title: `${pl.disp} çevresinde kayıtlı ${gw} türleri`, names: listNamesFull(ids) };
+        return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+      }
       if (pl.ids.length) return { text: pick([
         `Bu yerle ilgili kayıtlı ${pl.ids.length} tür var: ${listNames(pl.ids)}.`,
         `Kayıtlarda şu türler o çevrede geçiyor: ${listNames(pl.ids)}.`,
@@ -165,10 +234,12 @@ export function createBot(species, model) {
     if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) prompts = info.ids.map((i) => W(speciesCtx(byId.get(i), info.intent)));
     else if (['selam', 'tesekkur', 'endemik'].includes(info.intent)) prompts = [W(`sohbet | ${info.intent}`)];
     else if (info.intent === 'yardim') prompts = [W(`sohbet | yardım | örnek: ${e} | tür sayısı: ${species.length}`)];
+    else if (info.list) prompts = [W(listCtx(info.list.title, info.list.names))];
     else if (info.intent === 'liste') {
       if (info.pl?.ids.length) prompts = [W(`yer | ${info.pl.disp} | türler: ${listing(info.pl.ids.map((i) => byId.get(i).name))}`)];
       else { const nf = species.filter((s) => s.group === 'fauna').length; const pool = species.filter((s) => (q.includes('hayvan') ? s.group === 'fauna' : q.includes('bitki') ? s.group === 'flora' : true)); prompts = [W(`genel | ${species.length} tür: ${nf} hayvan, ${species.length - nf} bitki | örnekler: ${sample(pool, 5).map((s) => s.name).join(', ')}`)]; }
-    } else if (['disi', 'bilinmiyor'].includes(info.intent)) prompts = [W(`sohbet | konu dışı | örnek: ${e}`)];
+    } else if (info.intent === 'zaman') prompts = [];
+    else if (['disi', 'bilinmiyor'].includes(info.intent)) prompts = [W(`sohbet | konu dışı | örnek: ${e}`)];
     else prompts = [W(`sohbet | tür belirsiz | örnek: ${e}`)];
     // Cevapta eksiksiz geçmesi gereken bilgiler (uydurma/karıştırma kontrolü)
     let facts;
@@ -180,6 +251,7 @@ export function createBot(species, model) {
       if (info.intent === 'cicek') return [s.group === 'flora' ? s.flowering : null];
       return [s.statusNational, s.statusIntl];
     });
+    else if (info.list) facts = [[info.list.names.slice(0, 8).join(', ')]];
     else if (info.intent === 'liste' && info.pl?.ids.length) facts = [[info.pl.ids.map((i) => byId.get(i).name).slice(0, 8).join(', ')]];
     else facts = prompts.map(() => []);
     return { ...r, facts, prompts, parts: info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent) ? info.ids.map((i) => compose(info.intent, byId.get(i))) : [r.text] };

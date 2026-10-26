@@ -38,6 +38,14 @@ const T = {
   yardim: ['yardim', 'ne yapabilirsin', 'ne sorabilirim', 'sen kimsin', 'bu ne', 'nasil kullanilir', 'neler yapabiliyorsun', 'bana yardim eder misin', 'ne soracagimi bilmiyorum', 'hangi sorulara cevap verirsin',
     'ne ise yarasin', 'sen ne is yaparsin', 'bu bot ne yapiyor', 'nasil soru sorayim', 'ornek soru ver', 'yardim lazim', 'kim yapti seni', 'sen nesin', 'komutlar neler', 'neleri biliyorsun'],
 };
+T.zaman = ['<ay> ayinda hangi bitkiler cicek acar', '<ay> da cicek acan bitkiler', '<ay> ayinda cicek acan turler neler', 'hangi bitkiler <ay> da cicek verir', '<ay> ayinda ciceklenen bitkiler hangileri',
+  '<ay> aylarinda hangi bitkiler ciceklenir', 'hangi bitkiler <ay> ayinda ciceklenir', '<ay> da hangi turler cicek acar', '<ay> ayinda hangi cicekler acar', '<ay> ayinda cicek veren bitkiler',
+  '<ay> mevsiminde hangi bitkiler cicek acar', '<ay> doneminde cicek acan bitkiler', '<ay> da ciceklenen turler var mi', 'hangi bitkiler <ay> da acar', '<ay> ayinda ciceklenen turleri say',
+  '<ay> da hangi bitkiler ciceklenir', 'cicek acma zamani <ay> olan bitkiler', '<ay> ayinda hangi turlerin cicegi acar', 'hangi turler <ay> doneminde ciceklenir', '<ay> ayi bitkileri'];
+T.tehdit = ['nesli tehlikede olan turler hangileri', 'hangi turler tehlikede', 'kritik tehlikede olan hayvanlar', 'hangi bitkilerin nesli tehlikede', 'tehlike altindaki turler neler', 'nesli tukenme tehlikesindeki hayvanlar',
+  'en cok tehlikede olan turler', 'hangi turler yok olma tehlikesinde', 'tehlikedeki bitkiler hangileri', 'nesli tehlike altinda olan hayvanlar neler', 'hassas durumdaki turler hangileri', 'kritik seviyedeki turler',
+  'hangi hayvanlarin nesli tehlikede', 'korunmasi en acil turler hangileri', 'yok olma riski olan turler', 'tehlike altindaki bitkileri say', 'hangi turlerin nesli tukenmek uzere', 'kritik durumdaki bitkiler hangileri',
+  'nesli tehlike altindaki turleri listele', 'tehlikede olan hayvanlari say'];
 T.disi = ['pizza nasil yapilir', 'hava nasil olacak', 'bugun mac kac kac bitti', 'matematik odevimi yap', 'bana sarki soyle', 'en iyi telefon hangisi', 'turkiyenin baskenti neresi', 'bitcoin ne olacak',
   'yemek tarifi ver', 'film onerir misin', 'saat kac', 'bana sut hakkinda siir yaz', 'ingilizce ceviri yap', 'futbol takimi hangisi', 'oyun oner', 'internet hizi neden yavas', 'sinav sonuclari ne zaman aciklanacak',
   'kedi nasil beslenir', 'arabam bozuldu ne yapayim', 'ders calismak istemiyorum', 'bana fikra anlat', 'dolar kac lira', 'ev odevime yardim et', 'en guzel renk ne', 'sen nerelisin', 'kod yazar misin',
@@ -50,7 +58,7 @@ let seed = 7; Math.random = () => { seed = (seed * 16807) % 2147483647; return (
 const data = [];
 const intents = Object.keys(T);
 for (const [intent, list] of Object.entries(T)) for (const t of list) for (let k = 0; k < 6; k++) {
-  let q = t.replace(/<tur>/g, 'tur').replace(/<yer>/g, 'yer');
+  let q = t.replace(/<tur>/g, 'tur').replace(/<yer>/g, 'yer').replace(/<ay>/g, 'ay');
   if (!['selam', 'tesekkur'].includes(intent) || k % 2) q = rnd(PRE) + q + rnd(POST);
   data.push([q.trim(), intents.indexOf(intent)]);
 }
@@ -118,6 +126,8 @@ const TEST2 = {
   selam: ['Selam, merhaba', 'Hey orada mısın'],
   tesekkur: ['Çok teşekkürler', 'Sağ olun'],
   yardim: ['Neler sorabilirim sana', 'Bu uygulama ne işe yarıyor'],
+  zaman: ['Nisan ayında hangi bitkiler çiçek açar?', 'Mayısta çiçek açan bitkiler hangileri', 'Haziranda hangi türler çiçeklenir', 'İlkbaharda çiçek açan bitkiler', 'Temmuz ayında çiçek veren bitkiler var mı'],
+  tehdit: ['Hangi türlerin nesli tehlikede?', 'Kritik tehlikedeki hayvanlar hangileri', 'Nesli tükenme tehlikesindeki bitkiler neler', 'Tehlike altındaki türleri say'],
   disi: ['Bugün hava nasıl?', 'Bana bir fıkra anlat', 'Pasta tarifi verir misin', 'Maç kaç kaç bitti'],
 };
 let ok2 = 0, n2 = 0; const bad2 = [];

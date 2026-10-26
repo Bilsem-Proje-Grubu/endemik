@@ -14,6 +14,7 @@ export const preloadLM = () => loadLM().catch(() => null);
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.
 export async function ask(question, ctx) {
   const r = bot.reply(question, ctx);
+  if (!r.prompts.length) return { ...r, source: 'kalip' };
   const lm = await preloadLM();
   if (!lm) return { ...r, source: 'kalip' };
   const out = []; let fromModel = 0;
