@@ -215,6 +215,28 @@ def synthetic_lists2(n_each, pool):
         nm = names(15); out.append((f'<bilgi> {liste_ctx(title, nm)} <soru> {dress(q)} <cevap>', liste_ans(title, nm)))
     return out
 
+WIKI_PATH = os.path.join(ROOT, 'src/data/wiki.json')
+WIKI = json.load(open(WIKI_PATH)) if os.path.exists(WIKI_PATH) else []
+Q_WIKI = ['{t} nedir', '{t} hakkinda bilgi ver', '{t} nasil bir canli', '{t} nerede yasar', '{t} neye benzer', '{t} ne', '{t} hakkinda anlat', '{t} kimdir', '{t} turu nedir', 'anlatir misin {t}', '{t} hakkinda ne biliyorsun', 'bana {t} hakkinda bilgi ver']
+def a_wiki(title, text):
+    return pick([f"{title} için Vikipedi'de şöyle yazıyor: {text}", f"Vikipedi'ye göre {text}", f"{title} hakkında kısaca: {text}", f"{text} (Kaynak: Vikipedi)", f"Vikipedi'de {title} şöyle anlatılıyor: {text}"])
+def wiki_examples(entries, k):
+    out = []
+    for e in entries:
+        names = [fold(e['t'])] + [fold(a) for a in re.split(r' ya da | veya ', e.get('a') or '') if a]
+        for q in random.sample(Q_WIKI, k):
+            out.append((f"<bilgi> kaynak | {e['t']} | {e['x']} <soru> {dress(q.format(t=pick(names)))} <cevap>", a_wiki(e['t'], e['x'])))
+    return out
+def wiki_synthetic(n, pool):
+    """Hiç görülmemiş maddeler: karışık sözcüklerle uydurma madde adı ve metni (kopyalamayı pekiştirir)."""
+    fake = synthetic_species(400, pool); vocab = sorted({w for e in WIKI for w in re.findall(r"[\w'’-]+", e['x'])}) or ['bitki']
+    out = []
+    for _ in range(n):
+        title = pick(fake)['name']
+        text = ' '.join(random.choice(vocab) for _ in range(random.randint(12, 38))); text = text[:1].upper() + text[1:] + '.'
+        out.append((f"<bilgi> kaynak | {title} | {text} <soru> {dress(pick(Q_WIKI).format(t=fold(title)))} <cevap>", a_wiki(title, text)))
+    return out
+
 def examples(species, n_variants, places, extras=True):
     out = []
     nf, nb = a_genel(SP)
@@ -276,6 +298,7 @@ def template_words():
         add(f'Elimde tür var hayvan bitki Örneğin Bir tür adı yazarsan ayrıntısını anlatırım Toplam tanıtıyorum tanesi birkaç örnek')
         for p in ('ile ilgili kayıtlı tür var', 'Kayıtlarda çevresinde şu türler geçiyor', 'yöresinde bilinen türler'): add(p)
         for k in (0, 1, 3, 12): add(liste_ans('ZQX', ['ZQX'] * k))
+        add(a_wiki('ZQX', 'ZQX'))
     ws.discard('zqx')
     return sorted(ws)
 
@@ -285,7 +308,7 @@ if __name__ == '__main__':
     FINAL = os.environ.get('FINAL') == '1'
     hold = SP[:8]; train_sp = SP if FINAL else SP[8:]
     pl_train = places
-    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp) + synthetic_lists2(2500, train_sp); va = examples(hold, 14, {})
+    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp) + synthetic_lists2(2500, train_sp) + wiki_examples(WIKI, 8) + wiki_synthetic(1500, train_sp); va = examples(hold, 14, {})
     random.shuffle(tr)
     for name, data in (('train', tr), ('val', va)):
         with open(os.path.join(os.path.dirname(__file__), f'{name}.jsonl'), 'w') as f:

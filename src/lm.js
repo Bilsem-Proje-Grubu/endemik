@@ -140,8 +140,13 @@ export function repair(m, prompt, answer) {
 }
 
 // Cevap kabul kriteri: (1) her sözcük şablondan ya da bilgiden gelmeli, (2) bilginin kendisi cevapta eksiksiz geçmeli.
-export function accept(m, prompt, answer, facts = []) {
-  if (!answer || unsupportedWords(m, prompt, answer).length) return false;
+// Ret nedenlerini de döndürür (yönetici panelinde gösterilir).
+export function explain(m, prompt, answer, facts = []) {
+  if (!answer) return { ok: false, unsupported: [], missing: [], why: 'Cevap üretilemedi (yarım kaldı, çok uzadı ya da bilgi parçası modele sığmadı).' };
+  const unsupported = unsupportedWords(m, prompt, answer);
   const a = fold(answer);
-  return facts.filter(Boolean).every((f) => a.includes(fold(f)));
+  const missing = facts.filter(Boolean).filter((f) => !a.includes(fold(f)));
+  const ok = !unsupported.length && !missing.length;
+  return { ok, unsupported, missing, why: ok ? '' : [unsupported.length ? `Bilgi/şablon dışı sözcükler: ${unsupported.slice(0, 12).join(', ')}` : '', missing.length ? `Cevapta eksiksiz geçmeyen bilgi: ${missing.map((f) => f.slice(0, 120)).join(' | ')}` : ''].filter(Boolean).join(' · ') };
 }
+export const accept = (m, prompt, answer, facts = []) => explain(m, prompt, answer, facts).ok;

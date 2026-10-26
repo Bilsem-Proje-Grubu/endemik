@@ -20,6 +20,9 @@ def prep(data):
         c, a = enc(e)
         if len(c) + len(a) <= BLOCK: out.append((c, a))
     return out
+if os.environ.get('FT'):  # ek eğitim: yeni örneklerin hepsi + eski örneklerden rastgele bir kısım
+    new = [e for e in tr if e['ctx'].startswith('<bilgi> kaynak')]; old = [e for e in tr if not e['ctx'].startswith('<bilgi> kaynak')]
+    tr = new + random.sample(old, min(len(old), int(os.environ.get('OLD', 24000))))
 TR, VA = prep(tr), prep(va)
 print('örnek', len(TR), len(VA), 'atılan', len(tr) - len(TR), 'ort. uzunluk', sum(len(c) + len(a) for c, a in TR) / len(TR), 'sözcük', len(T.vocab), flush=True)
 def batch(ex):
@@ -29,10 +32,12 @@ def batch(ex):
         s = c + a; x[i, :len(s)] = torch.tensor(s)
         y[i, len(c) - 1:len(s) - 1] = torch.tensor(a)  # kayıp yalnızca cevap kısmında
     return x, y
-m = LM(len(T.vocab), block=BLOCK); print('parametre', sum(p.numel() for p in m.parameters()), flush=True)
+m = LM(len(T.vocab), block=BLOCK)
+if os.environ.get('INIT'): m.load_state_dict(torch.load(os.path.join(D, os.environ['INIT']))['sd']); print('başlangıç ağırlıkları yüklendi', flush=True)
+print('parametre', sum(p.numel() for p in m.parameters()), flush=True)
 EPOCHS = int(os.environ.get('EPOCHS', 12)); BS = 24
-steps = EPOCHS * (len(TR) // BS); opt = torch.optim.AdamW(m.parameters(), lr=1.5e-3, weight_decay=0.01, betas=(0.9, 0.98))
-lr = lambda i: 1.5e-3 * min(1, i / 150) * (0.5 * (1 + math.cos(math.pi * min(1, i / steps))) * 0.9 + 0.1)
+steps = EPOCHS * (len(TR) // BS); opt = torch.optim.AdamW(m.parameters(), lr=float(os.environ.get('LR', 1.5e-3)), weight_decay=0.01, betas=(0.9, 0.98))
+lr = lambda i: float(os.environ.get('LR', 1.5e-3)) * min(1, i / 150) * (0.5 * (1 + math.cos(math.pi * min(1, i / steps))) * 0.9 + 0.1)
 def val_loss():
     m.eval(); tot = n = 0
     with torch.no_grad():

@@ -4,26 +4,28 @@
 // 3) Model bilgi dışı bir şey yazarsa (uydurma kontrolü) hazır kalıp cevaba dönülür.
 import species from './data/species.json';
 import model from './data/chat-model.json';
+import wiki from './data/wiki.json';
 import { createBot } from './chatlogic.js';
-import { loadLM, generate, accept, repair } from './lm.js';
+import { loadLM, generate, explain, repair } from './lm.js';
 
 export const chatAvailable = true;
-const bot = createBot(species, model);
+const bot = createBot(species, model, wiki);
 export const preloadLM = () => loadLM().catch(() => null);
 
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.
 export async function ask(question, ctx) {
   const r = bot.reply(question, ctx);
-  if (!r.prompts.length) return { ...r, source: 'kalip' };
+  if (!r.prompts.length) return { ...r, source: 'kalip', debug: [{ prompt: '(modele bilgi parçası verilmedi)', raw: '', fixed: '', ok: false, why: 'Bu soru türü için model kullanılmıyor; hazır kalıp gösterildi.' }] };
   const lm = await preloadLM();
-  if (!lm) return { ...r, source: 'kalip' };
-  const out = []; let fromModel = 0;
+  if (!lm) return { ...r, source: 'kalip', debug: [{ prompt: '', raw: '', fixed: '', ok: false, why: 'Model dosyası yüklenemedi.' }] };
+  const out = [], debug = []; let fromModel = 0;
   for (let i = 0; i < r.prompts.length; i++) {
-    let t = null;
-    try { t = await generate(lm, r.prompts[i], { temp: 0.7 }); } catch { t = null; }
-    if (t) t = repair(lm, r.prompts[i], t);
-    if (accept(lm, r.prompts[i], t, r.facts[i])) { out.push(t); fromModel++; }
-    else out.push(r.parts[i] ?? r.parts[0]);
+    let raw = null, err = '';
+    try { raw = await generate(lm, r.prompts[i], { temp: 0.7 }); } catch (e) { err = String(e?.message || e); }
+    const fixed = raw ? repair(lm, r.prompts[i], raw) : null;
+    const v = explain(lm, r.prompts[i], fixed, r.facts[i]);
+    debug.push({ prompt: r.prompts[i], raw: raw || '', fixed: fixed && fixed !== raw ? fixed : '', ok: v.ok, why: err || v.why });
+    if (v.ok) { out.push(fixed); fromModel++; } else out.push(r.parts[i] ?? r.parts[0]);
   }
-  return { ...r, text: out.join('\n\n'), source: fromModel === out.length ? 'model' : fromModel ? 'karisik' : 'kalip' };
+  return { ...r, text: out.join('\n\n'), source: fromModel === out.length ? 'model' : fromModel ? 'karisik' : 'kalip', debug };
 }

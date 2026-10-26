@@ -19,3 +19,6 @@ N=200 python3 ml/evaluate.py      # ayrılan türler üzerinde ölçüm
 
 ## Önemli ders
 Yalnızca 94 türün gerçek metniyle eğitilince model metinleri ezberledi, görmediği türlerde kopyalayamadı (sınama kaybı 2,0). Bilgi alanlarına karışık sözcüklerden oluşan uydurma metinler koyunca kopyalamayı öğrendi (sınama kaybı 0,13). Yeni veri (başka konular) eklenirse aynı yöntem uygulanmalıdır: `build_data.py` içindeki `synthetic_species` ve `synthetic_lists`.
+
+## Vikipedi parçaları (ek bilgi)
+`ml/fetch_wiki.py` Hugging Face'teki `kaan39/turkish-wikipedia-dataset-clean` (CC BY-SA 4.0, Vikipedi maddeleri) akışından doğa konulu maddeleri süzer (tür maddeleri ve birkaç kavram maddesi). `ml/make_wiki_json.py` bunları `src/data/wiki.json` dosyasına çevirir (yaklaşık 210 madde; her birinin yalnızca giriş cümleleri ve kaynak bağlantısı). Soruda madde adı geçerse (`src/chatlogic.js` → `findWiki`) o parça modele verilir; modelin cevabı kaynak bağlantısıyla gösterilir. Ek eğitim için: `FT=1 INIT=<önceki.pt> EPOCHS=4 LR=6e-4 FINAL=1 python3 ml/train.py`.
