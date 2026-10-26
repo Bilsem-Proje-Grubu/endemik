@@ -6,6 +6,7 @@ import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, admin
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
+import { makeQuiz } from './quiz.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -82,7 +83,7 @@ let filter = 'all';
 let query = '';
 function viewHome() {
   const top = `<header class="topbar">
-    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
+    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small><a class="askbtn" href="#/yarisma">🏆 Yarışma</a>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
     <input class="search" id="q" type="search" placeholder="Tür adı ara…" value="${esc(query)}" autocomplete="off">
     <div class="chips">
       ${[['all', 'Hepsi'], ['fauna', 'Fauna'], ['flora', 'Flora'], ['loc', 'Lokalitesi olanlar']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}
@@ -361,6 +362,58 @@ function viewChat() {
   };
 }
 
+const QUIZ_KEY = 'endemik.quiz.best';
+const bestScore = () => { try { return +localStorage.getItem(QUIZ_KEY) || 0; } catch { return 0; } };
+const saveBest = (n) => { try { localStorage.setItem(QUIZ_KEY, String(n)); } catch { /* yoksay */ } };
+function viewQuiz() {
+  let quiz = null, i = 0, score = 0, locked = false, started = false;
+  shell(`<a class="back" href="#/">← Türler</a><h2 class="section-title">🏆 Bilgi yarışması</h2><div id="qz"></div>`, 'home');
+  const box = () => document.getElementById('qz');
+  dirtyCheck = () => started && !!quiz && i < quiz.length; // yarışma sürerken kaydırarak çıkılmasın
+  const intro = () => {
+    started = false;
+    box().innerHTML = `<div class="panel"><p>10 soru: fotoğraftan tür tanıma, bilimsel ad, yaşadığı yer, çiçeklenme ayı, tanım ve görünüş. Sorular 94 türün kayıtlarından üretilir.</p>
+      <p>En yüksek puanın: <b>${bestScore()}/10</b></p><button class="btn" id="qgo">Başla</button></div>`;
+    document.getElementById('qgo').onclick = () => { quiz = makeQuiz(species, 10); i = 0; score = 0; started = true; question(); };
+  };
+  const question = () => {
+    locked = false;
+    const q = quiz[i];
+    box().innerHTML = `<div class="qbar"><i style="width:${(i / quiz.length) * 100}%"></i></div>
+      <p class="note">Soru ${i + 1}/${quiz.length} · Puan: ${score}</p>
+      ${q.img ? `<img class="qimg" alt="Tür fotoğrafı" referrerpolicy="no-referrer" src="${esc(q.img)}">` : ''}
+      <h3 class="qq">${esc(q.q)}</h3>${q.text ? `<div class="panel qtext">${esc(q.text)}</div>` : ''}
+      <div id="qopts">${q.options.map((o, k) => `<button class="qopt" data-k="${k}">${esc(o)}</button>`).join('')}</div>
+      <div id="qfb"></div>`;
+    const im = box().querySelector('.qimg');
+    if (im) im.onerror = () => { im.replaceWith(Object.assign(document.createElement('p'), { className: 'note', textContent: '(Fotoğraf yüklenemedi; cevabı tahmin edebilirsiniz.)' })); };
+    box().querySelectorAll('.qopt').forEach((b) => (b.onclick = () => answer(+b.dataset.k)));
+  };
+  const answer = (k) => {
+    if (locked) return; locked = true;
+    const q = quiz[i], ok = k === q.answer; if (ok) score++;
+    box().querySelectorAll('.qopt').forEach((b, n) => { b.disabled = true; if (n === q.answer) b.classList.add('ok'); else if (n === k) b.classList.add('bad'); });
+    const last = i === quiz.length - 1;
+    document.getElementById('qfb').innerHTML = `<div class="panel"><b>${ok ? '✅ Doğru!' : '❌ Yanlış.'}</b>${ok ? '' : ` Doğru cevap: <b>${esc(q.correct)}</b>.`}<p class="note">${esc(q.explain)} · <a href="#/tur/${esc(q.sid)}">Tür sayfası ↗</a></p></div>
+      <button class="btn" id="qnext">${last ? 'Sonucu gör' : 'Sonraki soru'}</button>`;
+    document.getElementById('qnext').onclick = () => { i++; if (i < quiz.length) question(); else result(); };
+  };
+  const result = () => {
+    const prev = bestScore(), isBest = score > prev; if (isBest) saveBest(score);
+    started = false;
+    const msg = score >= 9 ? 'Harika! Gerçek bir doğa uzmanısın! 🌟' : score >= 7 ? 'Çok iyi! 🌿' : score >= 4 ? 'Fena değil, bir tur daha dene.' : 'Daha çok tür keşfetmeye ne dersin? 🔎';
+    box().innerHTML = `<div class="panel qres"><div class="qscore">${score}/${quiz.length}</div><p>${msg}</p>${isBest ? '<p><b>🏅 Yeni rekor!</b></p>' : `<p class="note">En yüksek puanın: ${Math.max(prev, score)}/10</p>`}</div>
+      <div class="row"><button class="btn" id="qagain">Tekrar oyna</button><button class="btn ghost" id="qshare">↗ Paylaş</button><a class="btn ghost" style="text-decoration:none" href="#/">Türlere dön</a></div>`;
+    document.getElementById('qagain').onclick = () => { quiz = makeQuiz(species, 10); i = 0; score = 0; started = true; question(); };
+    document.getElementById('qshare').onclick = async () => {
+      const link = location.origin + location.pathname + '#/yarisma';
+      try { if (navigator.share) await navigator.share({ title: 'Endemik bilgi yarışması', text: `Endemik bilgi yarışmasında ${score}/${quiz.length} yaptım! Sen kaç yapabilirsin?`, url: link }); else { await navigator.clipboard.writeText(link); toast('Bağlantı kopyalandı.'); } }
+      catch (err) { if (err && err.name !== 'AbortError') toast('Paylaşılamadı: ' + link, 6000); }
+    };
+  };
+  intro();
+}
+
 function viewPrivacy() {
   shell(`<a class="back" href="#/ayarlar">← Ayarlar</a>
     <h2 class="section-title">Gizlilik ve veri kullanımı</h2>
@@ -521,6 +574,7 @@ function route() {
   if (path === '/ekle') return viewAdd(new URLSearchParams(qs || '').get('tur'));
   if (path === '/ayarlar') return viewSettings();
   if (path === '/gizlilik') return viewPrivacy();
+  if (path === '/yarisma') return viewQuiz();
   if (path === '/sohbet') return viewChat();
   if (path === '/yonetim') return viewAdmin();
   viewHome();
