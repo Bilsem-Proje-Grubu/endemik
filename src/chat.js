@@ -4,11 +4,12 @@
 // 3) Model bilgi dışı bir şey yazarsa (uydurma kontrolü) hazır kalıp cevaba dönülür.
 import species from './data/species.json';
 import model from './data/chat-model.json';
+import wiki from './data/wiki.json';
 import { createBot } from './chatlogic.js';
 import { loadLM, generate, accept, repair } from './lm.js';
 
 export const chatAvailable = true;
-const bot = createBot(species, model);
+const bot = createBot(species, model, wiki);
 export const preloadLM = () => loadLM().catch(() => null);
 
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.

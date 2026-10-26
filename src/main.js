@@ -338,7 +338,7 @@ function viewChat() {
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
   const box = document.getElementById('chat'), inp = document.getElementById('cq'), btn = document.getElementById('cs');
-  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
+  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${m.src ? `<div class="src">Kaynak: <a href="${esc(m.src.url)}" target="_blank" rel="noopener">Vikipedi — ${esc(m.src.title)}</a> (CC BY-SA 4.0)</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
   const draw = () => {
     box.innerHTML = chatLog.length ? chatLog.map(bubble).join('') : '<div class="msg assistant">Merhaba! Ben Endemik. Türkiye\'nin endemik türleri hakkında soru sorabilirsiniz.</div>';
     box.scrollTop = box.scrollHeight;
@@ -353,7 +353,7 @@ function viewChat() {
     inp.value = ''; inp.disabled = btn.disabled = true;
     draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
     const r = await ask(q, { lastIds });
-    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source });
+    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source, src: r.src });
     inp.disabled = btn.disabled = false;
     draw(); inp.focus();
   };
@@ -418,7 +418,7 @@ function viewSettings() {
       </details></div>
     <div id="srv"></div>
     ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
-    <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
+    <div class="panel"><b>Hakkında</b><p>Sohbet botundaki ek bilgi parçaları <a href="https://tr.wikipedia.org" target="_blank" rel="noopener">Vikipedi</a> maddelerinden alınmıştır (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a>); her cevapta ilgili maddenin bağlantısı gösterilir. Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/gizlilik">Gizlilik ve veri kullanımı</a></p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
   const swon = document.getElementById('swon'), swnat = document.getElementById('swnat');

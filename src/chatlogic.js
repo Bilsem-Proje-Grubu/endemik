@@ -43,7 +43,7 @@ export const listCtx = (title, names) => `liste | ${title} | sayı: ${names.leng
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const cap = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 
-export function createBot(species, model) {
+export function createBot(species, model, wiki = []) {
   const byId = new Map(species.map((s) => [s.id, s]));
   const idx = species.map((s) => ({ id: s.id, nameW: ws(s.name).filter((w) => !SKIP_NAME.has(w)), sciW: ws(s.sci) }));
   const df = new Map();
@@ -55,6 +55,23 @@ export function createBot(species, model) {
     if (w.length < 4 || SKIP_PLACE.has(w)) continue;
     if (!places.has(w)) { places.set(w, new Set()); placeDisp.set(w, raw); }
     places.get(w).add(s.id);
+  }
+
+  // ---- Vikipedi parçaları (CC BY-SA 4.0): madde adı/takma adı soruda geçiyorsa o parça bulunur ----
+  const STOP = new Set(['nedir', 'hakkinda', 'bilgi', 'anlat', 'anlatir', 'misin', 'verir', 'ver', 'nasil', 'bir', 'nerede', 'yasar', 'neye', 'benzer', 'benziyor', 'kimdir', 'turu', 'ozellikleri', 'neler']);
+  // her madde için adlar: başlık ve takma adlar ("X ya da Y" biçimindeki parçalar ayrı ayrı); herhangi biri soruda eksiksiz geçerse madde bulunur
+  const wikiIdx = wiki.map((w, i) => ({ i, groups: [w.t, ...(w.a || '').split(/ ya da | veya /)].map((n) => [...new Set(ws(n))].filter((x) => x.length >= 3 && !STOP.has(x))).filter((g) => g.length) }));
+  const wdf = new Map(); for (const e of wikiIdx) for (const g of e.groups) for (const t of g) wdf.set(t, (wdf.get(t) || 0) + 1);
+  function findWiki(qw) {
+    let best = null;
+    for (const e of wikiIdx) for (const g of e.groups) {
+      let hit = 0, len = 0, raw = 0;
+      for (const t of g) if (qw.some((q) => same(q, t))) { hit++; raw += t.length; len += t.length / wdf.get(t); }
+      const need = Math.max(1, Math.ceil(g.length * 0.5));
+      const cand = { len, w: wiki[e.i], complete: hit === g.length };
+      if (hit >= need && raw >= 5 && (!best || (cand.complete && !best.complete) || (cand.complete === best.complete && len > best.len))) best = cand;
+    }
+    return best;
   }
 
   function findSpecies(qw) {
@@ -165,6 +182,9 @@ export function createBot(species, model) {
     const raw = fold(question).replace(/[<>]/g, '').split(' ').filter(Boolean);
     const qw = raw.map((w) => (w.length >= 2 ? w : ''));
     let sp = findSpecies(qw);
+    const wkEarly = findWiki(qw);
+    // Vikipedi maddesinin adı soruda tam geçiyor ve türlerimizden biri adıyla tam eşleşmiyorsa (ör. "Abant alabalığı" ≠ "Karadeniz Alabalığı") Vikipedi'ye öncelik ver
+    if (wkEarly?.complete && !sp.some((h) => h.strong)) sp = [];
     const strongWords = new Set(sp.filter((h) => h.strong).flatMap((h) => [...h.used]));
     // "Hatay", "Malatya" hem yer hem tür adının parçası: yer olarak bulunduysa, adı tam yazılmamış türler elenir
     const early = findTime(qw, strongWords), hasFlower = raw.some((w) => w.startsWith('cicek'));
@@ -177,6 +197,8 @@ export function createBot(species, model) {
     if (prob < 0.4) intent = 'bilinmiyor';
     Object.assign(info, { intent, pl, tm, qf: raw.join(' ') });
 
+    const wk = !sp.length && !pl.ids.length && !tm.months && !['selam', 'tesekkur', 'yardim', 'endemik'].includes(intent) ? wkEarly?.w : null;
+    if (wk) { info.wiki = wk; return { text: `${wk.t} için Vikipedi'de şöyle yazıyor: ${wk.x}`, ids: [], intent: 'wiki', src: { title: wk.t, url: wk.u } }; }
     if (intent === 'selam') return { text: pick(['Merhaba! Ben Endemik. Türkiye\'nin korunan türlerini sorabilirsin.', 'Selam! Hangi türü merak ediyorsun?', 'Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.']), ids: [], intent };
     if (intent === 'tesekkur') return { text: pick(['Rica ederim!', 'Ne demek, başka merak ettiğin bir tür var mı?', 'Memnun oldum. Doğayı korumak hepimizin işi.']), ids: [], intent };
     if (intent === 'yardim') return { text: `Şunları sorabilirsin: bir türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu. Örneğin: "${pick(EXAMPLES)}" Şimdilik yalnızca bu uygulamadaki ${species.length} türün kayıtlarını biliyorum.`, ids: [], intent };
@@ -231,7 +253,8 @@ export function createBot(species, model) {
     const info = {}; const r = replyCore(question, ctx, info);
     const q = info.qf || fold(question), e = pick(EXAMPLES), W = (t) => `<bilgi> ${t} <soru> ${q} <cevap>`;
     let prompts;
-    if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) prompts = info.ids.map((i) => W(speciesCtx(byId.get(i), info.intent)));
+    if (info.wiki) prompts = [W(`kaynak | ${info.wiki.t} | ${info.wiki.x}`)];
+    else if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) prompts = info.ids.map((i) => W(speciesCtx(byId.get(i), info.intent)));
     else if (['selam', 'tesekkur', 'endemik'].includes(info.intent)) prompts = [W(`sohbet | ${info.intent}`)];
     else if (info.intent === 'yardim') prompts = [W(`sohbet | yardım | örnek: ${e} | tür sayısı: ${species.length}`)];
     else if (info.list) prompts = [W(listCtx(info.list.title, info.list.names))];
@@ -243,7 +266,8 @@ export function createBot(species, model) {
     else prompts = [W(`sohbet | tür belirsiz | örnek: ${e}`)];
     // Cevapta eksiksiz geçmesi gereken bilgiler (uydurma/karıştırma kontrolü)
     let facts;
-    if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) facts = info.ids.map((i) => {
+    if (info.wiki) facts = [[info.wiki.x]];
+    else if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) facts = info.ids.map((i) => {
       const s = byId.get(i);
       if (info.intent === 'ozet') return [s.description];
       if (info.intent === 'yer') return [s.localities.slice(0, 6).map((x) => x.name).join(', ')];
