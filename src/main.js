@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
-import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos } from './supabase.js';
+import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos, submitScore, getTopScores, adminDeleteScore, validName } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
@@ -363,6 +363,9 @@ function viewChat() {
 }
 
 const QUIZ_KEY = 'endemik.quiz.best';
+const NAME_KEY = 'endemik.quiz.name';
+const savedName = () => { try { return localStorage.getItem(NAME_KEY) || ''; } catch { return ''; } };
+const saveName = (n) => { try { localStorage.setItem(NAME_KEY, n); } catch { /* yoksay */ } };
 const bestScore = () => { try { return +localStorage.getItem(QUIZ_KEY) || 0; } catch { return 0; } };
 const saveBest = (n) => { try { localStorage.setItem(QUIZ_KEY, String(n)); } catch { /* yoksay */ } };
 function viewQuiz() {
@@ -373,8 +376,9 @@ function viewQuiz() {
   const intro = () => {
     started = false;
     box().innerHTML = `<div class="panel"><p>10 soru: fotoğraftan tür tanıma, bilimsel ad, yaşadığı yer, çiçeklenme ayı, tanım ve görünüş. Sorular 94 türün kayıtlarından üretilir.</p>
-      <p>En yüksek puanın: <b>${bestScore()}/10</b></p><button class="btn" id="qgo">Başla</button></div>`;
+      <p>En yüksek puanın: <b>${bestScore()}/10</b></p><div class="row"><button class="btn" id="qgo">Başla</button>${hasBackend ? '<button class="btn ghost" id="qboard">🏅 Sıralama</button>' : ''}</div></div>`;
     document.getElementById('qgo').onclick = () => { quiz = makeQuiz(species, 10); i = 0; score = 0; started = true; question(); };
+    const bb = document.getElementById('qboard'); if (bb) bb.onclick = () => board(intro);
   };
   const question = () => {
     locked = false;
@@ -398,13 +402,40 @@ function viewQuiz() {
       <button class="btn" id="qnext">${last ? 'Sonucu gör' : 'Sonraki soru'}</button>`;
     document.getElementById('qnext').onclick = () => { i++; if (i < quiz.length) question(); else result(); };
   };
+  const board = async (back, me = savedName()) => {
+    box().innerHTML = '<p class="note">Sıralama yükleniyor…</p>';
+    try {
+      const [rows, ses] = await Promise.all([getTopScores(), hasBackend ? adminSession().catch(() => null) : null]);
+      const medal = (n) => (n === 0 ? '🥇' : n === 1 ? '🥈' : n === 2 ? '🥉' : `${n + 1}.`);
+      box().innerHTML = `<h3 class="qq">🏅 En iyi 20</h3>${rows.length ? `<ol class="qboard">${rows.map((r, n) => `<li class="${me && r.name.trim().toLocaleLowerCase('tr') === me.toLocaleLowerCase('tr') ? 'me' : ''}"><span class="rk">${medal(n)}</span><span class="nm">${esc(r.name)}</span><b>${r.score}/10</b>${ses ? `<button class="x" data-id="${r.id}" title="Sil">✕</button>` : ''}</li>`).join('')}</ol>` : '<p class="note">Henüz kimse katılmadı. İlk sen ol!</p>'}
+        <button class="btn ghost" id="qback">← Geri</button>`;
+      document.getElementById('qback').onclick = () => back();
+      box().querySelectorAll('.x').forEach((b) => (b.onclick = async () => { if (!confirm('Bu satır silinsin mi?')) return; try { await adminDeleteScore(b.dataset.id); board(back, me); } catch (e) { toast('Silinemedi: ' + (e.message || '')); } }));
+    } catch (err) {
+      box().innerHTML = `<div class="panel">${esc(err.message || 'Sıralama yüklenemedi.')}</div><button class="btn ghost" id="qback">← Geri</button>`;
+      document.getElementById('qback').onclick = () => back();
+    }
+  };
   const result = () => {
     const prev = bestScore(), isBest = score > prev; if (isBest) saveBest(score);
     started = false;
     const msg = score >= 9 ? 'Harika! Gerçek bir doğa uzmanısın! 🌟' : score >= 7 ? 'Çok iyi! 🌿' : score >= 4 ? 'Fena değil, bir tur daha dene.' : 'Daha çok tür keşfetmeye ne dersin? 🔎';
     box().innerHTML = `<div class="panel qres"><div class="qscore">${score}/${quiz.length}</div><p>${msg}</p>${isBest ? '<p><b>🏅 Yeni rekor!</b></p>' : `<p class="note">En yüksek puanın: ${Math.max(prev, score)}/10</p>`}</div>
+      ${hasBackend ? `<div class="panel" id="qsend"><b>🏅 Sıralamaya katıl</b><p class="note">Takma adını yaz (en çok 20 harf). Adın ve puanın herkese görünür; gerçek adını yazmak zorunda değilsin.</p>
+        <input class="search" id="qname" maxlength="20" placeholder="Takma ad" autocomplete="off" value="${esc(savedName())}"><div class="row"><button class="btn" id="qsub">Sıralamaya gönder</button><button class="btn ghost" id="qboard2">Sıralamayı gör</button></div></div>` : ''}
       <div class="row"><button class="btn" id="qagain">Tekrar oyna</button><button class="btn ghost" id="qshare">↗ Paylaş</button><a class="btn ghost" style="text-decoration:none" href="#/">Türlere dön</a></div>`;
     document.getElementById('qagain').onclick = () => { quiz = makeQuiz(species, 10); i = 0; score = 0; started = true; question(); };
+    const sub = document.getElementById('qsub');
+    if (sub) {
+      document.getElementById('qboard2').onclick = () => board(result);
+      sub.onclick = async () => {
+        const name = document.getElementById('qname').value;
+        if (!validName(name)) return toast('Takma ad 1-20 harf olmalı; < > & " \' / \\ kullanılamaz.', 4500);
+        sub.disabled = true;
+        try { await submitScore(name, score); saveName(name.trim()); toast('Puanın sıralamaya gönderildi!'); board(result, name.trim()); }
+        catch (err) { sub.disabled = false; toast(err.message || 'Gönderilemedi.', 5000); }
+      };
+    }
     document.getElementById('qshare').onclick = async () => {
       const link = location.origin + location.pathname + '#/yarisma';
       try { if (navigator.share) await navigator.share({ title: 'Endemik bilgi yarışması', text: `Endemik bilgi yarışmasında ${score}/${quiz.length} yaptım! Sen kaç yapabilirsin?`, url: link }); else { await navigator.clipboard.writeText(link); toast('Bağlantı kopyalandı.'); } }
@@ -432,6 +463,8 @@ function viewPrivacy() {
       <p>Kamera yalnızca “Fotoğraf çek” düğmesine bastığınızda açılır ve fotoğrafı çektiğinizde ya da vazgeçtiğinizde kapanır. Görüntü kaydedilmez. Çekilen fotoğraf, siz “Gönder”e basmadıkça cihazınızdan çıkmaz.</p></div>
     <div class="panel"><b>Konumunuz ve bildirimler</b>
       <p>“Konumumu kullan” ve yakındaki tür bildirimi için konumunuz yalnızca telefonunuzda kullanılır. Bildirim için konumunuz sunucuya gönderilmez. Konum iznini tarayıcı ayarlarından istediğiniz zaman kapatabilirsiniz.</p></div>
+    <div class="panel"><b>Yarışma sıralaması</b>
+      <p>Sıralamaya katılırsan yazdığın takma ad ve puanın herkese görünür (ve sunucuda saklanır). Gerçek adını yazmak zorunda değilsin. Katılmazsan hiçbir şey gönderilmez; en yüksek puanın yalnızca telefonunda durur. Uygunsuz bir ad görürsen yönetici siler.</p></div>
     <div class="panel"><b>Sohbet botu</b>
       <p>“Sor” bölümündeki sohbet botu telefonunuzda çalışır. Yazdığınız sorular hiçbir yere gönderilmez ve saklanmaz; sayfayı kapatınca sohbet silinir.</p></div>
     <div class="panel"><b>Başka kimler veri alır?</b>

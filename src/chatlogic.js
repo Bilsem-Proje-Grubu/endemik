@@ -43,7 +43,7 @@ export const listCtx = (title, names) => `liste | ${title} | sayı: ${names.leng
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const cap = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 
-export function createBot(species, model, wiki = []) {
+export function createBot(species, model, wiki = [], small = {}) {
   const byId = new Map(species.map((s) => [s.id, s]));
   const idx = species.map((s) => ({ id: s.id, nameW: ws(s.name).filter((w) => !SKIP_NAME.has(w)), sciW: ws(s.sci) }));
   const df = new Map();
@@ -197,8 +197,9 @@ export function createBot(species, model, wiki = []) {
     if (prob < 0.4) intent = 'bilinmiyor';
     Object.assign(info, { intent, pl, tm, qf: raw.join(' ') });
 
-    const wk = !sp.length && !pl.ids.length && !tm.months && !['selam', 'tesekkur', 'yardim', 'endemik'].includes(intent) ? wkEarly?.w : null;
+    const wk = !sp.length && !pl.ids.length && !tm.months && !['selam', 'tesekkur', 'yardim', 'endemik', ...Object.keys(small)].includes(intent) ? wkEarly?.w : null;
     if (wk) { info.wiki = wk; return { text: `${wk.t} için Vikipedi'de şöyle yazıyor: ${wk.x}`, ids: [], intent: 'wiki', src: { title: wk.t, url: wk.u } }; }
+    if (small[intent]) { info.small = intent; return { text: pick(small[intent].a).replace('{n}', String(species.length)), ids: [], intent }; }
     if (intent === 'selam') return { text: pick(['Merhaba! Ben Endemik. Türkiye\'nin korunan türlerini sorabilirsin.', 'Selam! Hangi türü merak ediyorsun?', 'Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.']), ids: [], intent };
     if (intent === 'tesekkur') return { text: pick(['Rica ederim!', 'Ne demek, başka merak ettiğin bir tür var mı?', 'Memnun oldum. Doğayı korumak hepimizin işi.']), ids: [], intent };
     if (intent === 'yardim') return { text: `Şunları sorabilirsin: bir türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu. Örneğin: "${pick(EXAMPLES)}" Şimdilik yalnızca bu uygulamadaki ${species.length} türün kayıtlarını biliyorum.`, ids: [], intent };
@@ -256,6 +257,7 @@ export function createBot(species, model, wiki = []) {
     if (info.wiki) prompts = [W(`kaynak | ${info.wiki.t} | ${info.wiki.x}`)];
     else if (info.ids?.length && ['ozet', 'yer', 'gorunum', 'cicek', 'statu'].includes(info.intent)) prompts = info.ids.map((i) => W(speciesCtx(byId.get(i), info.intent)));
     else if (['selam', 'tesekkur', 'endemik'].includes(info.intent)) prompts = [W(`sohbet | ${info.intent}`)];
+    else if (info.small) prompts = [W(`sohbet | ${info.small}` + (['yapiyor', 'yas'].includes(info.small) ? ` | tür sayısı: ${species.length}` : ['ad', 'yapan'].includes(info.small) ? ' | ad: Endemik | yapan: BİLSEM Proje Grubu' : ''))];
     else if (info.intent === 'yardim') prompts = [W(`sohbet | yardım | örnek: ${e} | tür sayısı: ${species.length}`)];
     else if (info.list) prompts = [W(listCtx(info.list.title, info.list.names))];
     else if (info.intent === 'liste') {

@@ -93,7 +93,7 @@ def ctx(s, intent):
 
 # ---- Sohbet ve genel durumlar ----
 CHAT = {
- 'selam': (['merhaba', 'selam', 'selamlar', 'merhabalar', 'hey', 'gunaydin', 'iyi gunler', 'iyi aksamlar', 'naber', 'nasilsin', 'merhaba nasilsin', 'slm', 'mrb', 'hello', 'orada misin'],
+ 'selam': (['merhaba', 'selam', 'selamlar', 'merhabalar', 'hey', 'gunaydin', 'iyi gunler', 'iyi aksamlar', 'slm', 'mrb', 'hello', 'orada misin'],
    ['Merhaba! Ben Endemik. Türkiye\'nin korunan türlerini sorabilirsin.', 'Selam! Hangi türü merak ediyorsun?', 'Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.', 'Selam, buradayım! Endemik türler hakkında ne öğrenmek istersin?', 'Merhaba! İyiyim, teşekkürler. Sen hangi türü merak ediyorsun?']),
  'tesekkur': (['tesekkurler', 'tesekkur ederim', 'sag ol', 'cok sagol', 'eyvallah', 'saol', 'harika tesekkurler', 'cok tesekkur ederim', 'sagolasin', 'eline saglik', 'yardimin icin tesekkurler'],
    ['Rica ederim!', 'Ne demek, başka merak ettiğin bir tür var mı?', 'Memnun oldum. Doğayı korumak hepimizin işi.', 'Ben teşekkür ederim! Başka bir şey sormak istersen buradayım.']),
@@ -102,7 +102,7 @@ CHAT = {
     'Bir canlının dünyada yalnızca belirli bir yerde yaşıyor olmasına endemik denir. Böyle türler yok olursa başka yerde bulunmadıkları için tamamen kaybolurlar.']),
 }
 EX = ['Kelaynak nerede yaşar?', 'Hopa engereği neye benziyor?', 'Ankara çevresinde hangi türler var?', 'Truva kardeleni ne zaman çiçek açar?', 'Endemik ne demek?']
-YARDIM_Q = ['yardim', 'ne yapabilirsin', 'ne sorabilirim', 'sen kimsin', 'bu ne', 'nasil kullanilir', 'neler yapabiliyorsun', 'bana yardim eder misin', 'hangi sorulara cevap verirsin', 'bu bot ne yapiyor', 'nasil soru sorayim', 'ornek soru ver', 'sen nesin', 'neleri biliyorsun']
+YARDIM_Q = ['yardim', 'ne yapabilirsin', 'ne sorabilirim', 'bu ne', 'nasil kullanilir', 'neler yapabiliyorsun', 'bana yardim eder misin', 'hangi sorulara cevap verirsin', 'bu bot ne yapiyor', 'nasil soru sorayim', 'ornek soru ver', 'neleri biliyorsun']
 YARDIM_A = ['Şunları sorabilirsin: bir türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu. Örneğin: "{e}"',
   'Ben Endemik\'im; Türkiye\'nin korunan {n} türünü tanıtıyorum. Mesela şöyle sorabilirsin: "{e}"', 'Bana türlerin yaşadığı yerleri, görünüşlerini, çiçeklenme zamanlarını ve korunma durumlarını sorabilirsin. Örneğin: "{e}"']
 DISI_Q = ['pizza nasil yapilir', 'hava nasil olacak', 'bugun mac kac kac bitti', 'matematik odevimi yap', 'bana sarki soyle', 'en iyi telefon hangisi', 'turkiyenin baskenti neresi', 'bitcoin ne olacak', 'yemek tarifi ver',
@@ -237,6 +237,17 @@ def wiki_synthetic(n, pool):
         out.append((f"<bilgi> kaynak | {title} | {text} <soru> {dress(pick(Q_WIKI).format(t=fold(title)))} <cevap>", a_wiki(title, text)))
     return out
 
+SMALL = json.load(open(os.path.join(ROOT, 'src/data/chat-small.json')))
+def small_ctx(k):
+    if k in ('yapiyor', 'yas'): return f'sohbet | {k} | tür sayısı: {len(SP)}'
+    if k in ('ad', 'yapan'): return f'sohbet | {k} | ad: Endemik | yapan: BİLSEM Proje Grubu'
+    return f'sohbet | {k}'
+def small_examples(n):
+    out = []
+    for k, v in SMALL.items():
+        for _ in range(n): out.append((f'<bilgi> {small_ctx(k)} <soru> {dress(pick(v["q"]))} <cevap>', pick(v['a']).replace('{n}', str(len(SP)))))
+    return out
+
 def examples(species, n_variants, places, extras=True):
     out = []
     nf, nb = a_genel(SP)
@@ -299,6 +310,8 @@ def template_words():
         for p in ('ile ilgili kayıtlı tür var', 'Kayıtlarda çevresinde şu türler geçiyor', 'yöresinde bilinen türler'): add(p)
         for k in (0, 1, 3, 12): add(liste_ans('ZQX', ['ZQX'] * k))
         add(a_wiki('ZQX', 'ZQX'))
+        for v in SMALL.values():
+            for a in v['a']: add(a.replace('{n}', ''))
     ws.discard('zqx')
     return sorted(ws)
 
@@ -308,7 +321,7 @@ if __name__ == '__main__':
     FINAL = os.environ.get('FINAL') == '1'
     hold = SP[:8]; train_sp = SP if FINAL else SP[8:]
     pl_train = places
-    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp) + synthetic_lists2(2500, train_sp) + wiki_examples(WIKI, 8) + wiki_synthetic(1500, train_sp); va = examples(hold, 14, {})
+    tr = examples(train_sp, 14, pl_train) + examples(synthetic_species(2600, train_sp), 3, {}, extras=False) + synthetic_lists(4000, train_sp) + synthetic_lists2(2500, train_sp) + wiki_examples(WIKI, 8) + wiki_synthetic(1500, train_sp) + small_examples(130); va = examples(hold, 14, {})
     random.shuffle(tr)
     for name, data in (('train', tr), ('val', va)):
         with open(os.path.join(os.path.dirname(__file__), f'{name}.jsonl'), 'w') as f:
