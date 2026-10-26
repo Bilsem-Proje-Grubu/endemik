@@ -275,6 +275,7 @@ def template_words():
         for a in YARDIM_A + DISI_A + BELIRSIZ_A: add(a.format(e='', n=''))
         add(f'Elimde tür var hayvan bitki Örneğin Bir tür adı yazarsan ayrıntısını anlatırım Toplam tanıtıyorum tanesi birkaç örnek')
         for p in ('ile ilgili kayıtlı tür var', 'Kayıtlarda çevresinde şu türler geçiyor', 'yöresinde bilinen türler'): add(p)
+        for k in (0, 1, 3, 12): add(liste_ans('ZQX', ['ZQX'] * k))
     ws.discard('zqx')
     return sorted(ws)
 
