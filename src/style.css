@@ -106,3 +106,9 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 .chatform input { flex: 1; min-width: 0; }
 
 .msg .src { margin-top: 6px; font-size: 11px; color: var(--muted); }
+
+.dbg { margin-top: 6px; font-size: 12px; border-top: 1px dashed var(--line); padding-top: 4px; }
+.dbg summary { cursor: pointer; color: var(--muted); }
+.dbgrow { margin: 6px 0; word-break: break-word; }
+.dbgrow .why { color: var(--warn, #c0392b); }
+.msg.user .dbg { display: none; }

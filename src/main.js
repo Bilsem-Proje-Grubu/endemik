@@ -329,6 +329,7 @@ function viewAdd(preselect) {
 }
 
 // ---------- Ayarlar ----------
+let isAdmin = false; // yalnızca yönetici oturumu açıkken model çıktısı gösterilir
 let chatLog = []; // {role:'user'|'assistant', text, ids}
 function viewChat() {
   shell(`<a class="back" href="#/">← Türler</a>
@@ -338,12 +339,13 @@ function viewChat() {
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
   const box = document.getElementById('chat'), inp = document.getElementById('cq'), btn = document.getElementById('cs');
-  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${m.src ? `<div class="src">Kaynak: <a href="${esc(m.src.url)}" target="_blank" rel="noopener">Vikipedi — ${esc(m.src.title)}</a> (CC BY-SA 4.0)</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
+  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${isAdmin && m.debug ? `<details class="dbg"><summary>🛠 Yönetici: model çıktısı</summary>${m.debug.map((d, i) => `<div class="dbgrow"><b>${m.debug.length > 1 ? `Parça ${i + 1}: ` : ''}${d.ok ? '✅ kabul edildi' : '❌ reddedildi, hazır kalıp gösterildi'}</b>${d.why ? `<div class="why">${esc(d.why)}</div>` : ''}<div><i>Modele verilen bilgi:</i> ${esc(d.prompt.slice(0, 500))}</div><div><i>Modelin yazdığı:</i> ${esc(d.raw || '(boş)')}</div>${d.fixed ? `<div><i>Harf onarımından sonra:</i> ${esc(d.fixed)}</div>` : ''}</div>`).join('')}</details>` : ''}${m.src ? `<div class="src">Kaynak: <a href="${esc(m.src.url)}" target="_blank" rel="noopener">Vikipedi — ${esc(m.src.title)}</a> (CC BY-SA 4.0)</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
   const draw = () => {
     box.innerHTML = chatLog.length ? chatLog.map(bubble).join('') : '<div class="msg assistant">Merhaba! Ben Endemik. Türkiye\'nin endemik türleri hakkında soru sorabilirsiniz.</div>';
     box.scrollTop = box.scrollHeight;
   };
   draw(); preloadLM();
+  if (hasBackend) adminSession().then((ses) => { if (!!ses !== isAdmin) { isAdmin = !!ses; draw(); } }).catch(() => {});
   document.getElementById('cf').onsubmit = async (e) => {
     e.preventDefault();
     const q = inp.value.trim();
@@ -353,7 +355,7 @@ function viewChat() {
     inp.value = ''; inp.disabled = btn.disabled = true;
     draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
     const r = await ask(q, { lastIds });
-    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source, src: r.src });
+    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source, src: r.src, debug: r.debug });
     inp.disabled = btn.disabled = false;
     draw(); inp.focus();
   };
