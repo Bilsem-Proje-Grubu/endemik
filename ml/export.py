@@ -8,6 +8,6 @@ buf = []; layout = []; off = 0
 for n in names:
     a = ck['sd'][n].numpy().astype(np.float16); buf.append(a.tobytes()); layout.append({'n': n, 'shape': list(a.shape), 'off': off}); off += a.size
 open(os.path.join(OUT, 'lm.bin'), 'wb').write(b''.join(buf))
-json.dump({'cfg': ck['cfg'], 'layout': layout, 'vocab': tj['vocab'], 'merges': tj['merges'], 'template': json.load(open(os.path.join(D, 'template_words.json')))},
+json.dump({'cfg': ck['cfg'], 'layout': layout, 'vocab': tj['vocab'], 'merges': tj['merges'], 'template': json.load(open(os.path.join(D, 'template_words.json'))), 'template_by_type': json.load(open(os.path.join(D, 'template_by_type.json')))},
           open(os.path.join(OUT, 'lm.json'), 'w'), ensure_ascii=False)
 print('lm.bin', off * 2 // 1024, 'KB')

@@ -26,7 +26,7 @@ export async function loadLM() {
       W[t.n] = a;
     }
     const rank = new Map(meta.merges.map((m, i) => [m[0] + '\u0001' + m[1], i]));
-    M = { cfg: meta.cfg, W, vocab: meta.vocab, id: new Map(meta.vocab.map((t, i) => [t, i])), rank, template: new Set(meta.template), cache: new Map() };
+    M = { templateBy: Object.fromEntries(Object.entries(meta.template_by_type || {}).map(([k, v]) => [k, new Set(v)])), cfg: meta.cfg, W, vocab: meta.vocab, id: new Map(meta.vocab.map((t, i) => [t, i])), rank, template: new Set(meta.template), cache: new Map() };
     return M;
   })().catch((e) => { loading = null; throw e; });
   return loading;
@@ -114,9 +114,17 @@ export async function generate(m, prompt, { temp = 0.7, topk = 6, maxNew = 200 }
 }
 
 // Uydurma kontrolü: cevaptaki her sözcük ya şablon sözcüğü olmalı ya da bilgi parçasında geçmeli.
+// Bilgi parçasının türü: "Ad | yer | …" → yer; "liste | …" → liste; "yer | Ankara | türler…" → yer-liste; "genel | …", "kaynak | …"
+export function promptType(prompt) {
+  const f = prompt.replace(/^<bilgi>\s*/, '').split(' <soru>')[0].split(' | ');
+  if (f[0] === 'yer') return 'yer-liste';
+  if (['liste', 'genel', 'kaynak', 'sohbet'].includes(f[0])) return f[0];
+  return f[1];
+}
 export function unsupportedWords(m, prompt, answer) {
   const src = new Set(fold(prompt.replace(/<bilgi>|<soru>|<cevap>/g, ' ')).split(' '));
-  return fold(answer).split(' ').filter((w) => w && !m.template.has(w) && !src.has(w));
+  const own = m.templateBy?.[promptType(prompt)]; // bu soru türüne özgü şablon sözcükleri (yoksa genel liste)
+  return fold(answer).split(' ').filter((w) => w && !(own ? own.has(w) : m.template.has(w)) && !src.has(w));
 }
 
 // Onarım: model uzun bir metni kopyalarken harf bozarsa ("kabuklı", "horum") bilgi parçasındaki en yakın sözcükle düzeltilir.

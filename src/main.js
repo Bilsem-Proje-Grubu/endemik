@@ -645,7 +645,7 @@ flushQueue().catch(() => {});
 function askDownload(cb) {
   if (document.getElementById('askcard')) return;
   // Form doldururken (Lokalite ekle) veya yönetici sayfasında kart çıkmaz; sayfadan ayrılınca gösterilir.
-  const busy = () => /^#\/(ekle|yonetim)/.test(location.hash);
+  const busy = () => /^#\/(ekle|yonetim|sohbet|yarisma)/.test(location.hash);
   if (busy()) {
     const again = () => { if (!busy()) { window.removeEventListener('hashchange', again); askDownload(cb); } };
     window.addEventListener('hashchange', again);

@@ -8,6 +8,7 @@ rows = [json.loads(l) for l in open(sys.argv[1])]
 out = []; seen = set(); drop = 0
 for r in rows:
     if r['title'] in seen: continue
+    if re.search(r'\(\d{1,2} \w+ \d{4}|basketbol|futbol|voleybol|spor kulübü|\bGSK\b|\bargan yağı\b|\bakademisyen\b|\byazar\b|\bşirket\b', r['text'] + ' ' + r['title'], re.I): drop += 1; continue  # tür/kavram dışı maddeler (kişi, spor, ürün)
     t = re.sub(r'\s+', ' ', r['text']).strip()
     t = re.sub(r'\s*\((?:İngilizce|Latince|Fransızca|Almanca)[^)]*\)', '', t)  # dil notlarını at
     if T.id['<unk>'] in T.encode(t + ' ' + r['title']) or len(T.encode(t)) > 230: drop += 1; continue
