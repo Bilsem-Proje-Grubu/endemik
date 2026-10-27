@@ -10,6 +10,7 @@ import tpl from './data/chat-templates.json';
 import { fold } from './chatmodel.js';
 import { createBot } from './chatlogic.js';
 import { loadLM, generate, explain, repair } from './lm.js';
+import { onlineEnabled, extractQuery, lookupWikipedia } from './online.js';
 
 export const chatAvailable = true;
 const bot = createBot(species, model, wiki, small, tpl);
@@ -17,7 +18,17 @@ export const preloadLM = () => loadLM().catch(() => null);
 
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.
 export async function ask(question, ctx) {
-  const r = bot.reply(question, ctx);
+  let r = bot.reply(question, ctx);
+  // Yerel kayıtlarda bulunamayan canlı adı: izin verilmişse Vikipedi'de aranır (aranan ad tr.wikipedia.org'a gider)
+  if (r.unresolved && onlineEnabled() && navigator.onLine !== false) {
+    const query = extractQuery(question);
+    if (query) {
+      const hit = await lookupWikipedia(query).catch(() => null);
+      if (!hit) return { ...r, text: `Vikipedi'de «${query}» adlı bir canlı maddesi bulamadım. ${r.text}`, source: 'kalip', debug: [{ prompt: '(internet araması)', raw: '', fixed: '', ok: false, why: `Vikipedi araması «${query}» için uygun madde bulamadı (başlık soruyla eşleşmedi ya da canlı maddesi değil).` }] };
+      const prompt = `<bilgi> kaynak | ${hit.title} | ${hit.text} <soru> ${fold(question).replace(/[<>]/g, '')} <cevap>`;
+      r = { ...r, intent: 'wiki-online', ids: [], text: `${hit.title} için Vikipedi'de şöyle yazıyor: ${hit.text}`, src: { title: hit.title, url: hit.url }, online: true, prompts: [prompt], facts: [[hit.text]], allowed: [null], parts: [`${hit.title} için Vikipedi'de şöyle yazıyor: ${hit.text}`] };
+    }
+  }
   if (!r.prompts.length) return { ...r, source: 'kalip', debug: [{ prompt: '(modele bilgi parçası verilmedi)', raw: '', fixed: '', ok: false, why: 'Bu soru türü için model kullanılmıyor; hazır kalıp gösterildi.' }] };
   const lm = await preloadLM();
   if (!lm) return { ...r, source: 'kalip', debug: [{ prompt: '', raw: '', fixed: '', ok: false, why: 'Model dosyası yüklenemedi.' }] };
