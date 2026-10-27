@@ -112,6 +112,9 @@ DISI_A = ['Ben yalnızca Türkiye\'nin korunan türleri ve doğa hakkında konu�
   'Burada işim endemik türler; o konuda bilgim yok. Ama şunu sorabilirsin: "{e}"', 'Bu soruya cevap veremiyorum. Türler hakkında soru sorarsan severek anlatırım. Örneğin: "{e}"']
 BELIRSIZ_A = ['Hangi türü soruyorsun? Tür adını yazarsan söyleyebilirim. Örneğin: "{e}"', 'Hangi türden bahsettiğini anlayamadım. Tür adını yazar mısın? Örneğin: "{e}"']
 BELIRSIZ_Q = ['nerede yasar', 'neye benziyor', 'ne zaman cicek acar', 'korunuyor mu', 'nedir', 'hakkinda bilgi ver', 'nerede bulunur', 'nasil gorunur', 'tehlikede mi', 'ne zaman ciceklenir']
+_T = json.load(open(os.path.join(ROOT, 'src/data/chat-templates.json')))  # tarayıcıdaki izinli cümlelerle aynı kaynak
+for _k in ('selam', 'tesekkur', 'endemik'): CHAT[_k] = (CHAT[_k][0], _T[_k])
+YARDIM_A, DISI_A, BELIRSIZ_A = _T['yardim'], _T['disi'], _T['belirsiz']
 def a_genel(species):
     f = sum(1 for s in species if s['group'] == 'fauna'); b = len(species) - f
     return f, b
@@ -314,6 +317,22 @@ def template_words():
             for a in v['a']: add(a.replace('{n}', ''))
     ws.discard('zqx')
     return sorted(ws)
+
+def template_words_by_type():
+    """Soru türü başına izinli şablon sözcükleri: bir türün cevabında başka bir soru türüne ait cümle sözcükleri çıkarsa reddedilir."""
+    dummy = {'name': 'ZQX', 'sci': 'ZQX', 'group': 'fauna', 'description': 'ZQX', 'morphology': 'ZQX', 'flowering': 'ZQX', 'statusNational': 'ZQX', 'statusIntl': 'ZQX', 'localities': [{'name': 'ZQX'}] * 9}
+    variants = [dummy, dict(dummy, group='flora'), dict(dummy, description=None, morphology=None, flowering=None, statusNational=None, statusIntl=None, localities=[]), dict(dummy, group='flora', description=None, morphology=None, flowering=None, statusNational=None, statusIntl=None, localities=[])]
+    out = {}
+    def add(k, t): out.setdefault(k, set()).update(fold(t).split())
+    for _ in range(400):
+        for d in variants:
+            for key, name in (('ozet', 'ozet'), ('yer', 'yer'), ('gorunum', 'görünüş'), ('cicek', 'çiçeklenme'), ('statu', 'statü')): add(name, A[key](d))
+        for k in (0, 1, 3, 12): add('liste', liste_ans('ZQX', ['ZQX'] * k))
+        add('kaynak', a_wiki('ZQX', 'ZQX'))
+        add('yer-liste', pick(['ZQX ile ilgili kayıtlı 12 tür var: ZQX.', 'Kayıtlarda ZQX çevresinde şu türler geçiyor: ZQX.', 'ZQX yöresinde bilinen türler: ZQX.']))
+        add('genel', pick(['Elimde 94 tür var: 30 hayvan, 64 bitki. Örneğin: ZQX. Bir tür adı yazarsan ayrıntısını anlatırım.', 'Toplam 94 tür tanıtıyorum; 30 tanesi hayvan, 64 tanesi bitki. Birkaç örnek: ZQX.']))
+    for v in out.values(): v.discard('zqx')
+    return {k: sorted(v) for k, v in out.items()}
 
 if __name__ == '__main__':
     places = place_index()

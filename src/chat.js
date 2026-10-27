@@ -6,11 +6,13 @@ import species from './data/species.json';
 import model from './data/chat-model.json';
 import wiki from './data/wiki.json';
 import small from './data/chat-small.json';
+import tpl from './data/chat-templates.json';
+import { fold } from './chatmodel.js';
 import { createBot } from './chatlogic.js';
 import { loadLM, generate, explain, repair } from './lm.js';
 
 export const chatAvailable = true;
-const bot = createBot(species, model, wiki, small);
+const bot = createBot(species, model, wiki, small, tpl);
 export const preloadLM = () => loadLM().catch(() => null);
 
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.
@@ -25,6 +27,7 @@ export async function ask(question, ctx) {
     try { raw = await generate(lm, r.prompts[i], { temp: 0.7 }); } catch (e) { err = String(e?.message || e); }
     const fixed = raw ? repair(lm, r.prompts[i], raw) : null;
     const v = explain(lm, r.prompts[i], fixed, r.facts[i]);
+    if (v.ok && r.allowed?.[i] && !r.allowed[i].includes(fold(fixed))) { v.ok = false; v.why = 'Model bu soru türüne uymayan bir cümle yazdı (sohbet cümleleri sabit bir kümeden olmalı).'; }
     debug.push({ prompt: r.prompts[i], raw: raw || '', fixed: fixed && fixed !== raw ? fixed : '', ok: v.ok, why: err || v.why });
     if (v.ok) { out.push(fixed); fromModel++; } else out.push(r.parts[i] ?? r.parts[0]);
   }
