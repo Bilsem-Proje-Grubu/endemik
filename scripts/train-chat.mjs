@@ -92,12 +92,15 @@ for (let ep = 0; ep < 60; ep++) {
   }
 }
 const r = (x) => Math.round(x * 100) / 100;
-const model = { intents, idx, w: W.map((row) => Array.from(row, r)), b: Array.from(B, r) };
+const known = [...new Set([...Object.values(T).flat(), ...PRE, ...POST].flatMap((q) => fold(q.replace(/<[a-z]+>/g, ' ')).split(' ')).filter((w) => w.length >= 3))].sort(); // sınıflandırıcının tanıdığı sözcükler
+const model = { known, intents, idx, w: W.map((row) => Array.from(row, r)), b: Array.from(B, r) };
 writeFileSync(new URL('../src/data/chat-model.json', import.meta.url), JSON.stringify(model));
 console.log(`Eğitim örneği: ${data.length}, sınıf: ${C}, kullanılan özellik: ${D}`);
 
 // ---- Ölçüm: eğitimde kullanılmayan, elle yazılmış sorular (gerçek tür/yer adlarıyla) ----
-const bot = createBot(species, model);
+const TPL = JSON.parse(readFileSync(new URL('../src/data/chat-templates.json', import.meta.url)));
+const WIKI = JSON.parse(readFileSync(new URL('../src/data/wiki.json', import.meta.url)));
+const bot = createBot(species, model, WIKI, SMALL, TPL);
 const TEST = {
   ozet: ['Kelaynak nedir?', 'Hopa engereği hakkında bilgi verir misin', 'Van kertenkelesi nasıl bir canlı, anlatsana', 'Truva kardeleni ile ilgili bir şeyler söyle', 'Toy kuşunu tanıt', 'Fırat kaplumbağası kimdir', 'Merak ettim, Kulindor ne?'],
   yer: ['Kelaynak nerede yaşıyor?', 'Fırat kaplumbağasını nerelerde görebilirim', 'Truva kardeleni hangi ilde yetişir', 'Hopa engereğinin yayılış alanı neresi', 'Toy kuşu hangi bölgelerde bulunur', 'Van kertenkelesi nerelerde var'],

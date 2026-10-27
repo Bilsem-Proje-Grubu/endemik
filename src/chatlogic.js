@@ -8,8 +8,9 @@ const SKIP_PLACE = new Set(['cevresi', 'civari', 'koyu', 'koyleri', 'yoresi', 'd
   'ilcesi', 'belediyesi', 'milli', 'parki', 'merkez', 'bolgesi', 'arasinda', 'kuzey', 'guney', 'dogu', 'bati', 'yakini', 'kiyilari', 'sahili', 'hatti']);
 const ws = (s) => fold(s).replace(/[<>]/g, '').split(' ').filter((w) => w.length >= 2);
 // "kelaynagi" ile "kelaynak" gibi ek almış biçimler eşleşsin
-const same = (a, b) => {
+const same = (a, b) => { // a: sorudaki sözcük, b: ad sözcüğü. Ek soruda olur (kelaynağı ← kelaynak); soru sözcüğü ad sözcüğünün kısa bir başı olamaz (kaplan ≠ kaplanotu)
   if (a === b) return true;
+  if (a.length < b.length - 1 || a.length - b.length > 5) return false;
   let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
   return i >= 4 && i >= Math.min(a.length, b.length) - 2;
 };
@@ -45,7 +46,8 @@ const cap = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 
 export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
   const byId = new Map(species.map((s) => [s.id, s]));
-  const idx = species.map((s) => ({ id: s.id, nameW: ws(s.name).filter((w) => !SKIP_NAME.has(w)), sciW: ws(s.sci) }));
+  const idx = species.map((s) => ({ id: s.id, nameW: ws(s.name).filter((w) => !SKIP_NAME.has(w)), allW: ws(s.name), sciW: ws(s.sci) }));
+  const idxById = new Map(idx.map((e) => [e.id, e]));
   const df = new Map();
   for (const e of idx) for (const w of new Set(e.nameW)) df.set(w, (df.get(w) || 0) + 1);
   // yer adı → o yerde bilinen türler
@@ -74,16 +76,22 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     return best;
   }
 
+  // Ad sözcüklerinin bu kümedekileri ayırt edici sayılmaz (renk, boyut, bölge): "kızıl", "anadolu" tek başına bir türü göstermez
+  const GENERIC = new Set(['kizil', 'kara', 'sari', 'beyaz', 'mavi', 'yesil', 'buyuk', 'kucuk', 'uzun', 'kisa', 'anadolu', 'turk', 'turkiye', 'dogu', 'bati', 'kuzey', 'guney', 'yaban', 'boz', 'gri', 'akdeniz', 'karadeniz', 'ege', 'marmara', 'toros', 'van', 'adi', 'bayagi', 'yerli']);
   function findSpecies(qw) {
     const hits = [];
     for (const e of idx) {
-      let score = 0; const used = new Set(); let all = e.nameW.length > 0;
-      e.nameW.forEach((w) => {
-        let hit = false;
-        qw.forEach((q, i) => { if (same(q, w)) { score += w.length / (df.get(w) ** 2); used.add(i); hit = true; } });
-        if (!hit) all = false;
-      });
-      if (all) score += 10 + e.nameW.length; // türün adındaki tüm sözcükler soruda varsa kesin eşleşme
+      // "Mersin İli Akdeniz Foku": il adı ve "ili" zorunlu değil
+      const toks = e.nameW.filter((w, i, a) => !(w === 'ili' || a[i + 1] === 'ili'));
+      let score = 0; const used = new Set(); const matched = new Set();
+      e.nameW.forEach((w) => qw.forEach((q, i) => { if (same(q, w)) { score += w.length / (df.get(w) ** 2); used.add(i); matched.add(w); } }));
+      const all = toks.length > 0 && toks.every((w) => matched.has(w));   // adın tüm sözcükleri soruda: kesin eşleşme
+      if (all) score += 10 + toks.length;
+      else if (toks.length > 1) {
+        // kısmi eşleşme yalnızca şu durumda kabul: adın ana sözcüğü (son sözcük) dışındakilerin hepsi yazılmış ve bunlardan biri ayırt edici
+        const head = toks[toks.length - 1], rest = toks.slice(0, -1);
+        if (!(rest.every((w) => matched.has(w)) && rest.some((w) => !GENERIC.has(w) && w.length >= 4))) score = 0;
+      } else if (toks.length === 1 && !matched.has(toks[0])) score = 0;
       e.sciW.forEach((w) => qw.forEach((q, i) => { if (q === w) { score += w.length; used.add(i); } }));
       if (score >= 2.5) hits.push({ id: e.id, score, used, strong: all });
     }
@@ -97,7 +105,7 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     qw.forEach((q, i) => {
       if (speciesWords.has(i) || q.length < 4) return;
       // yer adı ya aynen yazılır ya da ek alır ("Ankara'da" → ankarada); kısa ekten fazlası eşleşme sayılmaz
-      for (const [w, set] of places) if (q === w || (q.startsWith(w) && q.length - w.length <= 4)) { found.push(...set); used.add(i); disp = disp || placeDisp.get(w); break; }
+      for (const [w, set] of places) if (!GENERIC.has(w) && (q === w || (q.startsWith(w) && q.length - w.length <= 4))) { found.push(...set); used.add(i); disp = disp || placeDisp.get(w); break; }
     });
     return { ids: [...new Set(found)], used, disp };
   }
@@ -191,6 +199,12 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     const early = findTime(qw, strongWords), hasFlower = raw.some((w) => w.startsWith('cicek'));
     const pl = findPlaces(qw, new Set([...strongWords, ...(hasFlower ? early.idx : [])]));
     if (pl.ids.length) sp = sp.filter((h) => h.strong);
+    // Tür adının yalnızca bir kısmı tutmuşsa ve soruda başka tanınmayan bir sözcük varsa ("Kızıl panda" ≠ "Kızıl Kaplanotu") eşleşme sayılmaz
+    const known = new Set(model.known || []);
+    const novel = (skip) => qw.some((w, i) => w.length >= 3 && !skip.has(i) && !known.has(w));
+    if (sp.length && !sp.some((h) => h.strong) && novel(new Set(sp.flatMap((h) => [...h.used])))) sp = [];
+    // Adın hemen önünde tanınmayan bir sıfat varsa ("mor sümbül" ≠ "Sümbül") başka bir canlı sorulmuş olabilir: eşleşme sayılmaz
+    sp = sp.filter((h) => { const i = Math.min(...h.used) - 1; const pv = qw[i]; return !(h.strong && pv && pv.length >= 3 && !known.has(pv) && !pl.used.has(i) && !idxById.get(h.id).allW.includes(pv)); });
     const spWords = new Set(sp.flatMap((h) => [...h.used]));
     const tm = findTime(qw, new Set([...spWords, ...pl.used]));
     const masked = raw.map((w, i) => (spWords.has(i) ? 'tur' : pl.used.has(i) ? 'yer' : tm.idx.has(i) ? 'ay' : w)).filter((w, i, a) => !((w === 'tur' || w === 'yer' || w === 'ay') && a[i - 1] === w)).join(' '); // "Fırat kaplumbağası" iki sözcük ama tek tür
@@ -198,7 +212,8 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     if (prob < 0.4) intent = 'bilinmiyor';
     Object.assign(info, { intent, pl, tm, qf: raw.join(' ') });
 
-    const wk = !sp.length && !pl.ids.length && !tm.months && !['selam', 'tesekkur', 'yardim', 'endemik', ...Object.keys(small)].includes(intent) ? wkEarly?.w : null;
+    const wkOk = wkEarly && (wkEarly.complete || !novel(new Set()));
+    const wk = !sp.length && !pl.ids.length && !tm.months && !['selam', 'tesekkur', 'yardim', 'endemik', 'zaman', 'tehdit', 'liste', ...Object.keys(small)].includes(intent) && wkOk ? wkEarly.w : null;
     if (wk) { info.wiki = wk; return { text: `${wk.t} için Vikipedi'de şöyle yazıyor: ${wk.x}`, ids: [], intent: 'wiki', src: { title: wk.t, url: wk.u } }; }
     if (small[intent]) { info.small = intent; return { text: pick(small[intent].a).replace('{n}', String(species.length)), ids: [], intent }; }
     if (intent === 'selam') return { text: pick(tpl.selam), ids: [], intent };
@@ -235,12 +250,12 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
       const ex = pool.slice().sort(() => Math.random() - 0.5).slice(0, 5).map((s) => s.name).join(', ');
       return { text: `Elimde ${species.length} tür var: ${species.filter((s) => s.group === 'fauna').length} hayvan, ${species.filter((s) => s.group === 'flora').length} bitki. Örneğin: ${ex}. Bir tür adı yazarsan ayrıntısını anlatırım; bir yer adı yazarsan oradaki türleri söylerim.`, ids: [], intent };
     }
-    if (intent === 'disi') return { text: tfill(tpl.disi), ids: [], intent };
-    if (intent === 'bilinmiyor') return { text: `Bunu tam anlayamadım. Şöyle sorabilirsin: "${pick(EXAMPLES)}"`, ids: [], intent };
+    if (intent === 'disi') return { text: tfill(tpl.disi), ids: [], intent, unresolved: true };
+    if (intent === 'bilinmiyor') return { text: `Bunu tam anlayamadım. Şöyle sorabilirsin: "${pick(EXAMPLES)}"`, ids: [], intent, unresolved: true };
 
     let ids = sp.map((h) => h.id);
     if (!ids.length) ids = ctx.lastIds || [];
-    if (!ids.length) return { text: tfill(tpl.belirsiz), ids: [], intent };
+    if (!ids.length) return { text: tfill(tpl.belirsiz), ids: [], intent, unresolved: true };
     info.ids = ids.slice(0, 2);
     const use = ids.slice(0, 2).map((i) => byId.get(i));
     const text = use.map((s) => compose(intent, s)).join('\n\n');
