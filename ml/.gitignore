@@ -4,3 +4,5 @@
 __pycache__/
 tok.json
 tok_holdout.json
+*.npz
+*.npy
