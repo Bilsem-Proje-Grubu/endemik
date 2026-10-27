@@ -80,12 +80,26 @@ export function classify(m, feat) {
   return classes.map((name, i) => ({ name, p: p[i] })).sort((a, b) => b.p - a.p);
 }
 
-// Tarayıcıda: görüntüyü 256'ya ölçekle, ortadan 224×224 kes, ImageNet ortalama/sapmasıyla normalleştir (HWC)
-export function preprocess(img) {
-  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height, sc = 256 / Math.min(w, h), rw = Math.round(w * sc), rh = Math.round(h * sc);
+// Tarayıcıda bir "görünüm" hazırlar: kısa kenarı `size`'a ölçekle, ortadan 224×224 kes, (isteğe bağlı) yatay çevir, ImageNet ortalama/sapmasıyla normalleştir (HWC)
+export function preprocess(img, view = { size: 256, flip: false }) {
+  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height, sc = view.size / Math.min(w, h), rw = Math.max(224, Math.round(w * sc)), rh = Math.max(224, Math.round(h * sc));
   const c = document.createElement('canvas'); c.width = rw; c.height = rh; const g = c.getContext('2d', { willReadFrequently: true }); g.imageSmoothingQuality = 'high'; g.drawImage(img, 0, 0, rw, rh);
   const ox = Math.round((rw - 224) / 2), oy = Math.round((rh - 224) / 2), d = g.getImageData(ox, oy, 224, 224).data, x = new Float32Array(224 * 224 * 3);
   const M = [0.485, 0.456, 0.406], S = [0.229, 0.224, 0.225];
-  for (let i = 0; i < 224 * 224; i++) for (let k = 0; k < 3; k++) x[i * 3 + k] = (d[i * 4 + k] / 255 - M[k]) / S[k];
+  for (let yy = 0; yy < 224; yy++) for (let xx = 0; xx < 224; xx++) { const sx = view.flip ? 223 - xx : xx, si = (yy * 224 + sx) * 4, di = (yy * 224 + xx) * 3; for (let k = 0; k < 3; k++) x[di + k] = (d[si + k] / 255 - M[k]) / S[k]; }
   return x;
+}
+
+// Karar: fotoğrafın birkaç görünümü sırayla incelenir; hepsi aynı türü eşiğin üstünde bir güvenle söylerse cevap verilir.
+// İlk görünüm yetersizse hemen "tanıyamadım" denir (gereksiz hesap yapılmaz). Az fotoğrafı olan (güvenilirliği ölçülemeyen) türler asla cevap olarak verilmez.
+export async function recognize(m, img, onProgress) {
+  const views = m.views, off = new Set(m.disabled || []); let first = null, name = null;
+  for (let i = 0; i < views.length; i++) {
+    if (onProgress) onProgress(i, views.length);
+    const feat = await features(m, preprocess(img, views[i])), top = classify(m, feat), best = top[0];
+    if (i === 0) first = top;
+    if (best.name === 'diger' || off.has(best.name) || best.p < m.tau || (name && best.name !== name)) return { ok: false, top: first, best, viewsUsed: i + 1 };
+    name = best.name;
+  }
+  return { ok: true, top: first, best: first[0], viewsUsed: views.length };
 }

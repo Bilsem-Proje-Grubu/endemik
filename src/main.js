@@ -8,7 +8,7 @@ import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
 import { makeQuiz } from './quiz.js';
 import { onlineAsked, onlineEnabled, setOnline } from './online.js';
-import { visionMeta, loadVision, features as visionFeatures, classify as visionClassify, preprocess as visionPre } from './vision.js';
+import { visionMeta, loadVision, recognize } from './vision.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -467,9 +467,9 @@ function viewVision() {
   let meta = null, isAdmin = false;
   if (hasBackend) adminSession().then((s) => { isAdmin = !!s; }).catch(() => {});
   visionMeta().then((mm) => {
-    meta = mm; const known = mm.head.classes.filter((c) => c !== 'diger').flatMap(names), s = mm.sinama || {};
+    meta = mm; const off = new Set(mm.disabled || []); const known = mm.head.classes.filter((c) => c !== 'diger' && !off.has(c)).flatMap(names), s = mm.sinama || {};
     document.getElementById('vinfo').innerHTML = `<p>Yapay zekâ, çektiğiniz fotoğrafın hangi türe ait olduğunu <b>tahmin eder</b>. Şu an yalnızca <b>${known.length} türü</b> tanır; başka bir canlıyı tanıyamaz. Emin olmazsa yanlış ad söylemek yerine <b>“tanıyamadım”</b> der. Fotoğrafınız telefonunuzdan çıkmaz.</p>
-      <p class="note">Ölçüm (hiç görmediği fotoğraflarda): cevap verdiğinde yanlış oranı <b>%${(100 * (s.yanlis ?? 0)).toFixed(1)}</b>; fotoğrafların yaklaşık <b>%${Math.round(100 * (s.kapsam ?? 0))}</b>'ine cevap verir. Yani çoğu zaman “tanıyamadım” diyebilir.</p>
+      <p class="note">Ölçüm (eğitimde hiç görmediği ${s.toplam_foto ?? ''} fotoğrafta): cevap verdiği <b>${s.cevap ?? ''}</b> durumun <b>${s.yanlis_sayi ?? 0}</b>'ı yanlıştı; ama tür fotoğraflarının yalnızca yaklaşık <b>%${Math.round(100 * (s.kapsam ?? 0))}</b>'ine cevap verir, geri kalanında “tanıyamadım” der. Bu, hiç yanılmayacağı anlamına gelmez; ölçüm sınırlı sayıda fotoğrafla yapıldı.</p>
       <details><summary>Tanıdığı türler (${known.length})</summary><ul>${known.map((t) => `<li><a href="#/tur/${t.id}">${esc(t.name)}</a></li>`).join('')}</ul></details>
       <p class="note">Eğitim fotoğrafları iNaturalist'ten, CC lisanslı; sahipleri <a href="https://github.com/Bilsem-Proje-Grubu/endemik/blob/main/ml/vision/credits.csv" target="_blank" rel="noopener">bu listede</a>.</p>`;
   }).catch(() => { document.getElementById('vinfo').innerHTML = '<p class="note">Tanıma modeli şu an yüklenemedi (internet gerekebilir).</p>'; });
@@ -480,9 +480,10 @@ function viewVision() {
       const ph = await prepareImage(file); prev.innerHTML = `<img class="pphoto" alt="Seçilen fotoğraf" src="${ph.dataUrl}">`;
       const im = new Image(); await new Promise((ok, no) => { im.onload = ok; im.onerror = () => no(new Error('Fotoğraf açılamadı.')); im.src = ph.dataUrl; });
       const mdl = await loadVision(); res.innerHTML = '<p class="note">Fotoğraf inceleniyor…</p>';
-      const feat = await visionFeatures(mdl, visionPre(im)), top = visionClassify(mdl, feat), best = top[0], ok = best.name !== 'diger' && best.p >= mdl.tau;
+      const rr = await recognize(mdl, im, (i, n) => { res.innerHTML = `<p class="note">Fotoğraf inceleniyor… (${i + 1}/${n})</p>`; });
+      const top = rr.top, best = rr.best, ok = rr.ok;
       const pct = (p) => Math.round(p * 100);
-      const dbg = isAdmin ? `<details class="dbg" open><summary>🛠 Yönetici: ilk 5 tahmin</summary>${top.slice(0, 5).map((t) => `<div>${esc(t.name === 'diger' ? 'diğer (tanınmayan)' : t.name)}: %${(100 * t.p).toFixed(1)}</div>`).join('')}<div>Eşik: %${(100 * mdl.tau).toFixed(1)} · sıcaklık ${mdl.head.T}</div></details>` : '';
+      const dbg = isAdmin ? `<details class="dbg" open><summary>🛠 Yönetici: ilk 5 tahmin</summary>${top.slice(0, 5).map((t) => `<div>${esc(t.name === 'diger' ? 'diğer (tanınmayan)' : t.name)}: %${(100 * t.p).toFixed(1)}</div>`).join('')}<div>Eşik: %${(100 * mdl.tau).toFixed(1)} · sıcaklık ${mdl.head.T} · incelenen görünüm: ${rr.viewsUsed}/${mdl.views.length}</div></details>` : '';
       if (ok) {
         const ts = names(best.name);
         res.innerHTML = `<div class="panel qres"><p>Büyük olasılıkla:</p><h3 class="qq">${ts.map((t) => esc(t.name)).join(' / ')}</h3><p class="note">${ts.map((t) => esc(t.sci)).join(' · ')} · güven %${pct(best.p)}</p>
@@ -491,7 +492,7 @@ function viewVision() {
       } else {
         const other = best.name === 'diger';
         res.innerHTML = `<div class="panel"><b>🤷 Tanıyamadım</b><p>${other ? 'Bu fotoğraf, tanıdığım türlerden biri gibi görünmüyor.' : 'Tanıdığım bir türe benziyor olabilir, ama yanlış bir ad söylememek için yeterince emin değilim.'}</p>
-          <p class="note">İpucu: canlı fotoğrafın ortasında ve büyük görünsün, ışık yeterli olsun. Unutmayın, yalnızca ${meta ? meta.head.classes.filter((c) => c !== 'diger').flatMap(names).length : 'birkaç'} türü tanıyorum; tanımadığım bir tür “tanıyamadım” sonucunu verir.</p></div>${dbg}`;
+          <p class="note">İpucu: canlı fotoğrafın ortasında ve büyük görünsün, ışık yeterli olsun. Unutmayın, yalnızca ${meta ? meta.head.classes.filter((c) => c !== 'diger' && !(meta.disabled || []).includes(c)).flatMap(names).length : 'birkaç'} türü tanıyorum; tanımadığım bir tür “tanıyamadım” sonucunu verir.</p></div>${dbg}`;
       }
     } catch (err) { res.innerHTML = `<div class="panel">${esc(err.message || 'Fotoğraf işlenemedi.')}</div>`; }
   };
