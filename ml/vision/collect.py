@@ -41,6 +41,9 @@ for sid, (n, ok) in COUNTS.items():
     if n >= 20:
         sci = SP[sid]['sci'].replace('subsp.', '').strip(); classes.setdefault(sci, []).append(sid)
 rows = []
+ONLY = os.environ.get('ONLY')  # 'diger': yalnızca diğer sınıfı yeniden topla, var olan atıf kayıtlarını koru
+if ONLY == 'diger' and os.path.exists(os.path.join(OUT, 'credits.csv')):
+    rows = [r for r in list(csv.reader(open(os.path.join(OUT, 'credits.csv'))))[1:] if r[0] != 'diger']
 def run(label, recs):
     d = os.path.join(OUT, label); os.makedirs(d, exist_ok=True)
     with cf.ThreadPoolExecutor(4) as ex:
@@ -48,13 +51,13 @@ def run(label, recs):
     for i, (r, ok) in enumerate(zip(recs, res)):
         if ok: rows.append([label, f'{i:04d}.jpg', r['obs'], r['license'], r['attr'], r['taxon']])
     print(label, sum(res), '/', len(recs), flush=True)
-for sci, ids in classes.items():
+for sci, ids in ([] if ONLY == 'diger' else classes.items()):
     label = ids[0] if len(ids) == 1 else '+'.join(sorted(ids))  # aynı bilimsel adlı kayıtlar tek sınıf
     run(label, fetch_obs({'taxon_name': sci}, 110))
 # diğer: Türkiye'de gözlenen, hedef olmayan canlılar (kuş, memeli, sürüngen, böcek, bitki...)
 random.seed(4); others = []
 for iconic in ['Aves', 'Mammalia', 'Reptilia', 'Amphibia', 'Actinopterygii', 'Insecta', 'Plantae', 'Arachnida']:
-    for r in fetch_obs({'place_id': 7050, 'iconic_taxa': iconic}, 90 if iconic != 'Plantae' else 140):
+    for r in fetch_obs({'place_id': 7183, 'iconic_taxa': iconic}, 90 if iconic != 'Plantae' else 140):
         if r['taxon'] and r['taxon'] not in classes: others.append(r)
 random.shuffle(others); run('diger', others)
 with open(os.path.join(OUT, 'credits.csv'), 'w', newline='') as f:
