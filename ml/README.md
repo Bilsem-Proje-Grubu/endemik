@@ -22,3 +22,10 @@ Yalnızca 94 türün gerçek metniyle eğitilince model metinleri ezberledi, gö
 
 ## Vikipedi parçaları (ek bilgi)
 `ml/fetch_wiki.py` Hugging Face'teki `kaan39/turkish-wikipedia-dataset-clean` (CC BY-SA 4.0, Vikipedi maddeleri) akışından doğa konulu maddeleri süzer (tür maddeleri ve birkaç kavram maddesi). `ml/make_wiki_json.py` bunları `src/data/wiki.json` dosyasına çevirir (yaklaşık 210 madde; her birinin yalnızca giriş cümleleri ve kaynak bağlantısı). Soruda madde adı geçerse (`src/chatlogic.js` → `findWiki`) o parça modele verilir; modelin cevabı kaynak bağlantısıyla gösterilir. Ek eğitim için: `FT=1 INIT=<önceki.pt> EPOCHS=4 LR=6e-4 FINAL=1 python3 ml/train.py`.
+
+## Fotoğraftan tür tanıma (`ml/vision/`)
+- `collect.py`: iNaturalist'ten serbest lisanslı (CC0/CC BY/CC BY-SA) fotoğraflar toplar (atıflar `credits.csv`). Fotoğraflar depoya konmaz.
+- `finetune.py`: MobileNetV3-large'ı fotoğrafçıya göre ayrılmış (eğitim/doğrulama/sınama) veriyle ince ayarlar; "diğer" sınıfı (başka canlılar + yapay görüntüler) "bunlardan biri değil" demeyi öğretir.
+- `tta_eval.py`: aynı fotoğrafın 4 görünümü (orta, çevrilmiş, yakın, geniş) hep aynı türü ≥%95 güvenle söylerse cevap verilir; ölçüm: 1328 hiç görülmemiş fotoğrafta cevap verilen 318'in 0'ı yanlış, alakasız 286 fotoğrafın 1'i tür sanıldı.
+- `export_graph.py` + `src/vision.js`: ağ, tarayıcıda sıfırdan yazılmış kodla çalışır (kitaplık yok). Fotoğraf cihazdan çıkmaz.
+- Az fotoğrafı olan türler (Ağrı kertenkelesi, Ak zambak, Manisa lalesi, Sakallı yarasa) güvenilirliği ölçülemediği için asla cevap olarak verilmez.

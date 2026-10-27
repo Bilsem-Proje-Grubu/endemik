@@ -53,11 +53,11 @@ def run(label, recs):
     print(label, sum(res), '/', len(recs), flush=True)
 for sci, ids in ([] if ONLY == 'diger' else classes.items()):
     label = ids[0] if len(ids) == 1 else '+'.join(sorted(ids))  # aynı bilimsel adlı kayıtlar tek sınıf
-    run(label, fetch_obs({'taxon_name': sci}, 110))
+    run(label, fetch_obs({'taxon_name': sci}, int(os.environ.get('WANT', 110))))
 # diğer: Türkiye'de gözlenen, hedef olmayan canlılar (kuş, memeli, sürüngen, böcek, bitki...)
 random.seed(4); others = []
 for iconic in ['Aves', 'Mammalia', 'Reptilia', 'Amphibia', 'Actinopterygii', 'Insecta', 'Plantae', 'Arachnida']:
-    for r in fetch_obs({'place_id': 7183, 'iconic_taxa': iconic}, 90 if iconic != 'Plantae' else 140):
+    for r in fetch_obs({'place_id': 7183, 'iconic_taxa': iconic}, int(os.environ.get('OTHER', 90)) if iconic != 'Plantae' else int(os.environ.get('OTHER', 90)) * 2):
         if r['taxon'] and r['taxon'] not in classes: others.append(r)
 random.shuffle(others); run('diger', others)
 with open(os.path.join(OUT, 'credits.csv'), 'w', newline='') as f:
