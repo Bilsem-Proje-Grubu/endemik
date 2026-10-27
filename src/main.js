@@ -8,6 +8,7 @@ import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
 import { makeQuiz } from './quiz.js';
 import { onlineAsked, onlineEnabled, setOnline } from './online.js';
+import { visionMeta, loadVision, features as visionFeatures, classify as visionClassify, preprocess as visionPre } from './vision.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
 import { prepareImage } from './photo.js';
@@ -84,7 +85,7 @@ let filter = 'all';
 let query = '';
 function viewHome() {
   const top = `<header class="topbar">
-    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small><a class="askbtn" href="#/yarisma">🏆 Yarışma</a>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
+    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small><a class="askbtn" href="#/tani">📷 Tanı</a><a class="askbtn" href="#/yarisma">🏆 Yarışma</a>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
     <input class="search" id="q" type="search" placeholder="Tür adı ara…" value="${esc(query)}" autocomplete="off">
     <div class="chips">
       ${[['all', 'Hepsi'], ['fauna', 'Fauna'], ['flora', 'Flora'], ['loc', 'Lokalitesi olanlar']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}
@@ -456,6 +457,49 @@ function viewQuiz() {
   intro();
 }
 
+function viewVision() {
+  shell(`<a class="back" href="#/">← Türler</a><h2 class="section-title">📷 Fotoğraftan tanı</h2>
+    <div class="panel" id="vinfo"><p class="note">Yükleniyor…</p></div>
+    <div class="row"><button class="btn" id="vcam">📷 Fotoğraf çek</button><button class="btn ghost" id="vgal">🖼️ Galeriden seç</button></div>
+    <input type="file" id="vfile" accept="image/*" hidden><input type="file" id="vfilec" accept="image/*" capture="environment" hidden>
+    <div id="vprev"></div><div id="vres"></div>`, 'home');
+  const names = (id) => id.split('+').map((i) => byId.get(i)).filter(Boolean);
+  let meta = null, isAdmin = false;
+  if (hasBackend) adminSession().then((s) => { isAdmin = !!s; }).catch(() => {});
+  visionMeta().then((mm) => {
+    meta = mm; const known = mm.head.classes.filter((c) => c !== 'diger').flatMap(names), s = mm.sinama || {};
+    document.getElementById('vinfo').innerHTML = `<p>Yapay zekâ, çektiğiniz fotoğrafın hangi türe ait olduğunu <b>tahmin eder</b>. Şu an yalnızca <b>${known.length} türü</b> tanır; başka bir canlıyı tanıyamaz. Emin olmazsa yanlış ad söylemek yerine <b>“tanıyamadım”</b> der. Fotoğrafınız telefonunuzdan çıkmaz.</p>
+      <p class="note">Ölçüm (hiç görmediği fotoğraflarda): cevap verdiğinde yanlış oranı <b>%${(100 * (s.yanlis ?? 0)).toFixed(1)}</b>; fotoğrafların yaklaşık <b>%${Math.round(100 * (s.kapsam ?? 0))}</b>'ine cevap verir. Yani çoğu zaman “tanıyamadım” diyebilir.</p>
+      <details><summary>Tanıdığı türler (${known.length})</summary><ul>${known.map((t) => `<li><a href="#/tur/${t.id}">${esc(t.name)}</a></li>`).join('')}</ul></details>
+      <p class="note">Eğitim fotoğrafları iNaturalist'ten, CC lisanslı; sahipleri <a href="https://github.com/Bilsem-Proje-Grubu/endemik/blob/main/ml/vision/credits.csv" target="_blank" rel="noopener">bu listede</a>.</p>`;
+  }).catch(() => { document.getElementById('vinfo').innerHTML = '<p class="note">Tanıma modeli şu an yüklenemedi (internet gerekebilir).</p>'; });
+  const run = async (file) => {
+    if (!file) return;
+    const prev = document.getElementById('vprev'), res = document.getElementById('vres'); res.innerHTML = '<p class="note">Model hazırlanıyor… (ilk seferde ~6 MB iner)</p>';
+    try {
+      const ph = await prepareImage(file); prev.innerHTML = `<img class="pphoto" alt="Seçilen fotoğraf" src="${ph.dataUrl}">`;
+      const im = new Image(); await new Promise((ok, no) => { im.onload = ok; im.onerror = () => no(new Error('Fotoğraf açılamadı.')); im.src = ph.dataUrl; });
+      const mdl = await loadVision(); res.innerHTML = '<p class="note">Fotoğraf inceleniyor…</p>';
+      const feat = await visionFeatures(mdl, visionPre(im)), top = visionClassify(mdl, feat), best = top[0], ok = best.name !== 'diger' && best.p >= mdl.tau;
+      const pct = (p) => Math.round(p * 100);
+      const dbg = isAdmin ? `<details class="dbg" open><summary>🛠 Yönetici: ilk 5 tahmin</summary>${top.slice(0, 5).map((t) => `<div>${esc(t.name === 'diger' ? 'diğer (tanınmayan)' : t.name)}: %${(100 * t.p).toFixed(1)}</div>`).join('')}<div>Eşik: %${(100 * mdl.tau).toFixed(1)} · sıcaklık ${mdl.head.T}</div></details>` : '';
+      if (ok) {
+        const ts = names(best.name);
+        res.innerHTML = `<div class="panel qres"><p>Büyük olasılıkla:</p><h3 class="qq">${ts.map((t) => esc(t.name)).join(' / ')}</h3><p class="note">${ts.map((t) => esc(t.sci)).join(' · ')} · güven %${pct(best.p)}</p>
+          <p class="note">Bu bir <b>tahmindir</b>; yapay zekâ yanılabilir. Emin olmak için türün sayfasındaki fotoğraflara bakın.</p>
+          <div class="row">${ts.map((t) => `<a class="btn" style="text-decoration:none" href="#/tur/${t.id}">${esc(t.name)} sayfası</a>`).join('')}<a class="btn ghost" style="text-decoration:none" href="#/ekle?tur=${ts[0].id}">Bu türü gördüm, lokalite ekle</a></div></div>${dbg}`;
+      } else {
+        const other = best.name === 'diger';
+        res.innerHTML = `<div class="panel"><b>🤷 Tanıyamadım</b><p>${other ? 'Bu fotoğraf, tanıdığım türlerden biri gibi görünmüyor.' : 'Tanıdığım bir türe benziyor olabilir, ama yanlış bir ad söylememek için yeterince emin değilim.'}</p>
+          <p class="note">İpucu: canlı fotoğrafın ortasında ve büyük görünsün, ışık yeterli olsun. Unutmayın, yalnızca ${meta ? meta.head.classes.filter((c) => c !== 'diger').flatMap(names).length : 'birkaç'} türü tanıyorum; tanımadığım bir tür “tanıyamadım” sonucunu verir.</p></div>${dbg}`;
+      }
+    } catch (err) { res.innerHTML = `<div class="panel">${esc(err.message || 'Fotoğraf işlenemedi.')}</div>`; }
+  };
+  const fi = document.getElementById('vfile'), fc = document.getElementById('vfilec');
+  document.getElementById('vgal').onclick = () => fi.click(); document.getElementById('vcam').onclick = () => fc.click();
+  fi.onchange = () => run(fi.files[0]); fc.onchange = () => run(fc.files[0]);
+}
+
 function viewPrivacy() {
   shell(`<a class="back" href="#/ayarlar">← Ayarlar</a>
     <h2 class="section-title">Gizlilik ve veri kullanımı</h2>
@@ -470,6 +514,8 @@ function viewPrivacy() {
     <div class="panel"><b>Kimler görür?</b>
       <p>Kaydınız önce yalnızca proje yöneticisine görünür. Onaylanırsa tür sayfasında ve haritada herkese gösterilir. Onaylanmayan kayıtlar yayınlanmaz.</p>
       <p>Fotoğraf göndermek için, fotoğrafı sizin çektiğinizi ve <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a> lisansıyla, adınız belirtilerek bu uygulamada gösterilmesine izin verdiğinizi onaylarsınız.</p></div>
+    <div class="panel"><b>Fotoğraftan tanıma</b>
+      <p>“Tanı” bölümünde seçtiğiniz fotoğraf yalnızca telefonunuzda incelenir; hiçbir yere yüklenmez ve saklanmaz. Model ilk kullanımda sitemizden indirilir.</p></div>
     <div class="panel"><b>Kamera</b>
       <p>Kamera yalnızca “Fotoğraf çek” düğmesine bastığınızda açılır ve fotoğrafı çektiğinizde ya da vazgeçtiğinizde kapanır. Görüntü kaydedilmez. Çekilen fotoğraf, siz “Gönder”e basmadıkça cihazınızdan çıkmaz.</p></div>
     <div class="panel"><b>Konumunuz ve bildirimler</b>
@@ -624,6 +670,7 @@ function route() {
   if (path === '/ayarlar') return viewSettings();
   if (path === '/gizlilik') return viewPrivacy();
   if (path === '/yarisma') return viewQuiz();
+  if (path === '/tani') return viewVision();
   if (path === '/sohbet') return viewChat();
   if (path === '/yonetim') return viewAdmin();
   viewHome();
