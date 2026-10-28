@@ -131,3 +131,7 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 .qboard .rk { width: 30px; text-align: center; }
 .qboard .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .qboard .x { border: 0; background: none; color: var(--danger); font-size: 16px; padding: 2px 6px; }
+
+/* Ana sayfa eylem düğmeleri: kendi satırında, eşit genişlikte (dar telefonda taşmaz) */
+.actions { display: flex; gap: 8px; margin-top: 8px; }
+.actions .askbtn { flex: 1; margin-left: 0; text-align: center; padding: 8px 6px; white-space: nowrap; }

@@ -85,7 +85,8 @@ let filter = 'all';
 let query = '';
 function viewHome() {
   const top = `<header class="topbar">
-    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small><a class="askbtn" href="#/tani">📷 Tanı</a><a class="askbtn" href="#/yarisma">🏆 Yarışma</a>${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}</div>
+    <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small></div>
+    <div class="actions">${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}<a class="askbtn" href="#/tani">📷 Tanı</a><a class="askbtn" href="#/yarisma">🏆 Yarışma</a></div>
     <input class="search" id="q" type="search" placeholder="Tür adı ara…" value="${esc(query)}" autocomplete="off">
     <div class="chips">
       ${[['all', 'Hepsi'], ['fauna', 'Fauna'], ['flora', 'Flora'], ['loc', 'Lokalitesi olanlar']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}
