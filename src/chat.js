@@ -10,7 +10,7 @@ import tpl from './data/chat-templates.json';
 import { fold } from './chatmodel.js';
 import { createBot } from './chatlogic.js';
 import { loadLM, generate, explain, repair } from './lm.js';
-import { onlineEnabled, extractQuery, lookupWikipedia } from './online.js';
+import { onlineEnabled, extractQuery, lookupWikipedia, lookupTopic } from './online.js';
 
 export const chatAvailable = true;
 const bot = createBot(species, model, wiki, small, tpl);
@@ -18,6 +18,20 @@ export const preloadLM = () => loadLM().catch(() => null);
 
 // ctx: { lastIds } — "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır.
 export async function ask(question, ctx) {
+  const res = await askCore(question, ctx);
+  // Bölge/yaşam alanı soruları: kendi kayıtlarımızdaki liste yanında, izin varsa Vikipedi'den genel bilgi eklenir
+  if (res.topic) {
+    if (onlineEnabled() && navigator.onLine !== false) {
+      const hit = await lookupTopic(res.topic).catch(() => null);
+      if (hit) return { ...res, text: `${res.text}\n\n🌐 Vikipedi'den genel bilgi (${hit.title}): ${hit.text}`, src: { title: hit.title, url: hit.url }, online: true };
+      return { ...res, text: `${res.text}\n\n(Vikipedi'de ${res.topic.region} için ayrı bir fauna/flora maddesi bulamadım; yukarıdaki liste yalnızca bu uygulamadaki 94 türe aittir.)` };
+    }
+    return { ...res, text: `${res.text}\n\nBu liste yalnızca uygulamadaki 94 türü kapsar. Bölgedeki diğer canlılar için Vikipedi'de arayabilirim: Ayarlar'dan “Bilmediğim canlıları Vikipedi'de ara”yı açın.` };
+  }
+  return res;
+}
+
+async function askCore(question, ctx) {
   let r = bot.reply(question, ctx);
   // Yerel kayıtlarda bulunamayan canlı adı: izin verilmişse Vikipedi'de aranır (aranan ad tr.wikipedia.org'a gider)
   if (r.unresolved && onlineEnabled() && navigator.onLine !== false) {

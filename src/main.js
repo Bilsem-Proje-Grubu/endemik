@@ -364,12 +364,12 @@ function viewChat() {
     e.preventDefault();
     const q = inp.value.trim();
     if (!q) return;
-    const lastIds = chatLog.slice().reverse().find((x) => x.ids?.length)?.ids || []; // "Nerede yaşar?" gibi devam soruları
+    const lastIds = chatLog.slice().reverse().find((x) => x.ids?.length && !x.noCtx)?.ids || []; // "Nerede yaşar?" gibi devam soruları
     chatLog.push({ role: 'user', text: q });
     inp.value = ''; inp.disabled = btn.disabled = true;
     draw(); box.insertAdjacentHTML('beforeend', '<div class="msg assistant" id="typing">Yazıyor…</div>'); box.scrollTop = box.scrollHeight;
     const r = await ask(q, { lastIds });
-    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source, src: r.src, debug: r.debug, online: r.online });
+    chatLog.push({ role: 'assistant', text: r.text, ids: r.ids, source: r.source, src: r.src, debug: r.debug, online: r.online, noCtx: r.noCtx });
     inp.disabled = btn.disabled = false;
     draw(); inp.focus();
   };
