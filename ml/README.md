@@ -28,4 +28,6 @@ Yalnızca 94 türün gerçek metniyle eğitilince model metinleri ezberledi, gö
 - `finetune.py`: MobileNetV3-large'ı fotoğrafçıya göre ayrılmış (eğitim/doğrulama/sınama) veriyle ince ayarlar; "diğer" sınıfı (başka canlılar + yapay görüntüler) "bunlardan biri değil" demeyi öğretir.
 - `tta_eval.py`: aynı fotoğrafın 4 görünümü (orta, çevrilmiş, yakın, geniş) hep aynı türü ≥%95 güvenle söylerse cevap verilir; ölçüm: 1328 hiç görülmemiş fotoğrafta cevap verilen 318'in 0'ı yanlış, alakasız 286 fotoğrafın 1'i tür sanıldı.
 - `export_graph.py` + `src/vision.js`: ağ, tarayıcıda sıfırdan yazılmış kodla çalışır (kitaplık yok). Fotoğraf cihazdan çıkmaz.
+- `collect_negatives.py`: Wikimedia Commons kategorilerinden canlı olmayan gündelik sahneler (sokak, bina, araç, yemek…; 879 fotoğraf, `negatives_credits.csv`) 'diğer' sınıfına eklenir.
+- Ölçüm (eğitimde görülmemiş 1814 fotoğraf): cevap verilen 311'in 0'ı yanlış; gündelik sahnelerin 0/277'si, başka canlıların 2/384'ü tür sanıldı.
 - Az fotoğrafı olan türler (Ağrı kertenkelesi, Ak zambak, Manisa lalesi, Sakallı yarasa) güvenilirliği ölçülemediği için asla cevap olarak verilmez.
