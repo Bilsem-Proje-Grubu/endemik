@@ -135,3 +135,6 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 /* Ana sayfa eylem düğmeleri: kendi satırında, eşit genişlikte (dar telefonda taşmaz) */
 .actions { display: flex; gap: 8px; margin-top: 8px; }
 .actions .askbtn { flex: 1; margin-left: 0; text-align: center; padding: 8px 6px; white-space: nowrap; }
+
+.actions .gear { flex: 0 0 44px; padding: 8px 0; }
+.chatset summary { cursor: pointer; font-weight: 600; }

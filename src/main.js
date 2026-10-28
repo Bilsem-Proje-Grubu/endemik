@@ -86,7 +86,7 @@ let query = '';
 function viewHome() {
   const top = `<header class="topbar">
     <div class="brand">🌿 <b>ENDEMİK</b><small>${species.length} tür</small></div>
-    <div class="actions">${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}<a class="askbtn" href="#/tani">📷 Tanı</a><a class="askbtn" href="#/yarisma">🏆 Yarışma</a></div>
+    <div class="actions">${chatAvailable ? '<a class="askbtn" href="#/sohbet">💬 Sor</a>' : ''}<a class="askbtn" href="#/tani">📷 Tanı</a><a class="askbtn" href="#/yarisma">🏆 Yarışma</a><a class="askbtn gear" href="#/ayarlar" aria-label="Ayarlar" title="Ayarlar">⚙️</a></div>
     <input class="search" id="q" type="search" placeholder="Tür adı ara…" value="${esc(query)}" autocomplete="off">
     <div class="chips">
       ${[['all', 'Hepsi'], ['fauna', 'Fauna'], ['flora', 'Flora'], ['loc', 'Lokalitesi olanlar']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}
@@ -340,6 +340,10 @@ function viewChat() {
     <h2 class="section-title">💬 Endemik'e sor</h2>
     <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Cevapları, proje grubumuzun sıfırdan yazıp eğittiği küçük bir dil modeli telefonunuzda yazar (ilk açılışta yaklaşık 2 MB model indirilir). Sorularınız varsayılan olarak hiçbir yere gönderilmez (yalnızca izin verirseniz, bilmediğim bir canlı adı Vikipedi'de aranır). Model bilgiyi kayıtlardan okur; kayıtta olmayan bir şeyi söylerse cevap hazır kalıba döner. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
     <div id="onl"></div>
+    <details class="panel chatset"><summary>⚙️ Sohbet ayarları</summary>
+      <label class="chk"><input type="checkbox" id="onlchk2"> Bilmediğim canlıları Vikipedi'de ara</label>
+      <p class="note">Açıkken, elimizde olmayan bir canlı adı ya da bölge sorduğunuzda aranan sözcükler tr.wikipedia.org'a gönderilir. Kapalıyken sohbet tamamen telefonunuzda çalışır.</p>
+      <p class="note"><a href="#/ayarlar">Tüm ayarlar →</a> · <a href="#/gizlilik">Gizlilik</a></p></details>
     <div class="chatbox" id="chat" aria-live="polite"></div>
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
@@ -354,9 +358,11 @@ function viewChat() {
     if (onlineAsked()) { el.innerHTML = ''; return; }
     el.innerHTML = `<div class="panel"><b>🌐 İnternette arayayım mı?</b><p class="note">Bilmediğim bir canlıyı Vikipedi'de arayabilirim. Bunun için sorudaki ad/sözcükler Vikipedi'ye (tr.wikipedia.org) gönderilir ve internet adresin onlara görünür. Sorularının geri kalanı yine hiçbir yere gitmez. İstersen sonra Ayarlar'dan kapatabilirsin.</p>
       <div class="row"><button class="btn" id="onlyes">Evet, ara</button><button class="btn ghost" id="onlno">Hayır</button></div></div>`;
-    document.getElementById('onlyes').onclick = () => { setOnline(true); onlPanel(); toast('Vikipedi araması açıldı.'); };
-    document.getElementById('onlno').onclick = () => { setOnline(false); onlPanel(); };
+    document.getElementById('onlyes').onclick = () => { setOnline(true); const c = document.getElementById('onlchk2'); if (c) c.checked = true; onlPanel(); toast('Vikipedi araması açıldı.'); };
+    document.getElementById('onlno').onclick = () => { setOnline(false); const c = document.getElementById('onlchk2'); if (c) c.checked = false; onlPanel(); };
   };
+  const chk2 = document.getElementById('onlchk2'); chk2.checked = onlineEnabled();
+  chk2.onchange = () => { setOnline(chk2.checked); onlPanel(); toast(chk2.checked ? 'Vikipedi araması açıldı.' : 'Vikipedi araması kapatıldı.'); };
   onlPanel();
   draw(); preloadLM();
   if (hasBackend) adminSession().then((ses) => { if (!!ses !== isAdmin) { isAdmin = !!ses; draw(); } }).catch(() => {});
