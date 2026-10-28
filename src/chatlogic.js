@@ -41,6 +41,21 @@ export function floweringMonths(str) {
 export const threatLevels = (s) => new Set(((s.statusIntl || '') + ' ' + (s.statusNational || '')).match(/\b(CR|EN|VU)\b/g) || []);
 export const listTitle = (t) => t;
 export const listCtx = (title, names) => `liste | ${title} | sayı: ${names.length} | türler: ${names.length ? names.slice(0, 8).join(', ') + (names.length > 8 ? ` ve ${names.length - 8} tür daha` : '') : 'yok'}`;
+
+// ---- Bölgeler: "Akdeniz'de hangi canlılar yaşar" gibi sorular, kayıtlarımızdaki yerlerin il adlarıyla eşlenir ----
+const REGIONS = [
+  { name: 'Akdeniz Bölgesi', words: ['akdeniz'], prov: ['adana', 'antalya', 'burdur', 'hatay', 'isparta', 'kahramanmaras', 'mersin', 'osmaniye', 'mugla', 'silifke', 'aydincik', 'yesilovacik'] },
+  { name: 'Karadeniz Bölgesi', words: ['karadeniz'], prov: ['artvin', 'rize', 'trabzon', 'giresun', 'ordu', 'samsun', 'sinop', 'kastamonu', 'bartin', 'zonguldak', 'duzce', 'bolu', 'amasya', 'corum', 'tokat', 'gumushane', 'bayburt', 'karabuk', 'alucra', 'camlihemsin', 'sebinkarahisar', 'murgul', 'yusufeli'] },
+  { name: 'Toros Dağları', words: ['toros'], prov: ['mersin', 'antalya', 'adana', 'karaman', 'konya', 'nigde', 'isparta', 'kahramanmaras', 'silifke', 'hadim', 'aydincik', 'yesilovacik', 'burdur'] },
+  { name: 'Ege Bölgesi', words: ['ege'], prov: ['izmir', 'aydin', 'mugla', 'manisa', 'denizli', 'usak', 'afyonkarahisar', 'kutahya', 'odemis'] },
+  { name: 'Marmara Bölgesi', words: ['marmara'], prov: ['istanbul', 'edirne', 'kirklareli', 'tekirdag', 'canakkale', 'balikesir', 'bursa', 'yalova', 'kocaeli', 'sakarya', 'bilecik', 'lalapasa', 'havsa', 'meric', 'can'] },
+  { name: 'İç Anadolu Bölgesi', words: ['ic anadolu', 'orta anadolu'], prov: ['ankara', 'konya', 'kayseri', 'sivas', 'eskisehir', 'yozgat', 'kirsehir', 'kirikkale', 'aksaray', 'nigde', 'nevsehir', 'karaman', 'cankiri', 'cifteler', 'kadinhani', 'sefaatli', 'altintas', 'mucur', 'kulu', 'cihanbeyli', 'karapinar', 'kizilcahamam', 'nallihan', 'sungurlu', 'hadim', 'mamak', 'hafik', 'darende', 'divrigi', 'yahyali', 'ayranci'] },
+  { name: 'Doğu Anadolu Bölgesi', words: ['dogu anadolu'], prov: ['erzurum', 'erzincan', 'kars', 'ardahan', 'igdir', 'agri', 'van', 'hakkari', 'bitlis', 'mus', 'bingol', 'tunceli', 'elazig', 'malatya', 'ercis', 'patnos', 'kemaliye', 'siran', 'uzundere'] },
+  { name: 'Güneydoğu Anadolu Bölgesi', words: ['guneydogu'], prov: ['gaziantep', 'sanliurfa', 'diyarbakir', 'mardin', 'batman', 'siirt', 'sirnak', 'adiyaman', 'kilis', 'halfeti', 'tillo'] },
+];
+const LISTY = new Set(['yasar', 'yasiyor', 'yasayan', 'var', 'bulunur', 'bulunuyor', 'neler', 'hangi', 'hangileri', 'listele', 'say', 'yetisir', 'yetisiyor', 'gorulur']);
+const GROUPS = { hayvan: 'hayvan', fauna: 'hayvan', bitki: 'bitki', flora: 'bitki', cicek: 'bitki', agac: 'bitki', canli: null, tur: null };
+const SUBGROUPS = new Set(['kus', 'kuslar', 'balik', 'baliklar', 'surungen', 'surungenler', 'memeli', 'memeliler', 'bocek', 'bocekler', 'amfibi', 'kurbaga', 'yilan', 'yarasa', 'kelebek', 'omurgasiz']);
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const cap = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 
@@ -110,6 +125,14 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     return { ids: [...new Set(found)], used, disp };
   }
 
+  function findRegion(qw) {
+    for (const r of REGIONS) for (const w of r.words) {
+      const parts = w.split(' ');
+      for (let i = 0; i + parts.length <= qw.length; i++) if (parts.every((p, k) => qw[i + k] === p || (k === parts.length - 1 && qw[i + k].startsWith(p) && qw[i + k].length - p.length <= 4))) return { r, idx: new Set(parts.map((_, k) => i + k)) };
+    }
+    return null;
+  }
+  function regionSpecies(r) { const ids = new Set(); for (const w of r.prov) for (const i of places.get(w) || []) ids.add(i); return [...ids]; }
   function findTime(qw, skip) {
     const idx = new Set(); let title = '', months = null;
     qw.forEach((w, i) => {
@@ -220,11 +243,28 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     if (intent === 'tesekkur') return { text: pick(tpl.tesekkur), ids: [], intent };
     if (intent === 'yardim') return { text: tfill(tpl.yardim), ids: [], intent };
     if (intent === 'endemik') return { text: pick(tpl.endemik), ids: [], intent };
+    // Bölge/yaşam alanı soruları ("Akdeniz'de hangi canlılar yaşar"): kayıtlarımızdaki türler il adlarıyla bölgeye eşlenir
+    const rg = !sp.length && !pl.ids.length && !tm.months ? findRegion(qw) : null;
+    const gkey = (w) => Object.keys(GROUPS).find((k) => w.startsWith(k) && w.length - k.length <= 8); // "hayvanlar", "bitkiler", "canlılar"
+    // yalnızca liste isteyen sorular: "hangi/neler" ya da bir grup sözcüğü (hayvan, bitki, canlı, kuş…) var; "Toros sediri nerede yaşar" tek bir canlıyı sorar, bölge sorusu değildir
+    const listQ = qw.some((w) => ['hangi', 'hangileri', 'neler', 'listele', 'say'].includes(w) || gkey(w) || SUBGROUPS.has(w));
+    if (rg && listQ && !['selam', 'tesekkur', 'yardim', 'endemik', ...Object.keys(small)].includes(intent)) {
+      const sub = qw.some((w) => SUBGROUPS.has(w)), gk = qw.map(gkey).find(Boolean), gw = gk && !sub ? GROUPS[gk] : null;
+      const topic = { region: rg.r.name, key: rg.r.words[0], group: gk || 'canli' };
+      let ids = regionSpecies(rg.r);
+      if (sub) return { text: `${rg.r.name} için kayıtlarımda kuş, balık gibi gruplara göre ayırdığım bir liste yok. Bir tür adı yazarsan onu anlatırım.`, ids: [], intent: 'liste', topic, noModel: true };
+      if (gw) ids = ids.filter((i) => (gw === 'hayvan' ? byId.get(i).group === 'fauna' : byId.get(i).group === 'flora'));
+      info.region = rg.r.name;
+      if (gw) info.list = { title: `${rg.r.name} çevresinde kayıtlı ${gw} türleri`, names: listNamesFull(ids) };
+      else info.regionList = { disp: rg.r.name, names: listNamesFull(ids) };
+      const text = gw ? listText(info.list) : (ids.length ? `${rg.r.name} ile ilgili kayıtlı ${ids.length} tür var: ${listing(listNamesFull(ids))}.` : `${rg.r.name} için kayıtlarımda tür bulamadım.`);
+      return { text, ids: ids.slice(0, 3), intent: 'liste', topic, noCtx: true };
+    }
     if (intent === 'zaman') {
       if (!tm.months) return { text: 'Hangi ayı ya da mevsimi soruyorsun? Örneğin: "Nisan ayında hangi bitkiler çiçek açar?"', ids: [], intent };
       const ids = species.filter((x) => { const m = floweringMonths(x.flowering); return m && [...tm.months].some((k) => m.has(k)); }).map((x) => x.id);
       info.list = { title: tm.title, names: listNamesFull(ids) };
-      return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+      return { text: listText(info.list), ids: ids.slice(0, 3), intent, noCtx: true };
     }
     if (intent === 'tehdit') {
       const g = groupWord(masked + ' ' + raw.join(' '));
@@ -232,19 +272,19 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
       const ids = species.filter((x) => (!g || (g === 'hayvan' ? x.group === 'fauna' : x.group === 'flora')) && lv.some((l) => threatLevels(x).has(l))).map((x) => x.id);
       const lead = lv.length === 1 ? (lv[0] === 'CR' ? 'kritik tehlikedeki' : 'hassas durumdaki') : 'nesli tehlike altındaki';
       info.list = { title: `${lead} ${g ? g + ' türleri' : 'türler'}`, names: listNamesFull(ids) };
-      return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+      return { text: listText(info.list), ids: ids.slice(0, 3), intent, noCtx: true };
     }
     if (intent === 'liste') {
       const gw = groupWord(raw.join(' '));
       if (pl.ids.length && gw) {
         const ids = pl.ids.filter((i) => (gw === 'hayvan' ? byId.get(i).group === 'fauna' : byId.get(i).group === 'flora'));
         info.list = { title: `${pl.disp} çevresinde kayıtlı ${gw} türleri`, names: listNamesFull(ids) };
-        return { text: listText(info.list), ids: ids.slice(0, 3), intent };
+        return { text: listText(info.list), ids: ids.slice(0, 3), intent, noCtx: true };
       }
       if (pl.ids.length) return { text: pick([
         `Bu yerle ilgili kayıtlı ${pl.ids.length} tür var: ${listNames(pl.ids)}.`,
         `Kayıtlarda şu türler o çevrede geçiyor: ${listNames(pl.ids)}.`,
-      ]), ids: pl.ids.slice(0, 3), intent };
+      ]), ids: pl.ids.slice(0, 3), intent, noCtx: true };
       const wantFauna = /hayvan|fauna|kus|balik|surungen|memeli/.test(masked), wantFlora = /bitki|flora|cicek|ot\b/.test(masked);
       const pool = species.filter((s) => (wantFauna ? s.group === 'fauna' : wantFlora ? s.group === 'flora' : true));
       const ex = pool.slice().sort(() => Math.random() - 0.5).slice(0, 5).map((s) => s.name).join(', ');
@@ -254,7 +294,8 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     if (intent === 'bilinmiyor') return { text: `Bunu tam anlayamadım. Şöyle sorabilirsin: "${pick(EXAMPLES)}"`, ids: [], intent, unresolved: true };
 
     let ids = sp.map((h) => h.id);
-    if (!ids.length) ids = ctx.lastIds || [];
+    // "Peki nerede yaşar?" gibi devam soruları son konuşulan türe bağlanır; ama soruda tanınmayan bir ad varsa ("Ters laleler nerede yaşar") başka bir canlı sorulmuştur, eski türe bağlanmaz
+    if (!ids.length && !novel(new Set())) ids = ctx.lastIds || [];
     if (!ids.length) return { text: tfill(tpl.belirsiz), ids: [], intent, unresolved: true };
     info.ids = ids.slice(0, 2);
     const use = ids.slice(0, 2).map((i) => byId.get(i));
@@ -265,6 +306,7 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
   // Dil modeline verilecek bilgi parçaları + modelin yazamadığı durumlarda gösterilecek yedek cevap
   function reply(question, ctx = {}) {
     const info = {}; const r = replyCore(question, ctx, info);
+    if (r.noModel) return { ...r, prompts: [], facts: [], allowed: [], parts: [r.text] };
     const q = info.qf || fold(question), e = pick(EXAMPLES), W = (t) => `<bilgi> ${t} <soru> ${q} <cevap>`;
     let prompts, genelEx = null;
     if (info.wiki) prompts = [W(`kaynak | ${info.wiki.t} | ${info.wiki.x}`)];
@@ -272,6 +314,7 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
     else if (['selam', 'tesekkur', 'endemik'].includes(info.intent)) prompts = [W(`sohbet | ${info.intent}`)];
     else if (info.small) prompts = [W(`sohbet | ${info.small}` + (['yapiyor', 'yas'].includes(info.small) ? ` | tür sayısı: ${species.length}` : ['ad', 'yapan'].includes(info.small) ? ' | ad: Endemik | yapan: BİLSEM Proje Grubu' : ''))];
     else if (info.intent === 'yardim') prompts = [W(`sohbet | yardım | örnek: ${e} | tür sayısı: ${species.length}`)];
+    else if (info.regionList) prompts = [W(`yer | ${info.regionList.disp} | türler: ${listing(info.regionList.names)}`)];
     else if (info.list) prompts = [W(listCtx(info.list.title, info.list.names))];
     else if (info.intent === 'liste') {
       if (info.pl?.ids.length) prompts = [W(`yer | ${info.pl.disp} | türler: ${listing(info.pl.ids.map((i) => byId.get(i).name))}`)];
@@ -290,6 +333,7 @@ export function createBot(species, model, wiki = [], small = {}, tpl = {}) {
       if (info.intent === 'cicek') return [s.group === 'flora' ? s.flowering : null];
       return [s.statusNational, s.statusIntl];
     });
+    else if (info.regionList) facts = [[info.regionList.names.slice(0, 8).join(', ')]];
     else if (info.list) facts = [[info.list.names.slice(0, 8).join(', ')]];
     else if (genelEx) facts = [[genelEx]];
     else if (info.intent === 'liste' && info.pl?.ids.length) facts = [[info.pl.ids.map((i) => byId.get(i).name).slice(0, 8).join(', ')]];
