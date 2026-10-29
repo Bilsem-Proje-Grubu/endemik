@@ -57,16 +57,29 @@ export function applyCompletion(state, { plannedMin, actualMin, task, now, contr
   return { reward, setCompleted, day };
 }
 
-/** Temanın her kategorisinde en güçlü N ürün (N = slot sınırı). */
+/** Bir ürünün ait olduğu slot grubu: mevkili kategoride rolü, değilse "*". */
+export function slotGroup(cat, item) {
+  return cat.roleSlots ? item.role : '*';
+}
+
+/** Slot grubunun kapasitesi. */
+export function slotCapacity(cat, group) {
+  return cat.roleSlots ? cat.roleSlots[group] || 0 : cat.slotLimit;
+}
+
+/** Temanın her kategorisinde slotlara giren en güçlü ürünler (mevkili kategoride her mevkinin kotası ayrı). */
 export function equippedIds(theme, ownedIds) {
   const owned = new Set(ownedIds);
   const out = {};
   for (const cat of theme.categories) {
-    out[cat.id] = theme.items
-      .filter((i) => i.category === cat.id && owned.has(i.id))
-      .sort((a, b) => b.power - a.power || a.id.localeCompare(b.id))
-      .slice(0, cat.slotLimit)
-      .map((i) => i.id);
+    const mine = theme.items.filter((i) => i.category === cat.id && owned.has(i.id));
+    const groups = cat.roleSlots ? Object.keys(cat.roleSlots) : ['*'];
+    out[cat.id] = groups.flatMap((g) =>
+      mine
+        .filter((i) => slotGroup(cat, i) === g)
+        .sort((a, b) => b.power - a.power || a.id.localeCompare(b.id))
+        .slice(0, slotCapacity(cat, g))
+        .map((i) => i.id));
   }
   return out;
 }

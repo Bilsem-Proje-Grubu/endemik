@@ -111,6 +111,7 @@ const football = {
   categories: [
     {
       id: 'players', name: 'Oyuncular', singular: 'oyuncu', slotLimit: 11, layout: 'pitch', icon: '👟',
+      roleSlots: { Kaleci: 1, Defans: 4, 'Orta saha': 3, Forvet: 3 },
       positions: [
         { role: 'Kaleci', x: 50, y: 86 },
         { role: 'Defans', x: 14, y: 66 }, { role: 'Defans', x: 38, y: 70 }, { role: 'Defans', x: 62, y: 70 }, { role: 'Defans', x: 86, y: 66 },
@@ -475,8 +476,9 @@ const shelter = {
 function buildLevels(theme) {
   let maxPower = 0;
   for (const cat of theme.categories) {
-    const powers = theme.items.filter((i) => i.category === cat.id).map((i) => i.power).sort((a, b) => b - a);
-    maxPower += powers.slice(0, cat.slotLimit).reduce((a, b) => a + b, 0);
+    const inCat = theme.items.filter((i) => i.category === cat.id);
+    const groups = cat.roleSlots ? Object.entries(cat.roleSlots).map(([r, n]) => [inCat.filter((i) => i.role === r), n]) : [[inCat, cat.slotLimit]];
+    for (const [list, n] of groups) maxPower += list.map((i) => i.power).sort((a, b) => b - a).slice(0, n).reduce((a, b) => a + b, 0);
   }
   const req = CONFIG.levelFractions.map((f) => Math.round(maxPower * f));
   const levels = theme.levels.map((name, i) => {

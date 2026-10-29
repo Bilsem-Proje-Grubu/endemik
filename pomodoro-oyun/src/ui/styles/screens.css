@@ -91,7 +91,7 @@ body.focus-mode .ambient { position: fixed; inset: 0; border-radius: 0; }
 .chart { width: 100%; height: auto; max-height: 12rem; }
 .bars { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
 .heat-wrap { overflow-x: auto; }
-.heatmap { width: 100%; min-width: 20rem; height: auto; }
+.heatmap { width: 100%; height: auto; display: block; }
 .heat-0 { fill: var(--surface-2); background: var(--surface-2); }
 .heat-1 { fill: color-mix(in srgb, var(--primary) 30%, var(--surface-2)); background: color-mix(in srgb, var(--primary) 30%, var(--surface-2)); }
 .heat-2 { fill: color-mix(in srgb, var(--primary) 55%, var(--surface-2)); background: color-mix(in srgb, var(--primary) 55%, var(--surface-2)); }

@@ -28,35 +28,35 @@
       "name": "Amatör Lig",
       "requiredPower": 0,
       "opponentName": "Mahalle Gençlik",
-      "opponentPower": 37
+      "opponentPower": 36
     },
     {
       "id": 2,
       "name": "3. Lig",
-      "requiredPower": 61,
+      "requiredPower": 60,
       "opponentName": "Çarşı Spor",
-      "opponentPower": 125
+      "opponentPower": 122
     },
     {
       "id": 3,
       "name": "2. Lig",
-      "requiredPower": 167,
+      "requiredPower": 164,
       "opponentName": "Liman Atletik",
-      "opponentPower": 258
+      "opponentPower": 253
     },
     {
       "id": 4,
       "name": "1. Lig",
-      "requiredPower": 319,
+      "requiredPower": 313,
       "opponentName": "Dağ Yıldızları",
-      "opponentPower": 437
+      "opponentPower": 429
     },
     {
       "id": 5,
       "name": "Süper Lig",
-      "requiredPower": 516,
+      "requiredPower": 507,
       "opponentName": "Kıta Şampiyonları",
-      "opponentPower": 640
+      "opponentPower": 629
     }
   ],
   "categories": [
@@ -67,6 +67,12 @@
       "slotLimit": 11,
       "layout": "pitch",
       "icon": "👟",
+      "roleSlots": {
+        "Kaleci": 1,
+        "Defans": 4,
+        "Orta saha": 3,
+        "Forvet": 3
+      },
       "positions": [
         {
           "role": "Kaleci",
@@ -667,5 +673,5 @@
     ],
     "sceneNote": "Slotlara en güçlü oyuncuların otomatik girer."
   },
-  "maxPower": 759
+  "maxPower": 745
 }

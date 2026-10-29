@@ -82,9 +82,16 @@ describe('ekonomi: mağaza ve seviye', () => {
     const players = theme.items.filter((i) => i.category === 'players').map((i) => i.id);
     expect(eco.equippedIds(theme, players).players).toHaveLength(11);
     const all = eco.totalPower(theme, players);
-    const best11 = theme.items.filter((i) => i.category === 'players').map((i) => i.power).sort((a, b) => b - a).slice(0, 11).reduce((a, b) => a + b, 0);
-    expect(all).toBe(best11);
+    const q = theme.categories.find((c) => c.id === 'players').roleSlots;
+    const expected = Object.entries(q).reduce((sum, [role, n]) => sum + theme.items.filter((i) => i.role === role).map((i) => i.power).sort((x, y) => y - x).slice(0, n).reduce((x, y) => x + y, 0), 0);
+    expect(all).toBe(expected);
     expect(eco.totalPower(theme, gks)).toBeGreaterThan(0);
+  });
+
+  it('mevki kotası: 2. kaleci kadroya girmez, forvet kotası ayrı dolar', () => {
+    const gks = theme.items.filter((i) => i.role === 'Kaleci').map((i) => i.id);
+    const eq = eco.equippedIds(theme, gks);
+    expect(eq.players).toHaveLength(1); // sadece 1 kaleci kotası var
   });
 
   it('seviye atlama saptanır', () => {

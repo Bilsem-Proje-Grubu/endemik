@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const OUT = process.argv[2] || '/tmp/shots';
-const URL = process.env.URL || 'http://localhost:4173/';
+const BASE = process.env.URL || 'http://localhost:4173/';
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, deviceScaleFactor: 2, locale: 'tr-TR' });
 const page = await ctx.newPage();
@@ -14,7 +14,7 @@ page.on('console', (m) => { if (['error', 'warning'].includes(m.type())) errors.
 page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
 
 await page.clock.install({ time: new Date(2025, 0, 6, 10, 0, 0) });
-await page.goto(URL);
+await page.goto(BASE);
 const shot = (n) => page.screenshot({ path: `${OUT}/${n}.png` });
 
 await shot('01-consent');

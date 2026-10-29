@@ -42,7 +42,7 @@ export function showWeekly(ctx, ev, onClose) {
       : h('div', { class: 'scoreboard small-board' }, h('span', null, `${t('weekly.you')} ${fmtNumber(ev.score)}`), h('span', null, `${we.vsLabel} ${fmtNumber(ev.opp)}`)),
     h('p', { class: 'small muted' }, `${level.opponentName}`),
     h('p', null, text),
-    h('p', { class: 'small muted' }, t('weekly.explain', { power: fmtNumber(ev.power), time: fmtMinutes(ev.minutes) })),
+    h('p', { class: 'small muted' }, t('weekly.explain', { label: theme.texts.powerLabel, power: fmtNumber(ev.power), time: fmtMinutes(ev.minutes) })),
     h('p', { class: 'row', style: { justifyContent: 'center' } }, h('span', { 'aria-hidden': 'true' }, theme.currency.icon), '+', coinEl),
     h('p', { class: 'small muted' }, t('weekly.noLoss')));
   result.hidden = true;

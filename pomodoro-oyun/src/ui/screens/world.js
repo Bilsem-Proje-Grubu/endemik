@@ -52,9 +52,6 @@ function pitchScene(cat, ids, theme) {
     if (found) used.add(found.id);
     return { pos, item: found || null };
   });
-  // Rolü uyuşmayan kalan oyuncular boş konumlara
-  const rest = items.filter((i) => !used.has(i.id));
-  for (const p of placed) if (!p.item && rest.length) p.item = rest.shift();
   const scene = h('div', { class: 'scene scene-pitch', role: 'group', 'aria-label': cat.name });
   scene.append(h('div', { class: 'pitch-lines', 'aria-hidden': 'true' }));
   for (const { pos, item } of placed) {

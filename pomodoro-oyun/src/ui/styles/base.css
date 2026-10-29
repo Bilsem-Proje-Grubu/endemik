@@ -77,6 +77,8 @@ a { color: var(--primary); }
 
 .skip-link:focus { top: var(--sp-3); }
 
+main:focus-visible { outline: none; }
+
 [hidden] { display: none !important; }
 
 /* Hareket kapalıysa tüm animasyonlar durur (ayar ya da sistem tercihi) */
@@ -197,4 +199,6 @@ body.focus-mode .app { padding-bottom: 0; }
   .nav-item[aria-current="page"] { border-left-color: var(--primary); }
   body.focus-mode .bottom-nav { transform: translateX(-110%); }
   main { padding: var(--sp-5); }
+  :root { --maxw: 54rem; }
+  .topbar { padding-inline: var(--sp-5); }
 }

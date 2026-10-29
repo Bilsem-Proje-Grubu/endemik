@@ -2,7 +2,7 @@
 import { h, fromHTML, clear } from '../dom.js';
 import { t, fmtNumber } from '../../i18n/index.js';
 import { itemArt } from '../../assets/art.js';
-import { buyItem, equippedIds, levelInfo, pomodorosNeeded, themeState, totalPower } from '../../core/economy.js';
+import { buyItem, equippedIds, slotCapacity, slotGroup, levelInfo, pomodorosNeeded, themeState, totalPower } from '../../core/economy.js';
 import { evaluate } from '../../core/achievements.js';
 import { confirmDialog } from '../components/modal.js';
 import { toast } from '../components/toast.js';
@@ -58,13 +58,15 @@ export function mount(root, ctx) {
   }
 
   function card(item, ctxInfo) {
-    const { coins, lvl, owned, goal, eq, minEq } = ctxInfo;
+    const { coins, lvl, owned, goal, eq } = ctxInfo;
     const isOwned = owned.includes(item.id);
     const locked = item.minLevel > lvl.level;
     const need = pomodorosNeeded(item.price, coins);
     const cat = theme.categories.find((c) => c.id === item.category);
-    const full = eq[item.category].length >= cat.slotLimit;
-    const benchOnly = !isOwned && full && item.power <= minEq[item.category];
+    const group = slotGroup(cat, item);
+    const inGroup = eq[item.category].map((id) => theme.items.find((i) => i.id === id)).filter((i) => slotGroup(cat, i) === group);
+    const full = inGroup.length >= slotCapacity(cat, group);
+    const benchOnly = !isOwned && full && item.power <= Math.min(...inGroup.map((i) => i.power));
     let action;
     if (isOwned) {
       action = h('p', { class: 'status owned' }, `✓ ${theme.texts.ownedLabel}`);
@@ -97,12 +99,7 @@ export function mount(root, ctx) {
     const power = totalPower(theme, ts.owned);
     const lvl = levelInfo(theme, power);
     const eq = equippedIds(theme, ts.owned);
-    const minEq = {};
-    for (const cat of theme.categories) {
-      const ps = eq[cat.id].map((id) => theme.items.find((i) => i.id === id).power);
-      minEq[cat.id] = ps.length ? Math.min(...ps) : 0;
-    }
-    const info = { coins: s.wallet.coins, lvl, owned: ts.owned, goal: ts.goalItem, eq, minEq };
+    const info = { coins: s.wallet.coins, lvl, owned: ts.owned, goal: ts.goalItem, eq };
     const items = theme.items
       .filter((i) => i.category === shopCat && (shopTier === 'all' || i.tier === shopTier))
       .sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.power - b.power);

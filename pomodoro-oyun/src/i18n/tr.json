@@ -372,7 +372,7 @@
     "you": "Sen",
     "scoreAria": "Maç skoru",
     "result": { "win": "Kazandın!", "draw": "Berabere", "lose": "Bu hafta olmadı" },
-    "explain": "Takım gücün {power} ve bu haftaki {time} çalışman sonucu etkiledi.",
+    "explain": "{label}: {power}. Bu haftaki {time} çalışman da sonucu etkiledi.",
     "noLoss": "Sonuç ne olursa olsun hiçbir şey kaybetmezsin."
   },
   "notify": {
