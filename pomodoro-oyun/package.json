@@ -1,0 +1,18 @@
+{
+  "name": "pomodoro-oyun",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "uret": "node tools/temalari-uret.mjs"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0",
+    "jsdom": "^25.0.0"
+  }
+}

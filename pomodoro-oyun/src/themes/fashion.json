@@ -1,0 +1,578 @@
+{
+  "id": "fashion",
+  "name": "Moda Stüdyosu",
+  "tagline": "Çalış, kendi defileni düzenle!",
+  "icon": "👗",
+  "currency": {
+    "name": "Elmas",
+    "icon": "💎"
+  },
+  "palette": {
+    "light": {
+      "primary": "#A82565",
+      "onPrimary": "#FFFFFF",
+      "accent": "#6A35C2",
+      "tint": "#FBE8F1"
+    },
+    "dark": {
+      "primary": "#F28BBE",
+      "onPrimary": "#3A0720",
+      "accent": "#C3A1FF",
+      "tint": "#3A1329"
+    },
+    "preview": "#B02A6B"
+  },
+  "levels": [
+    {
+      "id": 1,
+      "name": "Küçük Atölye",
+      "requiredPower": 0,
+      "opponentName": "Mahalle defilesi",
+      "opponentPower": 44
+    },
+    {
+      "id": 2,
+      "name": "Butik Stüdyo",
+      "requiredPower": 73,
+      "opponentName": "Okul moda günü",
+      "opponentPower": 150
+    },
+    {
+      "id": 3,
+      "name": "Moda Atölyesi",
+      "requiredPower": 201,
+      "opponentName": "Şehir moda haftası",
+      "opponentPower": 311
+    },
+    {
+      "id": 4,
+      "name": "Tasarım Evi",
+      "requiredPower": 384,
+      "opponentName": "Ulusal defile",
+      "opponentPower": 527
+    },
+    {
+      "id": 5,
+      "name": "Moda Evi",
+      "requiredPower": 622,
+      "opponentName": "Uluslararası moda haftası",
+      "opponentPower": 771
+    }
+  ],
+  "categories": [
+    {
+      "id": "fabrics",
+      "name": "Kumaşlar",
+      "singular": "kumaş",
+      "slotLimit": 6,
+      "layout": "grid",
+      "icon": "🧵"
+    },
+    {
+      "id": "models",
+      "name": "Modeller",
+      "singular": "model",
+      "slotLimit": 5,
+      "layout": "row",
+      "icon": "🧍"
+    },
+    {
+      "id": "outfits",
+      "name": "Koleksiyon",
+      "singular": "parça",
+      "slotLimit": 8,
+      "layout": "grid",
+      "icon": "👗"
+    },
+    {
+      "id": "studio",
+      "name": "Stüdyo",
+      "singular": "stüdyo ekipmanı",
+      "slotLimit": 4,
+      "layout": "row",
+      "icon": "🪞"
+    }
+  ],
+  "items": [
+    {
+      "id": "k01",
+      "category": "fabrics",
+      "name": "Pamuk",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🧶",
+      "art": "emoji"
+    },
+    {
+      "id": "k02",
+      "category": "fabrics",
+      "name": "Keten",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🌾",
+      "art": "emoji"
+    },
+    {
+      "id": "k03",
+      "category": "fabrics",
+      "name": "Kot Kumaş",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "👖",
+      "art": "emoji"
+    },
+    {
+      "id": "k04",
+      "category": "fabrics",
+      "name": "Polar",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "☁️",
+      "art": "emoji"
+    },
+    {
+      "id": "k05",
+      "category": "fabrics",
+      "name": "Saten",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "🎀",
+      "art": "emoji"
+    },
+    {
+      "id": "k06",
+      "category": "fabrics",
+      "name": "Kadife",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "🟣",
+      "art": "emoji"
+    },
+    {
+      "id": "k07",
+      "category": "fabrics",
+      "name": "Şifon",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🦋",
+      "art": "emoji"
+    },
+    {
+      "id": "k08",
+      "category": "fabrics",
+      "name": "Yün",
+      "tier": "silver",
+      "price": 800,
+      "power": 19,
+      "minLevel": 2,
+      "emoji": "🐑",
+      "art": "emoji"
+    },
+    {
+      "id": "k09",
+      "category": "fabrics",
+      "name": "İpek",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "emoji": "🐛",
+      "art": "emoji"
+    },
+    {
+      "id": "k10",
+      "category": "fabrics",
+      "name": "Dantel",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "emoji": "🕸️",
+      "art": "emoji"
+    },
+    {
+      "id": "k11",
+      "category": "fabrics",
+      "name": "Brokar",
+      "tier": "gold",
+      "price": 1800,
+      "power": 38,
+      "minLevel": 3,
+      "emoji": "🪭",
+      "art": "emoji"
+    },
+    {
+      "id": "k12",
+      "category": "fabrics",
+      "name": "Altın İşlemeli Kumaş",
+      "tier": "legend",
+      "price": 4000,
+      "power": 69,
+      "minLevel": 4,
+      "emoji": "🌟",
+      "art": "emoji"
+    },
+    {
+      "id": "o01",
+      "category": "models",
+      "name": "Model Tara",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Podyum modeli",
+      "art": "person-model-1"
+    },
+    {
+      "id": "o02",
+      "category": "models",
+      "name": "Model Aras",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Podyum modeli",
+      "art": "person-model-2"
+    },
+    {
+      "id": "o03",
+      "category": "models",
+      "name": "Model Selin",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Katalog modeli",
+      "art": "person-model-3"
+    },
+    {
+      "id": "o04",
+      "category": "models",
+      "name": "Model Kuzey",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Katalog modeli",
+      "art": "person-model-4"
+    },
+    {
+      "id": "o05",
+      "category": "models",
+      "name": "Model Lara",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "role": "Kapak modeli",
+      "art": "person-model-5"
+    },
+    {
+      "id": "o06",
+      "category": "models",
+      "name": "Model Deniz",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "role": "Kapak modeli",
+      "art": "person-model-6"
+    },
+    {
+      "id": "o07",
+      "category": "models",
+      "name": "Model Ayaz",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "role": "Podyum modeli",
+      "art": "person-model-1"
+    },
+    {
+      "id": "o08",
+      "category": "models",
+      "name": "Model Yaren",
+      "tier": "legend",
+      "price": 4000,
+      "power": 65,
+      "minLevel": 4,
+      "role": "Starlet",
+      "art": "person-model-2"
+    },
+    {
+      "id": "c01",
+      "category": "outfits",
+      "name": "Basic Tişört",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "👕",
+      "art": "emoji"
+    },
+    {
+      "id": "c02",
+      "category": "outfits",
+      "name": "Kot Pantolon",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "👖",
+      "art": "emoji"
+    },
+    {
+      "id": "c03",
+      "category": "outfits",
+      "name": "Yazlık Elbise",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "👗",
+      "art": "emoji"
+    },
+    {
+      "id": "c04",
+      "category": "outfits",
+      "name": "Atkı ve Bere",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "🧣",
+      "art": "emoji"
+    },
+    {
+      "id": "c05",
+      "category": "outfits",
+      "name": "Trençkot",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "🧥",
+      "art": "emoji"
+    },
+    {
+      "id": "c06",
+      "category": "outfits",
+      "name": "Spor Ayakkabı",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "👟",
+      "art": "emoji"
+    },
+    {
+      "id": "c07",
+      "category": "outfits",
+      "name": "Omuz Çantası",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "👜",
+      "art": "emoji"
+    },
+    {
+      "id": "c08",
+      "category": "outfits",
+      "name": "Hasır Şapka",
+      "tier": "silver",
+      "price": 800,
+      "power": 19,
+      "minLevel": 2,
+      "emoji": "👒",
+      "art": "emoji"
+    },
+    {
+      "id": "c09",
+      "category": "outfits",
+      "name": "Abiye",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "emoji": "🥻",
+      "art": "emoji"
+    },
+    {
+      "id": "c10",
+      "category": "outfits",
+      "name": "Topuklu Ayakkabı",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "emoji": "👠",
+      "art": "emoji"
+    },
+    {
+      "id": "c11",
+      "category": "outfits",
+      "name": "Takı Seti",
+      "tier": "gold",
+      "price": 1800,
+      "power": 38,
+      "minLevel": 3,
+      "emoji": "💍",
+      "art": "emoji"
+    },
+    {
+      "id": "c12",
+      "category": "outfits",
+      "name": "Güneş Gözlüğü",
+      "tier": "gold",
+      "price": 1800,
+      "power": 42,
+      "minLevel": 3,
+      "emoji": "🕶️",
+      "art": "emoji"
+    },
+    {
+      "id": "c13",
+      "category": "outfits",
+      "name": "Taç Koleksiyonu",
+      "tier": "legend",
+      "price": 4000,
+      "power": 70,
+      "minLevel": 4,
+      "emoji": "👑",
+      "art": "emoji"
+    },
+    {
+      "id": "c14",
+      "category": "outfits",
+      "name": "İmza Defile Kıyafeti",
+      "tier": "legend",
+      "price": 4000,
+      "power": 58,
+      "minLevel": 4,
+      "emoji": "🌈",
+      "art": "emoji"
+    },
+    {
+      "id": "t01",
+      "category": "studio",
+      "name": "Dikiş Makinesi",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🧵",
+      "art": "emoji"
+    },
+    {
+      "id": "t02",
+      "category": "studio",
+      "name": "Kesim Masası",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "✂️",
+      "art": "emoji"
+    },
+    {
+      "id": "t03",
+      "category": "studio",
+      "name": "Işıklı Ayna",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "emoji": "🪞",
+      "art": "emoji"
+    },
+    {
+      "id": "t04",
+      "category": "studio",
+      "name": "Kumaş Dolabı",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "emoji": "🗄️",
+      "art": "emoji"
+    },
+    {
+      "id": "t05",
+      "category": "studio",
+      "name": "Defile Podyumu",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "emoji": "🎭",
+      "art": "emoji"
+    },
+    {
+      "id": "t06",
+      "category": "studio",
+      "name": "Tasarım Tableti",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "emoji": "🖌️",
+      "art": "emoji"
+    }
+  ],
+  "weeklyEvent": {
+    "id": "runway",
+    "name": "Defile",
+    "vsLabel": "Jüri beklentisi",
+    "scoreStyle": "points",
+    "intro": "Işıklar söndü, defile başlıyor!",
+    "resultTexts": {
+      "win": [
+        "Alkışlar dinmiyor! Koleksiyonun defilenin en çok konuşulanı oldu.",
+        "Jüri tasarımlarına tam puan verdi. Emeğin podyumda parladı!",
+        "Basın seni konuşuyor: harika bir defile!"
+      ],
+      "draw": [
+        "Güzel bir defile oldu; jüri tasarımlarını beğendi ama kararsız kaldı. Haftaya daha cesur olalım.",
+        "Sağlam bir gösteri: ne öne çıktın ne geride kaldın."
+      ],
+      "lose": [
+        "Bu defile istediğin gibi olmadı ama yeni fikirler doğdu. Yeni hafta, yeni koleksiyon!",
+        "Bu kez jüri başka tarzları seçti; senin çizgin gelişmeye devam ediyor."
+      ]
+    }
+  },
+  "texts": {
+    "powerLabel": "Defile stili",
+    "worldTitle": "Stüdyom",
+    "emptyWorld": "Stüdyon boş. İlk Pomodoro'nu yap, ilk kumaşını al!",
+    "buyVerb": "Stüdyoya ekle",
+    "ownedLabel": "Stüdyoda",
+    "priceLabel": "Fiyat",
+    "interrupted": "Dikişe ara verdik, yarın kaldığımız yerden devam ederiz.",
+    "focusHint": "Tasarım üzerinde çalışılıyor…",
+    "breakHint": "Terzi arası: biraz esne.",
+    "completed": [
+      "Bir parça daha tamamlandı, koleksiyon büyüyor!",
+      "Harika seans: stilin gelişiyor.",
+      "Atölye parlıyor."
+    ],
+    "sceneNote": "Slotlara en güçlü parçalar otomatik girer."
+  },
+  "maxPower": 914
+}

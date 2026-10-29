@@ -1,0 +1,671 @@
+{
+  "id": "football",
+  "name": "Futbol Menajeri",
+  "tagline": "Çalış, takımını şampiyon yap!",
+  "icon": "⚽",
+  "currency": {
+    "name": "Altın",
+    "icon": "🪙"
+  },
+  "palette": {
+    "light": {
+      "primary": "#17692F",
+      "onPrimary": "#FFFFFF",
+      "accent": "#B07F00",
+      "tint": "#E6F4EA"
+    },
+    "dark": {
+      "primary": "#4CC477",
+      "onPrimary": "#06210F",
+      "accent": "#F5B700",
+      "tint": "#12301C"
+    },
+    "preview": "#1B7F3B"
+  },
+  "levels": [
+    {
+      "id": 1,
+      "name": "Amatör Lig",
+      "requiredPower": 0,
+      "opponentName": "Mahalle Gençlik",
+      "opponentPower": 37
+    },
+    {
+      "id": 2,
+      "name": "3. Lig",
+      "requiredPower": 61,
+      "opponentName": "Çarşı Spor",
+      "opponentPower": 125
+    },
+    {
+      "id": 3,
+      "name": "2. Lig",
+      "requiredPower": 167,
+      "opponentName": "Liman Atletik",
+      "opponentPower": 258
+    },
+    {
+      "id": 4,
+      "name": "1. Lig",
+      "requiredPower": 319,
+      "opponentName": "Dağ Yıldızları",
+      "opponentPower": 437
+    },
+    {
+      "id": 5,
+      "name": "Süper Lig",
+      "requiredPower": 516,
+      "opponentName": "Kıta Şampiyonları",
+      "opponentPower": 640
+    }
+  ],
+  "categories": [
+    {
+      "id": "players",
+      "name": "Oyuncular",
+      "singular": "oyuncu",
+      "slotLimit": 11,
+      "layout": "pitch",
+      "icon": "👟",
+      "positions": [
+        {
+          "role": "Kaleci",
+          "x": 50,
+          "y": 86
+        },
+        {
+          "role": "Defans",
+          "x": 14,
+          "y": 66
+        },
+        {
+          "role": "Defans",
+          "x": 38,
+          "y": 70
+        },
+        {
+          "role": "Defans",
+          "x": 62,
+          "y": 70
+        },
+        {
+          "role": "Defans",
+          "x": 86,
+          "y": 66
+        },
+        {
+          "role": "Orta saha",
+          "x": 24,
+          "y": 44
+        },
+        {
+          "role": "Orta saha",
+          "x": 50,
+          "y": 50
+        },
+        {
+          "role": "Orta saha",
+          "x": 76,
+          "y": 44
+        },
+        {
+          "role": "Forvet",
+          "x": 20,
+          "y": 20
+        },
+        {
+          "role": "Forvet",
+          "x": 50,
+          "y": 14
+        },
+        {
+          "role": "Forvet",
+          "x": 80,
+          "y": 20
+        }
+      ]
+    },
+    {
+      "id": "staff",
+      "name": "Teknik ekip",
+      "singular": "ekip üyesi",
+      "slotLimit": 3,
+      "layout": "row",
+      "icon": "📋"
+    },
+    {
+      "id": "facilities",
+      "name": "Tesisler",
+      "singular": "tesis",
+      "slotLimit": 4,
+      "layout": "row",
+      "icon": "🏟️"
+    }
+  ],
+  "items": [
+    {
+      "id": "p01",
+      "category": "players",
+      "name": "Deniz Kayran",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Kaleci",
+      "art": "person-gk-1"
+    },
+    {
+      "id": "p02",
+      "category": "players",
+      "name": "Eren Dalkıran",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Kaleci",
+      "art": "person-gk-2"
+    },
+    {
+      "id": "p03",
+      "category": "players",
+      "name": "Selim Ardıç",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Kaleci",
+      "art": "person-gk-3"
+    },
+    {
+      "id": "p04",
+      "category": "players",
+      "name": "Aylin Tuncay",
+      "tier": "gold",
+      "price": 1800,
+      "power": 38,
+      "minLevel": 3,
+      "role": "Kaleci",
+      "art": "person-gk-4"
+    },
+    {
+      "id": "p05",
+      "category": "players",
+      "name": "Kaan Yılmazer",
+      "tier": "bronze",
+      "price": 300,
+      "power": 14,
+      "minLevel": 1,
+      "role": "Defans",
+      "art": "person-def-5"
+    },
+    {
+      "id": "p06",
+      "category": "players",
+      "name": "Berk Soydan",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Defans",
+      "art": "person-def-6"
+    },
+    {
+      "id": "p07",
+      "category": "players",
+      "name": "Ece Karabulut",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Defans",
+      "art": "person-def-1"
+    },
+    {
+      "id": "p08",
+      "category": "players",
+      "name": "Su Demirtaş",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "role": "Defans",
+      "art": "person-def-2"
+    },
+    {
+      "id": "p09",
+      "category": "players",
+      "name": "Taner Gökova",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Defans",
+      "art": "person-def-3"
+    },
+    {
+      "id": "p10",
+      "category": "players",
+      "name": "Cem Alparslan",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Defans",
+      "art": "person-def-4"
+    },
+    {
+      "id": "p11",
+      "category": "players",
+      "name": "Nehir Bozdoğan",
+      "tier": "silver",
+      "price": 800,
+      "power": 22,
+      "minLevel": 2,
+      "role": "Defans",
+      "art": "person-def-5"
+    },
+    {
+      "id": "p12",
+      "category": "players",
+      "name": "Onur Kalkan",
+      "tier": "gold",
+      "price": 1800,
+      "power": 36,
+      "minLevel": 3,
+      "role": "Defans",
+      "art": "person-def-6"
+    },
+    {
+      "id": "p13",
+      "category": "players",
+      "name": "Rüzgar Tekinel",
+      "tier": "legend",
+      "price": 4000,
+      "power": 70,
+      "minLevel": 4,
+      "role": "Defans",
+      "art": "person-def-1"
+    },
+    {
+      "id": "p14",
+      "category": "players",
+      "name": "Ali Duru",
+      "tier": "bronze",
+      "price": 300,
+      "power": 14,
+      "minLevel": 1,
+      "role": "Orta saha",
+      "art": "person-mid-2"
+    },
+    {
+      "id": "p15",
+      "category": "players",
+      "name": "Mina Sarıkaya",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Orta saha",
+      "art": "person-mid-3"
+    },
+    {
+      "id": "p16",
+      "category": "players",
+      "name": "Umut Çakırer",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Orta saha",
+      "art": "person-mid-4"
+    },
+    {
+      "id": "p17",
+      "category": "players",
+      "name": "Bora Akyel",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "role": "Orta saha",
+      "art": "person-mid-5"
+    },
+    {
+      "id": "p18",
+      "category": "players",
+      "name": "Baran Ölmez",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Orta saha",
+      "art": "person-mid-6"
+    },
+    {
+      "id": "p19",
+      "category": "players",
+      "name": "Zeynep Ayaz",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Orta saha",
+      "art": "person-mid-1"
+    },
+    {
+      "id": "p20",
+      "category": "players",
+      "name": "Tolga Erdemir",
+      "tier": "silver",
+      "price": 800,
+      "power": 22,
+      "minLevel": 2,
+      "role": "Orta saha",
+      "art": "person-mid-2"
+    },
+    {
+      "id": "p21",
+      "category": "players",
+      "name": "Yasin Korkmaz",
+      "tier": "gold",
+      "price": 1800,
+      "power": 35,
+      "minLevel": 3,
+      "role": "Orta saha",
+      "art": "person-mid-3"
+    },
+    {
+      "id": "p22",
+      "category": "players",
+      "name": "Irmak Doğan",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "role": "Orta saha",
+      "art": "person-mid-4"
+    },
+    {
+      "id": "p23",
+      "category": "players",
+      "name": "Poyraz Aksel",
+      "tier": "legend",
+      "price": 4000,
+      "power": 67,
+      "minLevel": 4,
+      "role": "Orta saha",
+      "art": "person-mid-5"
+    },
+    {
+      "id": "p24",
+      "category": "players",
+      "name": "Efe Karaca",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Forvet",
+      "art": "person-fwd-6"
+    },
+    {
+      "id": "p25",
+      "category": "players",
+      "name": "Ceren Yaman",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "role": "Forvet",
+      "art": "person-fwd-1"
+    },
+    {
+      "id": "p26",
+      "category": "players",
+      "name": "Alp Tarhan",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "role": "Forvet",
+      "art": "person-fwd-2"
+    },
+    {
+      "id": "p27",
+      "category": "players",
+      "name": "Duru Işık",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Forvet",
+      "art": "person-fwd-3"
+    },
+    {
+      "id": "p28",
+      "category": "players",
+      "name": "Mete Sönmez",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Forvet",
+      "art": "person-fwd-4"
+    },
+    {
+      "id": "p29",
+      "category": "players",
+      "name": "Doruk Sezgin",
+      "tier": "gold",
+      "price": 1800,
+      "power": 36,
+      "minLevel": 3,
+      "role": "Forvet",
+      "art": "person-fwd-5"
+    },
+    {
+      "id": "p30",
+      "category": "players",
+      "name": "Lale Çınar",
+      "tier": "gold",
+      "price": 1800,
+      "power": 40,
+      "minLevel": 3,
+      "role": "Forvet",
+      "art": "person-fwd-6"
+    },
+    {
+      "id": "p31",
+      "category": "players",
+      "name": "Atlas Bayraktar",
+      "tier": "gold",
+      "price": 1800,
+      "power": 44,
+      "minLevel": 3,
+      "role": "Forvet",
+      "art": "person-fwd-1"
+    },
+    {
+      "id": "p32",
+      "category": "players",
+      "name": "Rüya Kılıçer",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "role": "Forvet",
+      "art": "person-fwd-2"
+    },
+    {
+      "id": "s01",
+      "category": "staff",
+      "name": "Fizyoterapist Cansu",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Fizyoterapist",
+      "art": "person-staff-1"
+    },
+    {
+      "id": "s02",
+      "category": "staff",
+      "name": "Kondisyoner Tamer",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Kondisyoner",
+      "art": "person-staff-2"
+    },
+    {
+      "id": "s03",
+      "category": "staff",
+      "name": "Analist Gizem",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Veri analisti",
+      "art": "person-staff-3"
+    },
+    {
+      "id": "s04",
+      "category": "staff",
+      "name": "Antrenör Orhan",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Kaleci antrenörü",
+      "art": "person-staff-4"
+    },
+    {
+      "id": "s05",
+      "category": "staff",
+      "name": "Antrenör Naz",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "role": "Yardımcı antrenör",
+      "art": "person-staff-5"
+    },
+    {
+      "id": "s06",
+      "category": "staff",
+      "name": "Gökhan Hoca",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "role": "Teknik direktör",
+      "art": "person-staff-6"
+    },
+    {
+      "id": "f01",
+      "category": "facilities",
+      "name": "Antrenman Sahası",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "⚽",
+      "art": "emoji"
+    },
+    {
+      "id": "f02",
+      "category": "facilities",
+      "name": "Soyunma Odası",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🚿",
+      "art": "emoji"
+    },
+    {
+      "id": "f03",
+      "category": "facilities",
+      "name": "Spor Salonu",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "emoji": "🏋️",
+      "art": "emoji"
+    },
+    {
+      "id": "f04",
+      "category": "facilities",
+      "name": "Işıklandırma",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "emoji": "💡",
+      "art": "emoji"
+    },
+    {
+      "id": "f05",
+      "category": "facilities",
+      "name": "Kapalı Tribün",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "emoji": "🏟️",
+      "art": "emoji"
+    },
+    {
+      "id": "f06",
+      "category": "facilities",
+      "name": "Modern Stadyum",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "emoji": "🏆",
+      "art": "emoji"
+    }
+  ],
+  "weeklyEvent": {
+    "id": "match",
+    "name": "Hafta Sonu Maçı",
+    "vsLabel": "Rakip",
+    "scoreStyle": "goals",
+    "intro": "Hafta sonu maçının düdüğü çaldı!",
+    "resultTexts": {
+      "win": [
+        "Harika bir oyun! Haftalık çalışman sahaya yansıdı, maçı kazandınız.",
+        "Tribünler ayakta! Bu hafta emeğinin karşılığını aldın.",
+        "Takım senin çalışmanla büyüdü ve kazandı!"
+      ],
+      "draw": [
+        "Çekişmeli bir maç oldu, berabere kaldınız. Bir sonraki hafta daha da güçlü!",
+        "İki takım da elinden geleni yaptı: beraberlik."
+      ],
+      "lose": [
+        "Bu hafta olmadı ama takım ayakta. Yeni bir hafta, yeni bir şans!",
+        "Maçı rakip aldı; oyuncuların seninle gurur duyuyor. Birlikte tekrar deneriz."
+      ]
+    }
+  },
+  "texts": {
+    "powerLabel": "Takım gücü",
+    "worldTitle": "Takımım",
+    "emptyWorld": "Takımın boş. İlk Pomodoro'nu yap, ilk oyuncunu al!",
+    "buyVerb": "Transfer et",
+    "ownedLabel": "Takımda",
+    "priceLabel": "Bonservis",
+    "interrupted": "Antrenman yarıda kaldı, yarın tekrar deneriz.",
+    "focusHint": "Antrenman sürüyor…",
+    "breakHint": "Soyunma odasında mola zamanı.",
+    "completed": [
+      "Antrenman tamam! Takım güçleniyor.",
+      "Harika bir seans: formda kalmaya devam!",
+      "Bir antrenman daha cebinde."
+    ],
+    "sceneNote": "Slotlara en güçlü oyuncuların otomatik girer."
+  },
+  "maxPower": 759
+}

@@ -1,0 +1,578 @@
+{
+  "id": "shelter",
+  "name": "Hayvan Barınağı",
+  "tagline": "Çalış, dostlarına yuva ol!",
+  "icon": "🐾",
+  "currency": {
+    "name": "Mama puanı",
+    "icon": "🦴"
+  },
+  "palette": {
+    "light": {
+      "primary": "#17707F",
+      "onPrimary": "#FFFFFF",
+      "accent": "#B5651D",
+      "tint": "#E1F3F6"
+    },
+    "dark": {
+      "primary": "#5CC8D9",
+      "onPrimary": "#062C33",
+      "accent": "#F2A65A",
+      "tint": "#0F2F36"
+    },
+    "preview": "#1F7A8C"
+  },
+  "levels": [
+    {
+      "id": 1,
+      "name": "Küçük Barınak",
+      "requiredPower": 0,
+      "opponentName": "Mahalle hedefi",
+      "opponentPower": 44
+    },
+    {
+      "id": 2,
+      "name": "Mahalle Barınağı",
+      "requiredPower": 74,
+      "opponentName": "Okul hedefi",
+      "opponentPower": 151
+    },
+    {
+      "id": 3,
+      "name": "Sevgi Yuvası",
+      "requiredPower": 203,
+      "opponentName": "Şehir hedefi",
+      "opponentPower": 313
+    },
+    {
+      "id": 4,
+      "name": "Büyük Barınak",
+      "requiredPower": 387,
+      "opponentName": "Bölge hedefi",
+      "opponentPower": 531
+    },
+    {
+      "id": 5,
+      "name": "Örnek Barınak",
+      "requiredPower": 627,
+      "opponentName": "Ülke hedefi",
+      "opponentPower": 778
+    }
+  ],
+  "categories": [
+    {
+      "id": "animals",
+      "name": "Dostlarımız",
+      "singular": "dost",
+      "slotLimit": 10,
+      "layout": "grid",
+      "icon": "🐾"
+    },
+    {
+      "id": "homes",
+      "name": "Yuvalar",
+      "singular": "yuva",
+      "slotLimit": 6,
+      "layout": "row",
+      "icon": "🏠"
+    },
+    {
+      "id": "care",
+      "name": "Bakım ve oyuncaklar",
+      "singular": "bakım ürünü",
+      "slotLimit": 6,
+      "layout": "grid",
+      "icon": "🦴"
+    },
+    {
+      "id": "garden",
+      "name": "Bahçe",
+      "singular": "bahçe öğesi",
+      "slotLimit": 4,
+      "layout": "row",
+      "icon": "🌳"
+    }
+  ],
+  "items": [
+    {
+      "id": "a01",
+      "category": "animals",
+      "name": "Yavru Köpek",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🐶",
+      "art": "emoji"
+    },
+    {
+      "id": "a02",
+      "category": "animals",
+      "name": "Tekir Kedi",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🐱",
+      "art": "emoji"
+    },
+    {
+      "id": "a03",
+      "category": "animals",
+      "name": "Tavşan",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "🐰",
+      "art": "emoji"
+    },
+    {
+      "id": "a04",
+      "category": "animals",
+      "name": "Hamster",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "🐹",
+      "art": "emoji"
+    },
+    {
+      "id": "a05",
+      "category": "animals",
+      "name": "Kanarya",
+      "tier": "bronze",
+      "price": 300,
+      "power": 13,
+      "minLevel": 1,
+      "emoji": "🐤",
+      "art": "emoji"
+    },
+    {
+      "id": "a06",
+      "category": "animals",
+      "name": "Kirpi",
+      "tier": "silver",
+      "price": 800,
+      "power": 26,
+      "minLevel": 2,
+      "emoji": "🦔",
+      "art": "emoji"
+    },
+    {
+      "id": "a07",
+      "category": "animals",
+      "name": "Kaplumbağa",
+      "tier": "silver",
+      "price": 800,
+      "power": 21,
+      "minLevel": 2,
+      "emoji": "🐢",
+      "art": "emoji"
+    },
+    {
+      "id": "a08",
+      "category": "animals",
+      "name": "Papağan",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "🦜",
+      "art": "emoji"
+    },
+    {
+      "id": "a09",
+      "category": "animals",
+      "name": "Siyah Kedi",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "🐈‍⬛",
+      "art": "emoji"
+    },
+    {
+      "id": "a10",
+      "category": "animals",
+      "name": "Ördek",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🦆",
+      "art": "emoji"
+    },
+    {
+      "id": "a11",
+      "category": "animals",
+      "name": "Midilli",
+      "tier": "gold",
+      "price": 1800,
+      "power": 32,
+      "minLevel": 3,
+      "emoji": "🐴",
+      "art": "emoji"
+    },
+    {
+      "id": "a12",
+      "category": "animals",
+      "name": "Koyun",
+      "tier": "gold",
+      "price": 1800,
+      "power": 36,
+      "minLevel": 3,
+      "emoji": "🐑",
+      "art": "emoji"
+    },
+    {
+      "id": "a13",
+      "category": "animals",
+      "name": "Keçi",
+      "tier": "gold",
+      "price": 1800,
+      "power": 40,
+      "minLevel": 3,
+      "emoji": "🐐",
+      "art": "emoji"
+    },
+    {
+      "id": "a14",
+      "category": "animals",
+      "name": "Baykuş",
+      "tier": "gold",
+      "price": 1800,
+      "power": 44,
+      "minLevel": 3,
+      "emoji": "🦉",
+      "art": "emoji"
+    },
+    {
+      "id": "a15",
+      "category": "animals",
+      "name": "Kurtarıcı Köpek",
+      "tier": "legend",
+      "price": 4000,
+      "power": 56,
+      "minLevel": 4,
+      "emoji": "🐕‍🦺",
+      "art": "emoji"
+    },
+    {
+      "id": "a16",
+      "category": "animals",
+      "name": "Gökkuşağı Tavus Kuşu",
+      "tier": "legend",
+      "price": 4000,
+      "power": 60,
+      "minLevel": 4,
+      "emoji": "🦚",
+      "art": "emoji"
+    },
+    {
+      "id": "h01",
+      "category": "homes",
+      "name": "Küçük Kulübe",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🛖",
+      "art": "emoji"
+    },
+    {
+      "id": "h02",
+      "category": "homes",
+      "name": "Yumuşak Yatak",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🛏️",
+      "art": "emoji"
+    },
+    {
+      "id": "h03",
+      "category": "homes",
+      "name": "Kedi Evi",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "🏠",
+      "art": "emoji"
+    },
+    {
+      "id": "h04",
+      "category": "homes",
+      "name": "Isıtmalı Kulübe",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🔥",
+      "art": "emoji"
+    },
+    {
+      "id": "h05",
+      "category": "homes",
+      "name": "Kedi Tırmanma Kulesi",
+      "tier": "silver",
+      "price": 800,
+      "power": 19,
+      "minLevel": 2,
+      "emoji": "🗼",
+      "art": "emoji"
+    },
+    {
+      "id": "h06",
+      "category": "homes",
+      "name": "Geniş Ahır",
+      "tier": "gold",
+      "price": 1800,
+      "power": 40,
+      "minLevel": 3,
+      "emoji": "🏚️",
+      "art": "emoji"
+    },
+    {
+      "id": "h07",
+      "category": "homes",
+      "name": "Bahçeli Yuva",
+      "tier": "gold",
+      "price": 1800,
+      "power": 44,
+      "minLevel": 3,
+      "emoji": "🏡",
+      "art": "emoji"
+    },
+    {
+      "id": "h08",
+      "category": "homes",
+      "name": "Hayvan Köyü",
+      "tier": "legend",
+      "price": 4000,
+      "power": 65,
+      "minLevel": 4,
+      "emoji": "🏘️",
+      "art": "emoji"
+    },
+    {
+      "id": "b01",
+      "category": "care",
+      "name": "Top",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "⚽",
+      "art": "emoji"
+    },
+    {
+      "id": "b02",
+      "category": "care",
+      "name": "Kemik",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🦴",
+      "art": "emoji"
+    },
+    {
+      "id": "b03",
+      "category": "care",
+      "name": "Yumak",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "🧶",
+      "art": "emoji"
+    },
+    {
+      "id": "b04",
+      "category": "care",
+      "name": "Mama Kabı",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "🥣",
+      "art": "emoji"
+    },
+    {
+      "id": "b05",
+      "category": "care",
+      "name": "Tırmalama Tahtası",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "🪵",
+      "art": "emoji"
+    },
+    {
+      "id": "b06",
+      "category": "care",
+      "name": "Gıcırtılı Oyuncak",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "🧸",
+      "art": "emoji"
+    },
+    {
+      "id": "b07",
+      "category": "care",
+      "name": "Su Çeşmesi",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🚰",
+      "art": "emoji"
+    },
+    {
+      "id": "b08",
+      "category": "care",
+      "name": "Veteriner Çantası",
+      "tier": "gold",
+      "price": 1800,
+      "power": 42,
+      "minLevel": 3,
+      "emoji": "🩺",
+      "art": "emoji"
+    },
+    {
+      "id": "b09",
+      "category": "care",
+      "name": "Taşıma Aracı",
+      "tier": "gold",
+      "price": 1800,
+      "power": 33,
+      "minLevel": 3,
+      "emoji": "🚐",
+      "art": "emoji"
+    },
+    {
+      "id": "b10",
+      "category": "care",
+      "name": "Sağlık Kliniği",
+      "tier": "legend",
+      "price": 4000,
+      "power": 67,
+      "minLevel": 4,
+      "emoji": "🏥",
+      "art": "emoji"
+    },
+    {
+      "id": "g01",
+      "category": "garden",
+      "name": "Çim Alan",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🌱",
+      "art": "emoji"
+    },
+    {
+      "id": "g02",
+      "category": "garden",
+      "name": "Sebze Bahçesi",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🥕",
+      "art": "emoji"
+    },
+    {
+      "id": "g03",
+      "category": "garden",
+      "name": "Oyun Parkuru",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "emoji": "🎪",
+      "art": "emoji"
+    },
+    {
+      "id": "g04",
+      "category": "garden",
+      "name": "Gölgelik Ağaçlar",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "emoji": "🌳",
+      "art": "emoji"
+    },
+    {
+      "id": "g05",
+      "category": "garden",
+      "name": "Çiçek Bahçesi",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "emoji": "🌻",
+      "art": "emoji"
+    },
+    {
+      "id": "g06",
+      "category": "garden",
+      "name": "Doğal Havuz",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "emoji": "🏞️",
+      "art": "emoji"
+    }
+  ],
+  "weeklyEvent": {
+    "id": "adoption",
+    "name": "Sahiplendirme Günü",
+    "vsLabel": "Haftalık hedef",
+    "scoreStyle": "points",
+    "intro": "Sahiplendirme günü başladı, kapıda ziyaretçiler var!",
+    "resultTexts": {
+      "win": [
+        "Harika bir gün! Birçok dostumuz sevgi dolu yuvalara kavuştu.",
+        "Bu hafta yaptığın çalışma barınağı çok sevimli yaptı; ziyaretçiler hayran kaldı.",
+        "Hedefi aştık; kuyruklar boş yuva bırakmadı!"
+      ],
+      "draw": [
+        "Sakin ama güzel bir gün: birkaç dostumuz yeni yuvasına gitti.",
+        "Hedefimize çok yaklaştık; haftaya daha da iyi olacak."
+      ],
+      "lose": [
+        "Bu hafta ziyaretçi az geldi ama dostlarımız seni seviyor. Yeni haftada yeniden deneriz!",
+        "Bu kez olmadı; barınak her zaman sıcak, kapımız açık."
+      ]
+    }
+  },
+  "texts": {
+    "powerLabel": "Mutluluk",
+    "worldTitle": "Barınağım",
+    "emptyWorld": "Barınak sessiz. İlk Pomodoro'nu yap, ilk dostunu karşıla!",
+    "buyVerb": "Barınağa kabul et",
+    "ownedLabel": "Barınakta",
+    "priceLabel": "Bakım masrafı",
+    "interrupted": "Dostlarımız beklesin, yarın yeniden ilgilenirsin.",
+    "focusHint": "Dostlarımız mışıl mışıl uyuyor…",
+    "breakHint": "Dostlarla kısa bir mola.",
+    "completed": [
+      "Dostlarımızın karnı doydu, teşekkürler!",
+      "Harika seans: barınak daha mutlu.",
+      "Kuyruklar sallanıyor!"
+    ],
+    "sceneNote": "Slotlara en mutlu dostların otomatik girer."
+  },
+  "maxPower": 922
+}

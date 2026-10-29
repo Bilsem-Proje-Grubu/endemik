@@ -1,0 +1,600 @@
+{
+  "id": "cafe",
+  "name": "Kafe Dünyam",
+  "tagline": "Çalış, kendi kafeni büyüt!",
+  "icon": "☕",
+  "currency": {
+    "name": "Kahve çekirdeği",
+    "icon": "🫘"
+  },
+  "palette": {
+    "light": {
+      "primary": "#86441F",
+      "onPrimary": "#FFFFFF",
+      "accent": "#A8641B",
+      "tint": "#F6EBDD"
+    },
+    "dark": {
+      "primary": "#E0A672",
+      "onPrimary": "#2A1608",
+      "accent": "#F0B86E",
+      "tint": "#33210F"
+    },
+    "preview": "#8A4B2A"
+  },
+  "levels": [
+    {
+      "id": 1,
+      "name": "Mahalle Kafesi",
+      "requiredPower": 0,
+      "opponentName": "Mahalle beklentisi",
+      "opponentPower": 47
+    },
+    {
+      "id": 2,
+      "name": "Sevilen Köşe",
+      "requiredPower": 79,
+      "opponentName": "Gazete eleştirmeni",
+      "opponentPower": 162
+    },
+    {
+      "id": 3,
+      "name": "Şehir Kafesi",
+      "requiredPower": 218,
+      "opponentName": "Şehir lezzet yarışması",
+      "opponentPower": 337
+    },
+    {
+      "id": 4,
+      "name": "Ödüllü Kafe",
+      "requiredPower": 417,
+      "opponentName": "Ulusal kafe ödülü",
+      "opponentPower": 572
+    },
+    {
+      "id": 5,
+      "name": "Ünlü Kafe",
+      "requiredPower": 675,
+      "opponentName": "Dünya kafe festivali",
+      "opponentPower": 837
+    }
+  ],
+  "categories": [
+    {
+      "id": "furniture",
+      "name": "Mobilya ve dekor",
+      "singular": "dekor",
+      "slotLimit": 8,
+      "layout": "grid",
+      "icon": "🪑"
+    },
+    {
+      "id": "menu",
+      "name": "Menü",
+      "singular": "lezzet",
+      "slotLimit": 8,
+      "layout": "grid",
+      "icon": "🍰"
+    },
+    {
+      "id": "staff",
+      "name": "Ekip",
+      "singular": "ekip üyesi",
+      "slotLimit": 4,
+      "layout": "row",
+      "icon": "🧑‍🍳"
+    },
+    {
+      "id": "equipment",
+      "name": "Ekipman",
+      "singular": "ekipman",
+      "slotLimit": 4,
+      "layout": "row",
+      "icon": "⚙️"
+    }
+  ],
+  "items": [
+    {
+      "id": "m01",
+      "category": "furniture",
+      "name": "Hasır Sandalye",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🪑",
+      "art": "emoji"
+    },
+    {
+      "id": "m02",
+      "category": "furniture",
+      "name": "Ahşap Masa",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🪵",
+      "art": "emoji"
+    },
+    {
+      "id": "m03",
+      "category": "furniture",
+      "name": "Saksı Çiçeği",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "🪴",
+      "art": "emoji"
+    },
+    {
+      "id": "m04",
+      "category": "furniture",
+      "name": "Duvar Saati",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "🕰️",
+      "art": "emoji"
+    },
+    {
+      "id": "m05",
+      "category": "furniture",
+      "name": "Sarkıt Lamba",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "💡",
+      "art": "emoji"
+    },
+    {
+      "id": "m06",
+      "category": "furniture",
+      "name": "Kitap Rafı",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "📚",
+      "art": "emoji"
+    },
+    {
+      "id": "m07",
+      "category": "furniture",
+      "name": "Duvar Tablosu",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🖼️",
+      "art": "emoji"
+    },
+    {
+      "id": "m08",
+      "category": "furniture",
+      "name": "Rahat Koltuk",
+      "tier": "silver",
+      "price": 800,
+      "power": 19,
+      "minLevel": 2,
+      "emoji": "🛋️",
+      "art": "emoji"
+    },
+    {
+      "id": "m09",
+      "category": "furniture",
+      "name": "Gitar Köşesi",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "emoji": "🎸",
+      "art": "emoji"
+    },
+    {
+      "id": "m10",
+      "category": "furniture",
+      "name": "Dikey Bahçe",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "emoji": "🌿",
+      "art": "emoji"
+    },
+    {
+      "id": "m11",
+      "category": "furniture",
+      "name": "Büyük Cam Cephe",
+      "tier": "gold",
+      "price": 1800,
+      "power": 38,
+      "minLevel": 3,
+      "emoji": "🪟",
+      "art": "emoji"
+    },
+    {
+      "id": "m12",
+      "category": "furniture",
+      "name": "Kuş Sesli Çeşme",
+      "tier": "gold",
+      "price": 1800,
+      "power": 42,
+      "minLevel": 3,
+      "emoji": "⛲",
+      "art": "emoji"
+    },
+    {
+      "id": "m13",
+      "category": "furniture",
+      "name": "Kristal Avize",
+      "tier": "legend",
+      "price": 4000,
+      "power": 70,
+      "minLevel": 4,
+      "emoji": "✨",
+      "art": "emoji"
+    },
+    {
+      "id": "m14",
+      "category": "furniture",
+      "name": "Çatı Terası",
+      "tier": "legend",
+      "price": 4000,
+      "power": 58,
+      "minLevel": 4,
+      "emoji": "🌇",
+      "art": "emoji"
+    },
+    {
+      "id": "u01",
+      "category": "menu",
+      "name": "Sade Kahve",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "☕",
+      "art": "emoji"
+    },
+    {
+      "id": "u02",
+      "category": "menu",
+      "name": "Demli Çay",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🍵",
+      "art": "emoji"
+    },
+    {
+      "id": "u03",
+      "category": "menu",
+      "name": "Poğaça",
+      "tier": "bronze",
+      "price": 300,
+      "power": 12,
+      "minLevel": 1,
+      "emoji": "🥐",
+      "art": "emoji"
+    },
+    {
+      "id": "u04",
+      "category": "menu",
+      "name": "Kurabiye",
+      "tier": "bronze",
+      "price": 300,
+      "power": 9,
+      "minLevel": 1,
+      "emoji": "🍪",
+      "art": "emoji"
+    },
+    {
+      "id": "u05",
+      "category": "menu",
+      "name": "Cupcake",
+      "tier": "silver",
+      "price": 800,
+      "power": 25,
+      "minLevel": 2,
+      "emoji": "🧁",
+      "art": "emoji"
+    },
+    {
+      "id": "u06",
+      "category": "menu",
+      "name": "Kaşarlı Tost",
+      "tier": "silver",
+      "price": 800,
+      "power": 20,
+      "minLevel": 2,
+      "emoji": "🥪",
+      "art": "emoji"
+    },
+    {
+      "id": "u07",
+      "category": "menu",
+      "name": "Pankek",
+      "tier": "silver",
+      "price": 800,
+      "power": 24,
+      "minLevel": 2,
+      "emoji": "🥞",
+      "art": "emoji"
+    },
+    {
+      "id": "u08",
+      "category": "menu",
+      "name": "Sıcak Çikolata",
+      "tier": "silver",
+      "price": 800,
+      "power": 19,
+      "minLevel": 2,
+      "emoji": "🍫",
+      "art": "emoji"
+    },
+    {
+      "id": "u09",
+      "category": "menu",
+      "name": "Soğuk Kahve",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "emoji": "🧋",
+      "art": "emoji"
+    },
+    {
+      "id": "u10",
+      "category": "menu",
+      "name": "Cheesecake",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "emoji": "🍰",
+      "art": "emoji"
+    },
+    {
+      "id": "u11",
+      "category": "menu",
+      "name": "Çilekli Tatlı",
+      "tier": "gold",
+      "price": 1800,
+      "power": 38,
+      "minLevel": 3,
+      "emoji": "🍓",
+      "art": "emoji"
+    },
+    {
+      "id": "u12",
+      "category": "menu",
+      "name": "Ev Yapımı Limonata",
+      "tier": "gold",
+      "price": 1800,
+      "power": 42,
+      "minLevel": 3,
+      "emoji": "🍋",
+      "art": "emoji"
+    },
+    {
+      "id": "u13",
+      "category": "menu",
+      "name": "Kafenin Özel Karışımı",
+      "tier": "legend",
+      "price": 4000,
+      "power": 70,
+      "minLevel": 4,
+      "emoji": "🌟",
+      "art": "emoji"
+    },
+    {
+      "id": "u14",
+      "category": "menu",
+      "name": "Şefin Doğum Günü Pastası",
+      "tier": "legend",
+      "price": 4000,
+      "power": 58,
+      "minLevel": 4,
+      "emoji": "🎂",
+      "art": "emoji"
+    },
+    {
+      "id": "e01",
+      "category": "staff",
+      "name": "Barista Defne",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "role": "Barista",
+      "art": "person-cafe-1"
+    },
+    {
+      "id": "e02",
+      "category": "staff",
+      "name": "Garson Kuzey",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "role": "Garson",
+      "art": "person-cafe-2"
+    },
+    {
+      "id": "e03",
+      "category": "staff",
+      "name": "Kasiyer Melis",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "role": "Kasiyer",
+      "art": "person-cafe-3"
+    },
+    {
+      "id": "e04",
+      "category": "staff",
+      "name": "Pastacı Hasan",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "role": "Pastacı",
+      "art": "person-cafe-4"
+    },
+    {
+      "id": "e05",
+      "category": "staff",
+      "name": "Müzisyen Ada",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "role": "Müzisyen",
+      "art": "person-cafe-5"
+    },
+    {
+      "id": "e06",
+      "category": "staff",
+      "name": "Şef Barista Tuna",
+      "tier": "gold",
+      "price": 1800,
+      "power": 43,
+      "minLevel": 3,
+      "role": "Şef barista",
+      "art": "person-cafe-6"
+    },
+    {
+      "id": "e07",
+      "category": "staff",
+      "name": "Fotoğrafçı Ilgın",
+      "tier": "gold",
+      "price": 1800,
+      "power": 34,
+      "minLevel": 3,
+      "role": "Fotoğrafçı",
+      "art": "person-cafe-1"
+    },
+    {
+      "id": "e08",
+      "category": "staff",
+      "name": "Müdür Sevgi",
+      "tier": "legend",
+      "price": 4000,
+      "power": 65,
+      "minLevel": 4,
+      "role": "Kafe müdürü",
+      "art": "person-cafe-2"
+    },
+    {
+      "id": "q01",
+      "category": "equipment",
+      "name": "Demlik",
+      "tier": "bronze",
+      "price": 300,
+      "power": 11,
+      "minLevel": 1,
+      "emoji": "🫖",
+      "art": "emoji"
+    },
+    {
+      "id": "q02",
+      "category": "equipment",
+      "name": "Kahve Değirmeni",
+      "tier": "bronze",
+      "price": 300,
+      "power": 8,
+      "minLevel": 1,
+      "emoji": "🫘",
+      "art": "emoji"
+    },
+    {
+      "id": "q03",
+      "category": "equipment",
+      "name": "Buzdolabı",
+      "tier": "silver",
+      "price": 800,
+      "power": 23,
+      "minLevel": 2,
+      "emoji": "🧊",
+      "art": "emoji"
+    },
+    {
+      "id": "q04",
+      "category": "equipment",
+      "name": "Taş Fırın",
+      "tier": "silver",
+      "price": 800,
+      "power": 18,
+      "minLevel": 2,
+      "emoji": "🔥",
+      "art": "emoji"
+    },
+    {
+      "id": "q05",
+      "category": "equipment",
+      "name": "Hızlı Wi-Fi",
+      "tier": "gold",
+      "price": 1800,
+      "power": 39,
+      "minLevel": 3,
+      "emoji": "📶",
+      "art": "emoji"
+    },
+    {
+      "id": "q06",
+      "category": "equipment",
+      "name": "Profesyonel Espresso Makinesi",
+      "tier": "legend",
+      "price": 4000,
+      "power": 63,
+      "minLevel": 4,
+      "emoji": "🏭",
+      "art": "emoji"
+    }
+  ],
+  "weeklyEvent": {
+    "id": "festival",
+    "name": "Kafe Festivali",
+    "vsLabel": "Jüri beklentisi",
+    "scoreStyle": "points",
+    "intro": "Mahalle kafe festivali başladı, jüri kapıda!",
+    "resultTexts": {
+      "win": [
+        "Jüri bayıldı! Kafen festivalin yıldızı oldu.",
+        "Kuyruklar kapıya kadar uzandı; bu hafta emeğin tatlı bir başarıya dönüştü.",
+        "Festivalin birincisi senin kafen!"
+      ],
+      "draw": [
+        "Jüri kararsız kaldı ama kafen çok sevildi. Haftaya daha iddialı olacağız.",
+        "Dengeli bir festival oldu; müşteriler yine de gülümseyerek ayrıldı."
+      ],
+      "lose": [
+        "Bu festivalde ışığı başkaları aldı ama kafen hâlâ ayakta. Yeni haftada yeni tarifler!",
+        "Bu kez olmadı; müşterilerin bir sonraki gelişte daha iyisini bulacak."
+      ]
+    }
+  },
+  "texts": {
+    "powerLabel": "Kafe popülerliği",
+    "worldTitle": "Kafem",
+    "emptyWorld": "Kafen henüz boş. İlk Pomodoro'nu yap, ilk sandalyeni al!",
+    "buyVerb": "Kafeye ekle",
+    "ownedLabel": "Kafede",
+    "priceLabel": "Fiyat",
+    "interrupted": "Kafe bir an kapandı, yarın yeniden açarız.",
+    "focusHint": "Kahve demleniyor…",
+    "breakHint": "Bir fincan mola zamanı.",
+    "completed": [
+      "Bir fincan daha demlendi, kafen büyüyor!",
+      "Harika seans: müşteriler memnun.",
+      "Kasa dolmaya devam ediyor."
+    ],
+    "sceneNote": "Slotlara en popüler ürünlerin otomatik girer."
+  },
+  "maxPower": 992
+}
