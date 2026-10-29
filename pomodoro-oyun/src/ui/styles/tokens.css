@@ -1,0 +1,90 @@
+/* Tasarım sistemi: tüm renk, boşluk, yazı boyutu ve gölgeler burada. Temalar sadece --primary vb. değerleri ezer. */
+:root {
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-scale: 1;
+
+  --fs-xs: 0.8125rem;
+  --fs-s: 0.9375rem;
+  --fs-m: 1rem;
+  --fs-l: 1.25rem;
+  --fs-xl: 1.625rem;
+  --fs-xxl: 2.25rem;
+  --fs-timer: clamp(3rem, 16vw, 4.5rem);
+
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+
+  --radius-s: 0.625rem;
+  --radius-m: 1rem;
+  --radius-l: 1.5rem;
+  --radius-full: 999px;
+
+  --tap: 44px;
+  --nav-h: 68px;
+  --maxw: 44rem;
+
+  --dur-fast: 200ms;
+  --dur-med: 400ms;
+  --dur-slow: 600ms;
+
+  /* Aydınlık yüzeyler */
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface-2: #eceff3;
+  --text: #14181f;
+  --text-2: #4a5361;
+  --border: #d3d9e2;
+  --focus-ring: #1a56db;
+  --danger: #b42318;
+  --success: #17692f;
+  --shadow-1: 0 1px 2px rgb(16 24 40 / 8%), 0 1px 3px rgb(16 24 40 / 10%);
+  --shadow-2: 0 8px 24px rgb(16 24 40 / 14%);
+  --overlay: rgb(10 14 20 / 55%);
+
+  /* Tema değişkenleri (JS, tema JSON'undan doldurur) */
+  --primary: #17692f;
+  --on-primary: #ffffff;
+  --accent: #b07f00;
+  --tint: #e6f4ea;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) {
+    --bg: #0d1116;
+    --surface: #171c23;
+    --surface-2: #222933;
+    --text: #eef1f5;
+    --text-2: #aab4c2;
+    --border: #323b48;
+    --focus-ring: #8ab4ff;
+    --danger: #ff8a80;
+    --success: #6fd49a;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+    --shadow-2: 0 8px 24px rgb(0 0 0 / 50%);
+    --overlay: rgb(0 0 0 / 65%);
+    color-scheme: dark;
+  }
+}
+
+:root[data-mode="dark"] {
+  --bg: #0d1116;
+  --surface: #171c23;
+  --surface-2: #222933;
+  --text: #eef1f5;
+  --text-2: #aab4c2;
+  --border: #323b48;
+  --focus-ring: #8ab4ff;
+  --danger: #ff8a80;
+  --success: #6fd49a;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-2: 0 8px 24px rgb(0 0 0 / 50%);
+  --overlay: rgb(0 0 0 / 65%);
+  color-scheme: dark;
+}

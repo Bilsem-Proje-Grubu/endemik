@@ -18,12 +18,10 @@ export function buildContext(state, themes = {}) {
   let legends = 0;
   let themesPlayed = 0;
   let events = 0;
-  let wins = 0;
   for (const [id, ts] of themeStates) {
     owned += ts.owned.length;
     if (ts.owned.length > 0) themesPlayed += 1;
     events += ts.events.length;
-    wins += ts.events.filter((e) => e.result === 'win').length;
     const theme = themes[id];
     if (theme) legends += theme.items.filter((i) => ts.owned.includes(i.id) && i.tier === 'legend').length;
   }
@@ -46,7 +44,6 @@ export function buildContext(state, themes = {}) {
     themesPlayed,
     long45: done.some((s) => s.plannedMin >= 45),
     events,
-    wins,
     frozen: state.streak.frozenDays.length,
     comeback,
   };
@@ -86,7 +83,7 @@ export const BADGES = {
   themes4: num('themesPlayed', 4, '🎨'),
   long45: flag('long45', '🧠'),
   firstEvent: num('events', 1, '🎉'),
-  win3: num('wins', 3, '🥳'),
+  events3: num('events', 3, '🥳'),
   freeze: flag('frozen', '🧊'),
   comeback: flag('comeback', '🤝'),
 };

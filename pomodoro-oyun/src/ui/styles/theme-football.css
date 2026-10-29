@@ -1,0 +1,6 @@
+/* Futbol teması: çim çizgili sakin arka plan */
+:root[data-theme="football"] .ambient {
+  background: repeating-linear-gradient(0deg, transparent 0 48px, color-mix(in srgb, var(--primary) 3.5%, transparent) 48px 96px);
+}
+:root[data-theme="football"] .scene-grid,
+:root[data-theme="football"] .scene-row { background: color-mix(in srgb, var(--primary) 10%, var(--surface)); }

@@ -1,0 +1,8 @@
+/* Moda teması: yumuşak ışık huzmeleri, podyum şeridi */
+:root[data-theme="fashion"] .ambient {
+  background: conic-gradient(from 200deg at 50% -10%, transparent 0 40deg, color-mix(in srgb, var(--primary) 9%, transparent) 60deg, transparent 80deg 100deg, color-mix(in srgb, var(--accent) 9%, transparent) 120deg, transparent 140deg);
+  animation: sweep 14s ease-in-out infinite alternate;
+}
+@keyframes sweep { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+:root[data-theme="fashion"] .scene-row { background: linear-gradient(180deg, var(--tint), color-mix(in srgb, var(--primary) 14%, var(--surface))); border-bottom: 6px solid var(--primary); }
+:root[data-theme="fashion"] .scene-grid { background: color-mix(in srgb, var(--primary) 7%, var(--surface)); }

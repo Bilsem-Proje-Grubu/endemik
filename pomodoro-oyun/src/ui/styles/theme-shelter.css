@@ -1,0 +1,11 @@
+/* Barınak teması: yavaşça süzülen yaprak/iz hissi, çim zemin */
+:root[data-theme="shelter"] .ambient {
+  background:
+    radial-gradient(circle at 20% 90%, color-mix(in srgb, var(--primary) 12%, transparent) 0 8%, transparent 9%),
+    radial-gradient(circle at 75% 80%, color-mix(in srgb, var(--accent) 12%, transparent) 0 6%, transparent 7%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--primary) 8%, transparent) 0 30%, transparent 31%);
+  animation: breathe 8s ease-in-out infinite alternate;
+}
+@keyframes breathe { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+:root[data-theme="shelter"] .scene-grid { background: linear-gradient(180deg, var(--tint), color-mix(in srgb, #4caf50 14%, var(--surface))); }
+:root[data-theme="shelter"] .scene-row { background: color-mix(in srgb, var(--primary) 8%, var(--surface)); }

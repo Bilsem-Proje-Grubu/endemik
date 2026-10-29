@@ -31,8 +31,9 @@ export function surveyDue(state, now) {
 
 /** Anket cevabını kaydeder. answers: 3 sayı (1-5). */
 export function submitSurvey(state, phase, answers, now) {
-  const clean = answers.map((a) => Math.max(1, Math.min(5, Math.round(Number(a) || 0))));
-  if (clean.length !== R.questionCount || clean.some((a) => !a)) return false;
+  if (!Array.isArray(answers) || answers.length !== R.questionCount) return false;
+  if (answers.some((a) => !Number.isFinite(Number(a)) || Number(a) < 1)) return false; // Cevapsız soru olamaz
+  const clean = answers.map((a) => Math.min(5, Math.round(Number(a))));
   state.research.surveys = state.research.surveys.filter((s) => s.phase !== phase);
   state.research.surveys.push({ id: `a_${phase}`, phase, takenAt: now, day: dayKey(now), answers: clean });
   return true;
