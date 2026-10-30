@@ -521,11 +521,19 @@ function viewPrivacy() {
       <ul><li><b>Tür adı ve notunuz.</b> Notu siz yazarsınız; kişisel bilgi yazmamanızı öneririz.</li>
       <li><b>Yaklaşık konum.</b> Gördüğünüz yer, yaklaşık 5 km'lik bir karenin ortasına yuvarlanır. Tam nokta ne sunucuya kaydedilir ne de haritada görünür. Amaç, nadir türlerin tam yerinin öğrenilmemesidir.</li>
       <li><b>Fotoğraf (isteğe bağlı).</b> Fotoğrafı eklemek sizin kararınızdır. Fotoğraftaki konum, tarih ve cihaz bilgisi gönderilmeden önce silinir.</li>
-      <li><b>İnternet adresiniz (IP), geçici.</b> Sistemin kötüye kullanılmaması için en fazla 10 dakika tutulur, sonra silinir ve kaydınızla ilişkilendirilmez.</li>
-      <li><b>Fotoğraf sahibi adı (isteğe bağlı).</b> Yazarsanız fotoğrafın altında herkese görünür. Boş bırakırsanız “Anonim” yazılır.</li></ul></div>
+      <li><b>İnternet adresiniz (IP), geçici.</b> Sistemin kötüye kullanılmaması için (kısa sürede çok kayıt gönderilmesini sınırlamak amacıyla) tutulur. 10 dakikadan eski adresler sistemin bir sonraki işleminde silinir; kaydınızla ilişkilendirilmez.</li>
+      <li><b>Fotoğraf sahibi adı (isteğe bağlı).</b> Yazarsanız fotoğrafın altında herkese görünür. Boş bırakırsanız “Anonim” yazılır.</li></ul>
+      <p><b>Fotoğrafta kişi olmasın.</b> Lütfen yüzü, arabanın plakasını, evin içini ya da kişileri tanıtan bir şeyi gösteren fotoğraf göndermeyin. Yönetici böyle bir fotoğraf görürse yayınlamaz ya da siler.</p></div>
+    <div class="panel"><b>Veriyi kim işliyor, neden?</b>
+      <p>Verileri işleyen (veri sorumlusu): BİLSEM Proje Grubu (öğrenci projesi). İletişim: <a href="mailto:bilsemprojegrubu@gmail.com">bilsemprojegrubu@gmail.com</a>.</p>
+      <p><b>Amaç:</b> endemik ve korunan türlerin gözlemlerini toplamak, haritada göstermek ve eğitim amaçlı bilgi vermek. Veriler başka bir amaçla kullanılmaz, satılmaz, reklam için paylaşılmaz.</p>
+      <p><b>Dayanak:</b> verileri siz kendi isteğinizle gönderirsiniz (açık rıza). İsterseniz hiçbir şey göndermeden uygulamayı kullanabilirsiniz.</p>
+      <p><b>Ne kadar saklanır?</b> Gönderilen kayıtlar ve sıralama puanları proje sürdüğü sürece saklanır; silinmesini isterseniz kaldırılır. Onaylanmayan kayıtlar yayınlanmaz.</p></div>
+    <div class="panel"><b>18 yaşından küçükler</b>
+      <p>Uygulamayı çocuklar da kullanabilir. 18 yaşından küçükseniz kayıt, fotoğraf ya da takma ad göndermeden önce bir ebeveyninize ya da öğretmeninize danışın. Gerçek adınızı, okulunuzu ya da adresinizi yazmanıza gerek yok; lütfen yazmayın.</p></div>
     <div class="panel"><b>Kimler görür?</b>
       <p>Kaydınız önce yalnızca proje yöneticisine görünür. Onaylanırsa tür sayfasında ve haritada herkese gösterilir. Onaylanmayan kayıtlar yayınlanmaz.</p>
-      <p>Fotoğraf göndermek için, fotoğrafı sizin çektiğinizi ve <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a> lisansıyla, adınız belirtilerek bu uygulamada gösterilmesine izin verdiğinizi onaylarsınız.</p></div>
+      <p>Fotoğraf göndermek için, fotoğrafı sizin çektiğinizi ve <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a> lisansıyla, adınız belirtilerek bu uygulamada gösterilmesine izin verdiğinizi onaylarsınız. Bu lisans, yayınlanmış kopyalar için geri alınamaz; fotoğrafı bizden kaldırtabilirsiniz ama başkalarının daha önce lisansla aldığı kopyalar kalabilir.</p></div>
     <div class="panel"><b>Fotoğraftan tanıma</b>
       <p>“Tanı” bölümünde seçtiğiniz fotoğraf yalnızca telefonunuzda incelenir; hiçbir yere yüklenmez ve saklanmaz. Model ilk kullanımda sitemizden indirilir.</p></div>
     <div class="panel"><b>Kamera</b>
@@ -541,7 +549,10 @@ function viewPrivacy() {
       <ul><li><b>Supabase:</b> Kayıtlar bu hizmette saklanır.</li>
       <li><b>OpenStreetMap:</b> Harita açıldığında harita parçaları OpenStreetMap sunucularından indirilir; bu sunucular internet adresinizi görebilir.</li>
       <li><b>GitHub:</b> Site GitHub Pages üzerinde yayınlanır.</li></ul>
-      <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p></div>
+      <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p>
+      <p><b>Yurt dışı:</b> Bu hizmetlerin sunucuları Türkiye dışında olabilir (Supabase, GitHub, Wikimedia ve OpenStreetMap yurt dışı kuruluşlardır). Kayıt göndermeniz ve izin verdiğiniz özellikleri kullanmanız, verinin bu hizmetlere aktarılmasını kabul etmeniz anlamına gelir.</p></div>
+    <div class="panel"><b>Haklarınız</b>
+      <p>6698 sayılı KVKK kapsamında; verinizin işlenip işlenmediğini öğrenme, bilgi isteme, düzeltilmesini ya da silinmesini isteme, işlenmesine itiraz etme ve Kişisel Verileri Koruma Kurumu'na başvurma hakkınız vardır. Başvuru için yukarıdaki e-posta adresine yazabilirsiniz. Verdiğiniz izni istediğiniz zaman geri alabilirsiniz.</p></div>
     <div class="panel"><b>Cihazınızda saklananlar</b>
       <p>Tema ve ayarlarınız, indirilen fotoğraflar ve internet yokken gönderdiğiniz bekleyen kayıtlar yalnızca cihazınızda tutulur.</p></div>
     <div class="panel"><b>Kaydımı sildirmek istiyorum</b>
