@@ -13,7 +13,7 @@ for r in rows:
     t = re.sub(r'\s*\((?:İngilizce|Latince|Fransızca|Almanca)[^)]*\)', '', t)  # dil notlarını at
     if T.id['<unk>'] in T.encode(t + ' ' + r['title']) or len(T.encode(t)) > 230: drop += 1; continue
     m = re.match(r'^(.{3,40}?)(?: veya bilimsel adıyla |\s*\()', t)
-    alias = m.group(1).strip(' ,') if m and not re.search(r'\d|[A-Z][a-z]+ [a-z]+$', m.group(1)) else ''
+    alias = m.group(1).strip(' ,') if m and not re.search(r'\d|[A-Z][a-z]+ [a-z]+$|giller|,', m.group(1)) else ''
     seen.add(r['title'])
     out.append({'t': r['title'], 'a': alias, 'x': t, 'u': f"https://tr.wikipedia.org/wiki?curid={r['curid']}", 'k': r['kind']})
 json.dump(out, open(os.path.join(ROOT, 'src/data/wiki.json'), 'w'), ensure_ascii=False)
