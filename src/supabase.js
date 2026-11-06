@@ -40,9 +40,12 @@ export async function addSighting(s) {
 // Herkese açık: yalnızca onaylı kayıtlar.
 export async function getApprovedSightings() {
   if (!supabase) return [];
-  const { data, error } = await supabase.from('sightings').select('*').eq('status', 'approved');
-  if (error) { console.warn(error); return []; }
-  return data;
+  // Hassas türlerin koordinatları sunucuda yuvarlanmış 'public_sightings' görünümünden okunur
+  // (supabase/sensitive.sql). Görünüm henüz kurulmadıysa eski tabloya düşer.
+  let res = await supabase.from('public_sightings').select('*');
+  if (res.error) res = await supabase.from('sightings').select('*').eq('status', 'approved');
+  if (res.error) { console.warn(res.error); return []; }
+  return res.data;
 }
 
 export function getLocalSightings() { return readLocal(); }

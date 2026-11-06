@@ -79,9 +79,22 @@ function addBaseLayers(m) {
 // Tehlike düzeyi (CR/EN/VU) – statü metinlerinden çıkarılır.
 const threatened = (s) => /\b(CR|EN|VU)\b|nesli tehlike|Kritik|Tehlike Altında/i.test(`${s.statusNational || ''} ${s.statusIntl || ''}`);
 
+// Hassas türler: tam konum yerine ~10 km'lik ızgara hücresi gösterilir.
+// `sensitive` alanı verilmemişse kritik tehlikedeki (CR) türler hassas sayılır.
+const isSensitive = (s) => s.sensitive ?? /\bCR\b|Kritik|nesli tehlike/i.test(`${s.statusNational || ''} ${s.statusIntl || ''}`);
+const CELL = 0.1;
+function drawLocality(s, l, color, popup, target) {
+  if (!isSensitive(s) && !l.generalized) {
+    return L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color, weight: 2 }).bindPopup(popup).addTo(target);
+  }
+  const la = Math.floor(l.lat / CELL) * CELL, lo = Math.floor(l.lng / CELL) * CELL;
+  return L.rectangle([[la, lo], [la + CELL, lo + CELL]], { color, weight: 2, dashArray: '5 4', fillOpacity: 0.15 })
+    .bindPopup(`${popup}<br><span class="note">Hassas tür: konum bilerek ~10 km'lik hücre olarak genelleştirilmiştir.</span>`).addTo(target);
+}
+
 // ---------- Tür detayı ----------
 function allLocalities(s) {
-  const extra = approved.filter((a) => a.species_id === s.id).map((a) => ({ name: 'Kullanıcı kaydı', lat: a.lat, lng: a.lng, radiusKm: 3, user: true }));
+  const extra = approved.filter((a) => a.species_id === s.id).map((a) => ({ name: 'Kullanıcı kaydı', lat: a.lat, lng: a.lng, radiusKm: 3, user: true, generalized: a.generalized }));
   return [...s.localities, ...extra];
 }
 function viewSpecies(id) {
@@ -110,7 +123,7 @@ function viewSpecies(id) {
   if (locs.length) {
     map = L.map('m');
     addBaseLayers(map);
-    locs.forEach((l) => L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: l.user ? '#e8b84a' : '#6fcf4f', weight: 2 }).bindPopup(esc(l.name)).addTo(map));
+    locs.forEach((l) => drawLocality(s, l, l.user ? '#e8b84a' : '#6fcf4f', esc(l.name), map));
     // Daire sınırları harita görünümü olmadan hesaplanamaz; merkez noktalarına göre sığdır.
     map.fitBounds(L.latLngBounds(locs.map((l) => [l.lat, l.lng])).pad(0.5), { animate: false, maxZoom: 10 });
   }
@@ -137,8 +150,7 @@ function viewMap() {
       if (mapFilter.group !== 'all' && s.group !== mapFilter.group) continue;
       if (mapFilter.threat && !threatened(s)) continue;
       for (const l of allLocalities(s)) {
-        L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', weight: 2 })
-          .bindPopup(`<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
+        drawLocality(s, l, s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', `<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`, layer);
       }
     }
   };
