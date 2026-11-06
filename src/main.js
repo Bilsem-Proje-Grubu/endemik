@@ -2,6 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
+import gbif from './data/gbif.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos, submitScore, getTopScores, adminDeleteScore, validName } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
@@ -172,13 +173,43 @@ function viewSpecies(id) {
 
 // ---------- Genel harita ----------
 function viewMap() {
-  shell('<h2 class="section-title">Yayılış haritası</h2><div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>', 'map');
+  shell(`<h2 class="section-title">Yayılış haritası</h2>
+    <div class="msearchbox"><input id="msearch" type="search" placeholder="Tür ara: Türkçe ya da bilimsel ad" autocomplete="off" class="msearch"><div id="msug" class="msug" hidden></div></div>
+    <div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>
+    <p class="note">Mavi noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</p>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
-  for (const s of species) for (const l of allLocalities(s)) {
-    L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', weight: 2 })
-      .bindPopup(`<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(map);
+  const all = L.layerGroup().addTo(map), focus = L.layerGroup().addTo(map);
+  for (const s of species) {
+    for (const l of allLocalities(s)) {
+      L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', weight: 2 })
+        .bindPopup(`<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
+    }
+    for (const [lat, lng, n] of gbif[s.id] || []) {
+      L.circleMarker([lat, lng], { radius: 5, color: '#3b7dd8', weight: 1, fillOpacity: 0.55 })
+        .bindPopup(`<b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
+    }
   }
+  // Arama: Türkçe ad, bilimsel ad ya da bir parçası; seçilen türün noktaları kırmızı gösterilir, diğerleri gizlenir
+  const fold = (t) => String(t || '').toLocaleLowerCase('tr').replace(/ı/g, 'i');
+  const box = document.getElementById('msearch'), sug = document.getElementById('msug'), info = document.getElementById('mi');
+  const reset = () => { focus.clearLayers(); all.addTo(map); sug.hidden = true; };
+  const pick = (sp) => {
+    reset(); map.removeLayer(all); sug.hidden = true; box.value = sp.name;
+    const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => [l.lat, l.lng])];
+    for (const [lat, lng] of pts) L.circleMarker([lat, lng], { radius: 8, color: '#d8493b', fillOpacity: 0.7 }).bindPopup(`<b>${esc(sp.name)}</b>`).addTo(focus);
+    if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.3), { maxZoom: 9 });
+    const nb = (gbif[sp.id] || []).reduce((a, c) => a + c[2], 0);
+    info.innerHTML = `<b>${esc(sp.name)}</b> (<i>${esc(sp.sci)}</i>): ${pts.length} konum noktası${nb ? `, ${nb >= 600 ? "600+" : nb} GBIF gözlemi` : ''}. <a href="#/tur/${sp.id}">Tür sayfası</a>`;
+  };
+  box.oninput = () => {
+    const q = fold(box.value.trim());
+    if (!q) { reset(); info.textContent = ''; return; }
+    const hits = species.filter((s) => fold(s.name).includes(q) || fold(s.sci).includes(q)).slice(0, 8);
+    sug.innerHTML = hits.length ? hits.map((s) => `<button type="button" data-id="${s.id}">${esc(s.name)} <i>${esc(s.sci)}</i></button>`).join('') : '<div class="note">Bu adla kayıtlı tür yok.</div>';
+    sug.hidden = false;
+    sug.querySelectorAll('button').forEach((b) => b.onclick = () => pick(byId.get(b.dataset.id)));
+  };
   navigator.geolocation?.getCurrentPosition((p) => {
     const me = { lat: p.coords.latitude, lng: p.coords.longitude };
     L.circleMarker([me.lat, me.lng], { radius: 8, color: '#4aa3e8', fillOpacity: 0.8 }).addTo(map).bindPopup('Buradasınız');

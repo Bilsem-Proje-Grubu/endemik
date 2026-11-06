@@ -138,3 +138,9 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 
 .actions .gear { flex: 0 0 44px; padding: 8px 0; }
 .chatset summary { cursor: pointer; font-weight: 600; }
+
+.msearchbox { position: relative; margin: 6px 0; }
+.msearch { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: inherit; font-size: 16px; }
+.msug { position: absolute; left: 0; right: 0; top: 100%; z-index: 1000; background: var(--bg, #fff); border: 1px solid var(--line); border-radius: 10px; margin-top: 4px; overflow: hidden; }
+.msug button { display: block; width: 100%; text-align: left; padding: 10px; background: none; border: 0; border-bottom: 1px solid var(--line); color: inherit; font-size: 15px; cursor: pointer; }
+.msug button i { opacity: .7; font-size: 13px; }
