@@ -172,24 +172,50 @@ function viewSpecies(id) {
 }
 
 // ---------- Genel harita ----------
+// Tehlike derecesi: kayıttaki ulusal/uluslararası kodlardan en ağırı alınır; kod yoksa gri
+const THREAT = {
+  CR: { c: '#d62828', t: 'Kritik tehlikede (CR)' }, EN: { c: '#f77f00', t: 'Tehlikede (EN)' }, VU: { c: '#e9c46a', t: 'Hassas (VU)' },
+  NT: { c: '#3b7dd8', t: 'Tehdide yakın (NT)' }, LC: { c: '#2a9d8f', t: 'Az endişe verici (LC)' },
+};
+const THREAT_ORDER = ['CR', 'EN', 'VU', 'NT', 'LC'];
+const THREAT_NONE = { c: '#9aa0a6', t: 'Kategori belirtilmemiş' };
+function threatOf(s) {
+  const codes = new Set(`${s.statusNational || ''} ${s.statusIntl || ''}`.match(/\b(CR|EN|VU|NT|LC)\b/g) || []);
+  const k = THREAT_ORDER.find((x) => codes.has(x));
+  return k ? THREAT[k] : THREAT_NONE;
+}
 function viewMap() {
   shell(`<h2 class="section-title">Yayılış haritası</h2>
     <div class="msearchbox"><input id="msearch" type="search" placeholder="Tür ara: Türkçe ya da bilimsel ad" autocomplete="off" class="msearch"><div id="msug" class="msug" hidden></div></div>
+    <div class="row mfilter"><button type="button" class="btn" data-g="">Hepsi</button><button type="button" class="btn ghost" data-g="flora">🌿 Bitki</button><button type="button" class="btn ghost" data-g="fauna">🐾 Hayvan</button></div>
     <div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>
-    <p class="note">Mavi noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</p>`, 'map');
+    <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
+      ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
+      <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için gözlem konumları yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
   const all = L.layerGroup().addTo(map), focus = L.layerGroup().addTo(map);
-  for (const s of species) {
-    for (const l of allLocalities(s)) {
-      L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', weight: 2 })
-        .bindPopup(`<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
+  let groupFilter = '';
+  const draw = () => {
+    all.clearLayers();
+    for (const s of species) {
+      if (groupFilter && s.group !== groupFilter) continue;
+      const th = threatOf(s), ic = s.group === 'fauna' ? '🐾' : '🌿';
+      for (const l of allLocalities(s)) {
+        L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: th.c, weight: 2, fillOpacity: 0.15 })
+          .bindPopup(`${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
+      }
+      for (const [lat, lng, n] of gbif[s.id] || []) {
+        L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 })
+          .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
+      }
     }
-    for (const [lat, lng, n] of gbif[s.id] || []) {
-      L.circleMarker([lat, lng], { radius: 5, color: '#3b7dd8', weight: 1, fillOpacity: 0.55 })
-        .bindPopup(`<b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(all);
-    }
-  }
+  };
+  draw();
+  document.querySelectorAll('.mfilter button').forEach((b) => b.onclick = () => {
+    groupFilter = b.dataset.g; draw(); focus.clearLayers(); if (!map.hasLayer(all)) all.addTo(map);
+    document.querySelectorAll('.mfilter button').forEach((x) => x.className = 'btn' + (x === b ? '' : ' ghost'));
+  });
   // Arama: Türkçe ad, bilimsel ad ya da bir parçası; seçilen türün noktaları kırmızı gösterilir, diğerleri gizlenir
   const fold = (t) => String(t || '').toLocaleLowerCase('tr').replace(/ı/g, 'i');
   const box = document.getElementById('msearch'), sug = document.getElementById('msug'), info = document.getElementById('mi');
@@ -197,7 +223,8 @@ function viewMap() {
   const pick = (sp) => {
     reset(); map.removeLayer(all); sug.hidden = true; box.value = sp.name;
     const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => [l.lat, l.lng])];
-    for (const [lat, lng] of pts) L.circleMarker([lat, lng], { radius: 8, color: '#d8493b', fillOpacity: 0.7 }).bindPopup(`<b>${esc(sp.name)}</b>`).addTo(focus);
+    const th = threatOf(sp);
+    for (const [lat, lng] of pts) L.circleMarker([lat, lng], { radius: 8, color: '#111', weight: 2, fillColor: th.c, fillOpacity: 0.9 }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.3), { maxZoom: 9 });
     const nb = (gbif[sp.id] || []).reduce((a, c) => a + c[2], 0);
     info.innerHTML = `<b>${esc(sp.name)}</b> (<i>${esc(sp.sci)}</i>): ${pts.length} konum noktası${nb ? `, ${nb >= 600 ? "600+" : nb} GBIF gözlemi` : ''}. <a href="#/tur/${sp.id}">Tür sayfası</a>`;
