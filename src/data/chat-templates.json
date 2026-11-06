@@ -1,0 +1,35 @@
+{
+ "selam": [
+  "Merhaba! Ben Endemik. Türkiye'nin korunan türlerini sorabilirsin.",
+  "Selam! Hangi türü merak ediyorsun?",
+  "Merhaba, hoş geldin! Bir tür adı yaz, sana anlatayım.",
+  "Selam, buradayım! Endemik türler hakkında ne öğrenmek istersin?",
+  "Merhaba! İyiyim, teşekkürler. Sen hangi türü merak ediyorsun?"
+ ],
+ "tesekkur": [
+  "Rica ederim!",
+  "Ne demek, başka merak ettiğin bir tür var mı?",
+  "Memnun oldum. Doğayı korumak hepimizin işi.",
+  "Ben teşekkür ederim! Başka bir şey sormak istersen buradayım."
+ ],
+ "endemik": [
+  "Endemik, bir canlının yalnızca belirli bir bölgede doğal olarak yaşaması, dünyanın başka yerinde bulunmaması demek. Bu yüzden korunmaları çok önemli.",
+  "Endemik tür, sadece tek bir bölgeye ya da ülkeye özgü olan türdür. O bölgede yok olursa dünyadan da yok olmuş olur.",
+  "Bir canlının dünyada yalnızca belirli bir yerde yaşıyor olmasına endemik denir. Böyle türler yok olursa başka yerde bulunmadıkları için tamamen kaybolurlar."
+ ],
+ "yardim": [
+  "Şunları sorabilirsin: bir türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu. Örneğin: \"{e}\"",
+  "Ben Endemik'im; Türkiye'nin korunan {n} türünü tanıtıyorum. Mesela şöyle sorabilirsin: \"{e}\"",
+  "Bana türlerin yaşadığı yerleri, görünüşlerini, çiçeklenme zamanlarını ve korunma durumlarını sorabilirsin. Örneğin: \"{e}\""
+ ],
+ "disi": [
+  "Ben yalnızca Türkiye'nin korunan türleri ve doğa hakkında konuşabiliyorum. Örneğin: \"{e}\"",
+  "Bu konuda yardımcı olamam; ama bir türün nerede yaşadığını ya da neye benzediğini anlatabilirim. Örneğin: \"{e}\"",
+  "Burada işim endemik türler; o konuda bilgim yok. Ama şunu sorabilirsin: \"{e}\"",
+  "Bu soruya cevap veremiyorum. Türler hakkında soru sorarsan severek anlatırım. Örneğin: \"{e}\""
+ ],
+ "belirsiz": [
+  "Hangi türü soruyorsun? Tür adını yazarsan söyleyebilirim. Örneğin: \"{e}\"",
+  "Hangi türden bahsettiğini anlayamadım. Tür adını yazar mısın? Örneğin: \"{e}\""
+ ]
+}

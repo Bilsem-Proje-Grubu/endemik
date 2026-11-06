@@ -20,7 +20,7 @@ let watchId = null;
 export function speciesNear(pos, species, extra = []) {
   const hits = [];
   for (const sp of species) {
-    const locs = [...(sp.localities || []), ...extra.filter((e) => e.species_id === sp.id).map((e) => ({ name: 'Kullanıcı kaydı', lat: e.lat, lng: e.lng, radiusKm: 3 }))];
+    const locs = [...(sp.localities || []), ...extra.filter((e) => e.species_id === sp.id).map((e) => ({ name: 'Kullanıcı kaydı', lat: e.lat, lng: e.lng, radiusKm: 5 }))];
     for (const loc of locs) {
       if (distanceKm(pos, loc) <= (loc.radiusKm || 5)) { hits.push({ sp, loc }); break; }
     }

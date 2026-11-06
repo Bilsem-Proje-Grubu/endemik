@@ -3,6 +3,8 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { fauna, flora, BASE_PDF } from './species-list.mjs';
 import { details } from './details.mjs';
 import { details2 } from './details2.mjs';
+import { details3 } from './details3.mjs';
+import { details4 } from './details4.mjs';
 
 const slug = (s) => s.toLocaleLowerCase('tr')
   .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
@@ -25,7 +27,7 @@ const list = out.map((s) => ({
   sci: s.sci,
   group: s.group,
   image: images[slug(s.name)]?.url || null,
-  imageCredit: images[slug(s.name)] ? { author: images[slug(s.name)].author, license: images[slug(s.name)].license, source: images[slug(s.name)].source } : null,
+  imageCredit: images[slug(s.name)] ? { author: images[slug(s.name)].author, license: images[slug(s.name)].license, source: images[slug(s.name)].source, ...(images[slug(s.name)].type ? { type: images[slug(s.name)].type } : {}) } : null,
   description: '',
   morphology: '',
   flowering: '',
@@ -35,7 +37,12 @@ const list = out.map((s) => ({
   pdf: pdfLinks[nk(s.name)] || pdfLinks[nk(s.name.replace('ır', 'ı'))] || s.pdf,
   ...(details[s.name] || {}),
   ...(details2[s.name] || {}),
+  ...(details3[s.name] || {}),
+  ...(details4[s.name] || {}),
 }));
+
+// PDF'lerden gelen özel tire (U+2010/2011) ve benzerlerini düz tireye çevir.
+for (const s of list) for (const k of ['description', 'morphology', 'flowering', 'statusNational', 'statusIntl']) s[k] = (s[k] || '').replace(/[\u2010\u2011]/g, '-');
 
 // Ayrıntısı olan türler başa gelsin.
 list.sort((a, b) => (b.localities.length > 0) - (a.localities.length > 0));

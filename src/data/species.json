@@ -4,7 +4,7 @@
     "name": "Ağrı Kertenkelesi",
     "sci": "Darevskia unisexualis",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Darevskia_unisexualis.jpg/960px-Darevskia_unisexualis.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/agri-kertenkelesi.jpg",
     "imageCredit": {
       "author": "TeklaLilith",
       "license": "CC BY-SA 4.0",
@@ -13,7 +13,7 @@
     "description": "Yalnızca Türkiye’nin doğusunda ve çevre ülkelerin sınırlı bölgelerinde yaşayan, kaya kertenkeleleri (Darevskia) cinsinden bir türdür. Ardahan, Kars, Bayburt, Iğdır, Erzurum ve Ağrı illerinde yayılış gösterir.",
     "morphology": "",
     "flowering": "",
-    "statusNational": "",
+    "statusNational": "Tehdide Yakın (NT); Türkiye’de dağılışı 500 km²’den az, popülasyonu azalma eğiliminde",
     "statusIntl": "Bern Sözleşmesi Ek-3",
     "localities": [
       {
@@ -45,14 +45,14 @@
     "name": "Akbez Geyik Böceği",
     "sci": "Lucanus cervus",
     "group": "fauna",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/0/09/Lucanus_cervus.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/akbez-geyik-bocegi.jpg",
     "imageCredit": {
       "author": "J.F. Gaffard",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Lucanus_cervus.jpg"
     },
     "description": "Ölü meşe ve karaağaç gibi geniş yapraklı ağaçların odunuyla beslenen bir geyik böceğidir. Hatay’da Belen, Erzin, Hassa, Kırıkhan ve Yayladağı gibi ilçelerde yayılış gösterir.",
-    "morphology": "",
+    "morphology": "Erişkinler mandibul dahil 25-89 mm (dişiler yaklaşık 25-49 mm, erkekler yaklaşık 30-89 mm); renk kırmızımsı kahverengiden koyu kahverengiye (neredeyse siyah). Erkekte başından uzun büyük mandibullar vardır.",
     "flowering": "",
     "statusNational": "",
     "statusIntl": "IUCN: NT (Yakın Tehdit; tür düzeyinde)",
@@ -100,7 +100,7 @@
     "name": "Alageyik",
     "sci": "Dama dama",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Fallow_deer_in_field.jpg/960px-Fallow_deer_in_field.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/alageyik.jpg",
     "imageCredit": {
       "author": "Johann-Nikolaus Andreae",
       "license": "CC BY-SA 2.0",
@@ -109,8 +109,8 @@
     "description": "Türkiye’de doğal popülasyonu bugün yalnızca Antalya’daki Düzlerçamı Yaban Hayatı Geliştirme Sahası ve çevresinde yaşar.",
     "morphology": "",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Ülkemizde nesli kritik düzeyde tehlikede (resmî kategori yok; CR olarak ele alınması öneriliyor)",
+    "statusIntl": "IUCN: LC (Asgari Endişe)",
     "localities": [
       {
         "name": "Düzlerçamı (Antalya)",
@@ -127,7 +127,7 @@
     "name": "Anadolu Engereği",
     "sci": "Vipera anatolica",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Vipera_anatolica.png/960px-Vipera_anatolica.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/anadolu-engeregi.jpg",
     "imageCredit": {
       "author": "IvanK0810",
       "license": "CC BY-SA 4.0",
@@ -136,7 +136,7 @@
     "description": "Dünyada ve Türkiye’de yalnızca Antalya’nın Elmalı yöresinden bilinen, tek nokta endemiği bir engerektir. Elmalı’daki sığınak (refugium) alanında yaşayan relikt bir türdür.",
     "morphology": "Küçük bir engerek; gebe dişilerin boyu 242–256 mm olarak ölçülmüştür.",
     "flowering": "",
-    "statusNational": "",
+    "statusNational": "Nokta endemiği; Merkez Av Komisyonu kararlarında Ek-I (koruma altındaki yaban hayvanları); CR (Kritik Tehlikede)",
     "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern Ek-2",
     "localities": [
       {
@@ -154,16 +154,16 @@
     "name": "Avrupa Kırmızı Orman Karıncası",
     "sci": "Formica pratensis",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Formica_pratensis.jpg/960px-Formica_pratensis.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/avrupa-kirmizi-orman-karincasi.jpg",
     "imageCredit": {
       "author": "Pawel Bieniewski",
       "license": "CC BY-SA 4.0",
       "source": "https://commons.wikimedia.org/wiki/File:Formica_pratensis.jpg"
     },
     "description": "Türkiye’de yalnızca Trakya’da bilinen, orman karıncası (Formica pratensis) türüdür. Bilinen yuva sayısı 8 lokalitede 21’dir.",
-    "morphology": "",
+    "morphology": "F. rufa'ya benzer ama daha koyu renkli. İşçi: gaster, başın arkası ve alın mat siyah; boy 4,5-10,0 mm. Kraliçe daha iri ve tombul, 9,5-11,5 mm.",
     "flowering": "",
-    "statusNational": "",
+    "statusNational": "Edirne'de EN (Tehlikede) konumunda; CR'ye gidiş riski (uzman görüşü)",
     "statusIntl": "IUCN: NT (Yakın Tehdit)",
     "localities": [
       {
@@ -186,8 +186,8 @@
     "description": "Dünyada yalnızca Ermenistan ve Türkiye’de, Iğdır’ın Aralık ilçesinde Ağrı Dağı eteklerindeki sınırlı çalılık ve kumluk alanda yaşayan bir çöl faresidir.",
     "morphology": "Sırt tarafı sarımsı kahverengi, karın beyaz renkli, sıçan benzeri bir çöl faresidir.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Orman ve Su İşleri Bakanlığı Ek-IA Yaban Hayvanları Listesi ve Ek-III Koruma Altına Alınan Yaban Hayvanları Listesi'nde (2014)",
+    "statusIntl": "IUCN: EN (Tehlikede)",
     "localities": [
       {
         "name": "Aralık (Iğdır)",
@@ -200,21 +200,69 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Colfaresi.pdf"
   },
   {
+    "id": "cizgili-sirtlan",
+    "name": "Çizgili Sırtlan",
+    "sci": "Hyaena hyaena",
+    "group": "fauna",
+    "image": "./species-img/cizgili-sirtlan.jpg",
+    "imageCredit": {
+      "author": "Tisha Mukherjee",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Striped_hyena_in_Bhigwan_August_2025_by_Tisha_Mukherjee_07_(cropped).jpg"
+    },
+    "description": "Şanlıurfa'nın batısındaki Bozova, Halfeti ve Birecik bozkırları, çizgili sırtlan için Türkiye'de bilinen en önemli ve son yaşam alanları arasındadır; çalışmada Birecik'te 4, Halfeti'de 2 çift tespit edilmiştir.",
+    "morphology": "Köpek görünümlüdür; sırt kuyruğa doğru meyillidir, yan kısımlarda dikey siyah çizgiler bulunur. Hatay'da baş-gövde 113 cm, kuyruk 40 cm, omuz yüksekliği 67 cm, ağırlık 37 kg ölçülmüştür.",
+    "flowering": "",
+    "statusNational": "Korunmasına yönelik ulusal mevzuat: 4915 sayılı Kara Avcılığı Kanunu ve ilgili yönetmelikleri; 2872 sayılı Çevre Kanunu",
+    "statusIntl": "IUCN: NT (Tehdit Altına Girmeye Yakın)",
+    "localities": [
+      {
+        "name": "Birecik (Şanlıurfa)",
+        "lat": 37.03153,
+        "lng": 37.98003,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Halfeti (Şanlıurfa)",
+        "lat": 37.23092,
+        "lng": 37.94574,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Bozova (Şanlıurfa)",
+        "lat": 37.36196,
+        "lng": 38.52536,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Hatay (il)",
+        "lat": 36.34513,
+        "lng": 36.0748,
+        "radiusKm": 25,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/CzgSirtlan.pdf"
+  },
+  {
     "id": "hatay-dag-ceylani",
     "name": "Hatay Dağ Ceylanı",
     "sci": "Gazella gazella",
     "group": "fauna",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/7/79/Gazella_gazella.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/hatay-dag-ceylani.jpg",
     "imageCredit": {
       "author": "Bassem18 at English Wikipedia",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Gazella_gazella.jpg"
     },
     "description": "Türkiye’de bugün yalnızca Hatay ilinde yaşayan dağ ceylanıdır. Eskiden Fırat’ın batısında Adana, Maraş, Gaziantep’e uzanan alanlarda yaşadığı düşünülür.",
-    "morphology": "",
+    "morphology": "Kürk rengi koyu ve toprak rengindedir; boyun ve bacaklar uzun ve narin. Erginler 17-25 kg ağırlığındadır; her iki eşeyin de boynuzları vardır, dişilerinki daha kısa ve cılızdır.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Kara Avcılığı Kanunu kapsamında koruma altında",
+    "statusIntl": "IUCN: EN (Tehlikede) · CITES listelerinde yok · Bern eklerinde yer almıyor (kapsamı belirsiz)",
     "localities": [
       {
         "name": "Kırıkhan–Hassa hattı (Hatay)",
@@ -227,11 +275,87 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Dagceylan.pdf"
   },
   {
+    "id": "dag-horozu",
+    "name": "Dağ Horozu",
+    "sci": "Lyrurus mlokosiewiczi",
+    "group": "fauna",
+    "image": "./species-img/dag-horozu.jpg",
+    "imageCredit": {
+      "author": "Andrew Bazdyrev",
+      "license": "CC BY 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tetrao_mlokosiewiczi_67094840.jpg"
+    },
+    "description": "Kafkasya'nın endemiği olan dağ horozu, Türkiye'de yaşayan tek dağ horozu türüdür. Doğu Karadeniz ve Kuzeydoğu Anadolu dağlarında 1300-3300 m arasındaki orman, subalpin ve alpin alanlarda yaşar; nesli tehlike altındadır.",
+    "morphology": "Eşeysel dimorfizm belirgin: erkek siyah, boyun-sırt-kanatlarda mavi-yeşil parıltılı, boyu 54 cm, 700-1100 gr; dişi gri-kahverengi, sırtı pas rengi, boyu 47,5 cm. Gözün üzerinde kırmızı leke vardır.",
+    "flowering": "",
+    "statusNational": "Türkiye'de avı yasak",
+    "statusIntl": "IUCN (2013): NT (Tehlike Altına Girebilir) · CITES (1998): eklerde belirtilmemiş",
+    "localities": [
+      {
+        "name": "Çaykara (Trabzon)",
+        "lat": 40.74786,
+        "lng": 40.24204,
+        "radiusKm": 12,
+        "approx": true
+      },
+      {
+        "name": "Hayrat (Trabzon)",
+        "lat": 40.88917,
+        "lng": 40.36805,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Araklı (Trabzon)",
+        "lat": 40.93582,
+        "lng": 40.05804,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Köprübaşı (Trabzon)",
+        "lat": 40.80721,
+        "lng": 40.12424,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Maçka (Trabzon)",
+        "lat": 40.81204,
+        "lng": 39.61272,
+        "radiusKm": 10,
+        "approx": true
+      },
+      {
+        "name": "Kaçkar Dağları (Artvin–Rize)",
+        "lat": 40.835,
+        "lng": 41.161,
+        "radiusKm": 25,
+        "approx": true
+      },
+      {
+        "name": "Yalnızçam Dağları",
+        "lat": 41.09955,
+        "lng": 42.18097,
+        "radiusKm": 20,
+        "approx": true
+      },
+      {
+        "name": "Palandöken Dağları (Erzurum)",
+        "lat": 39.82282,
+        "lng": 41.32046,
+        "radiusKm": 15,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Daghorozu.pdf"
+  },
+  {
     "id": "beyazbantli-dag-engeregi",
     "name": "Beyazbantlı Dağ Engereği",
     "sci": "Montivipera albizona",
     "group": "fauna",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Vipera_albizona.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/beyazbantli-dag-engeregi.jpg",
     "imageCredit": {
       "author": "The original uploader was Dawson at English Wikipedia.",
       "license": "CC BY-SA 2.5",
@@ -240,8 +364,8 @@
     "description": "Sivas ili sınırlarında yaşayan, dar yayılışlı bir dağ engereğidir. Türkiye’deki ilk kaydı 1990’dır.",
     "morphology": "Boyu 80 cm’ye kadar ulaşabilen, nispeten kısa boylu bir dağ engereğidir.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Endemik",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Ek-III · CITES liste dışı",
     "localities": [
       {
         "name": "Sivas çevresi",
@@ -258,14 +382,14 @@
     "name": "Fırat Kaplumbağası",
     "sci": "Rafetus euphraticus",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Req%C3%AA_s%C3%AAlane.jpg/960px-Req%C3%AA_s%C3%AAlane.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/firat-kaplumbagasi.jpg",
     "imageCredit": {
       "author": "Dûrzan cîrano",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Req%C3%AA_s%C3%AAlane.jpg"
     },
     "description": "Fırat ve Dicle nehirleri ile kollarına özgü, Türkiye, Suriye, Irak ve İran’da dağılış gösteren tatlı su kaplumbağasıdır. Barajlar, yaşam alanı tahribatı, olta avcılığı ve kirlilik tehdit eder.",
-    "morphology": "",
+    "morphology": "Orta büyüklükte yumuşak kabuklu kaplumbağa; üst kabuk yassı, oval, boyu 1 metreyi geçmez. Kabuk yumuşak deriyle örtülü, başın ucunda hortum var; erginde üst kabuk koyu yeşil veya kahverengi, alt taraf beyazımsı.",
     "flowering": "",
     "statusNational": "Tür eylem planı: Gaziantep",
     "statusIntl": "IUCN: EN (Tehlike Altında), popülasyon azalıyor · Bern Ek-III",
@@ -283,19 +407,19 @@
   {
     "id": "hopa-engeregi",
     "name": "Hopa Engereği",
-    "sci": "Vipera darevskii",
+    "sci": "Vipera kaznakovi",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/P_darevskii_male.jpg/960px-P_darevskii_male.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/hopa-engeregi.jpg",
     "imageCredit": {
-      "author": "ReptileGuy",
-      "license": "CC BY-SA 3.0",
-      "source": "https://commons.wikimedia.org/wiki/File:P_darevskii_male.jpg"
+      "author": "Pryndak Vasyl",
+      "license": "CC BY-SA",
+      "source": "https://www.inaturalist.org/photos/2575395"
     },
     "description": "Artvin ilinde dar ve parçalı yayılış gösteren engerek türüdür. Ticari toplama ve yaşam alanı tahribatı nedeniyle hızla azalmaktadır.",
-    "morphology": "",
+    "morphology": "Boyu (vücut ve kuyruk) 70 cm kadar olabilen ince boyunlu bir engerektir. Sırt zemin rengi sarımsı griden kahverengi ve siyaha değişir; sırtta kırmızı, pembe, kahverengi veya sarı tonlarda zigzag/uzunlamasına bir çift bant uzanır, göz bebeği dikeydir.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "4915 sayılı Kara Avcılığı Kanunu kapsamında Merkez Av Komisyonu kararlarında (EK I) koruma altına alınan yaban hayvanları listesinde; Türkiye, Gürcistan ve Rusya'ya endemik",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Ek-2",
     "localities": [
       {
         "name": "Hopa (Artvin)",
@@ -312,17 +436,17 @@
     "name": "İskenderun Kertenkelesi",
     "sci": "Acanthodactylus schreiberi",
     "group": "fauna",
-    "image": "https://inaturalist-open-data.s3.amazonaws.com/photos/84558885/medium.jpg",
+    "image": "./species-img/iskenderun-kertenkelesi.jpg",
     "imageCredit": {
-      "author": "Karim Haddad, some rights reserved (CC BY), uploaded by Karim Haddad",
+      "author": "Morgan Caygill",
       "license": "CC BY",
-      "source": "https://www.inaturalist.org/taxa/35437"
+      "source": "https://www.inaturalist.org/photos/280396246"
     },
     "description": "Türkiye’de Adana Yumurtalık’tan Hatay Dörtyol’a kadar uzanan sahil boyunca kumluk alanlarda kesintili yayılış gösterir. İsrail, Kıbrıs ve Lübnan’da da bulunur.",
-    "morphology": "",
+    "morphology": "Boyu 20-25 cm kadardır; erginlerde sırt yeşilimsi gri ve koyu kahverengi, gençlerde sırtta uzunlamasına 7-8 sarımsı gri çizgi bulunur; üreme zamanında yeşilimsi sarı veya parlak kırmızımsıdır.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Türkiye'deki tehlike durumu: Tehlike Altında; tür düzeyinde endemik değil",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Ek-II · CITES eklerinde yok",
     "localities": [
       {
         "name": "Yumurtalık kıyıları (Adana)",
@@ -346,7 +470,7 @@
     "name": "Kafkas Semenderi",
     "sci": "Mertensiella caucasica",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/%E1%83%99%E1%83%90%E1%83%95%E1%83%99%E1%83%90%E1%83%A1%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98_%E1%83%A1%E1%83%90%E1%83%9A%E1%83%90%E1%83%9B%E1%83%90%E1%83%9C%E1%83%93%E1%83%96%E1%83%A0%E1%83%90.jpg/960px-%E1%83%99%E1%83%90%E1%83%95%E1%83%99%E1%83%90%E1%83%A1%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98_%E1%83%A1%E1%83%90%E1%83%9A%E1%83%90%E1%83%9B%E1%83%90%E1%83%9C%E1%83%93%E1%83%96%E1%83%A0%E1%83%90.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/kafkas-semenderi.jpg",
     "imageCredit": {
       "author": "Giorgimailo",
       "license": "CC BY-SA 4.0",
@@ -356,7 +480,7 @@
     "morphology": "İnce ve uzun yapılı; boyu 13–19 cm kadardır.",
     "flowering": "",
     "statusNational": "",
-    "statusIntl": "",
+    "statusIntl": "IUCN: VU (Zarar Görebilir) · Bern Ek-2 · CITES liste dışı",
     "localities": [
       {
         "name": "Artvin çevresi",
@@ -399,18 +523,14 @@
   {
     "id": "karadeniz-alabaligi",
     "name": "Karadeniz Alabalığı",
-    "sci": "Salmo labrax",
+    "sci": "Salmo coruhensis",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Salmo_labrax_01.jpg/960px-Salmo_labrax_01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Elena Kurakina",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Salmo_labrax_01.jpg"
-    },
+    "image": null,
+    "imageCredit": null,
     "description": "Karadeniz’e dökülen akarsularda yaşayan kırmızı benekli bir alabalık türüdür. Büyük akarsularda 1200–1300 m’den sonra, küçük akarsularda 300–400 m’den sonra görülür.",
     "morphology": "Vücut rengi gümüşi, baş ve ağız küçüktür; 1 m’yi aşan boylara ulaşabilir.",
     "flowering": "",
-    "statusNational": "",
+    "statusNational": "Doğu Karadeniz havzasına endemik; deniz alasının (Salmo trutta labrax) denizlerde ve iç sularda avlanması yasaktır (su ürünleri yönetmeliği, Madde 10-1)",
     "statusIntl": "",
     "localities": [
       {
@@ -435,7 +555,7 @@
     "name": "Kelaynak",
     "sci": "Geronticus eremita",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Northern_Bald_Ibis_Geronticus_eremita_%288470600428%29.jpg/960px-Northern_Bald_Ibis_Geronticus_eremita_%288470600428%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/kelaynak.jpg",
     "imageCredit": {
       "author": "Len Worthington",
       "license": "CC BY-SA 2.0",
@@ -444,8 +564,8 @@
     "description": "Sürüler halinde yaşayan, kıvrık gagalı, kel başlı göçmen bir kuştur. Türkiye’de Şanlıurfa Birecik’te yaşayan yarı-yabani koloni ile bilinir.",
     "morphology": "Kel kırmızı baş, uzun kıvrık kırmızı gaga, siyah yeşilimsi metalik parlak tüyler.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Kara Avcılığı Kanunu kapsamında koruma altında",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Ek-2 · CITES Ek-I",
     "localities": [
       {
         "name": "Birecik (Şanlıurfa)",
@@ -462,13 +582,17 @@
     "name": "Marmaris Semenderi",
     "sci": "Lyciasalamandra flavimembris",
     "group": "fauna",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/marmaris-semenderi.jpg",
+    "imageCredit": {
+      "author": "Kseniia Marianna Prondzynska",
+      "license": "CC BY",
+      "source": "https://www.inaturalist.org/photos/175713486"
+    },
     "description": "Sudan tamamen bağımsız yaşayan ve üremek için suya ihtiyaç duymayan bir kuyruklu kurbağadır. Gün boyu taş ve kayaların altında saklanır; deniz seviyesinden 850 m’ye kadar bulunur.",
-    "morphology": "",
+    "morphology": "Boyları yaklaşık 15 cm. Sırtın zemin rengi koyu kahverengi, üzerinde dağınık sarı veya gümüşi beyaz lekeler var; göz kapakları ve parotoidler sarımsı, karın ten rengi veya pembemsi.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Lokal endemik; nesli tehlike altında",
+    "statusIntl": "IUCN: EN (Tehlikede) · Bern Sözleşmesi Ek-3",
     "localities": [
       {
         "name": "Marmaris (Muğla)",
@@ -488,21 +612,83 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Marmaris%20Semenderi%20T%C3%BCr%20Eylem%20Plan%C4%B1%2009.07.2018.pdf"
   },
   {
+    "id": "mersin-ili-akdeniz-foku",
+    "name": "Mersin İli Akdeniz Foku",
+    "sci": "Monachus monachus",
+    "group": "fauna",
+    "image": "./species-img/mersin-ili-akdeniz-foku.jpg",
+    "imageCredit": {
+      "author": "Marinko Babić",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Monachus_monachus_DSC_0274.jpg"
+    },
+    "description": "Akdeniz foku (Monachus monachus), Türkiye denizlerinde yaklaşık 100 bireyle bilinir; bunların 50'ye yakını Mersin kıyılarında yaşar. Sakin kıyılardaki mağara ve kaya çatlaklarında barınan tür, IUCN Kırmızı Listesi'nde kritik derecede (CR) tehlikededir.",
+    "morphology": "Silindirik gövdeli; 0,5 cm’lik kısa kıllı post, altında ortalama 3-6 cm yağ tabakası. Erkek siyah-koyu kahve, karnında belirgin beyaz leke; dişide açık kahve veya gri bant. Dişiler yaklaşık 300 kg, erkekler 350-400 kg.",
+    "flowering": "",
+    "statusNational": "1380 Su Ürünleri, 4915 Kara Avcılığı ve 2872 Çevre Kanunları kapsamında korunuyor",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern Ek-II · CITES Ek-I",
+    "localities": [
+      {
+        "name": "Boğsak Adası (Silifke, Mersin)",
+        "lat": 36.26568,
+        "lng": 33.82547,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Dana Adası (Silifke, Mersin)",
+        "lat": 36.19572,
+        "lng": 33.77548,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Güvercin Adası – Barbaros Koyu (Silifke, Mersin)",
+        "lat": 36.23623,
+        "lng": 33.80285,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Eşek Adası (Silifke, Mersin)",
+        "lat": 36.15721,
+        "lng": 33.69665,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Yeşilovacık Büyük Mağara (Silifke, Mersin)",
+        "lat": 36.1412,
+        "lng": 33.67498,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Kaklık Deliği (Yeşilovacık, Silifke, Mersin)",
+        "lat": 36.17297,
+        "lng": 33.65834,
+        "radiusKm": 5,
+        "approx": false
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/MersinFok.pdf"
+  },
+  {
     "id": "mugla-ili-akdeniz-foku",
     "name": "Muğla İli Akdeniz Foku",
     "sci": "Monachus monachus",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Monachus_monachus_DSC_0274.jpg/960px-Monachus_monachus_DSC_0274.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/mugla-ili-akdeniz-foku.jpg",
     "imageCredit": {
       "author": "Marinko Babić",
       "license": "CC BY-SA 4.0",
       "source": "https://commons.wikimedia.org/wiki/File:Monachus_monachus_DSC_0274.jpg"
     },
     "description": "Dünya nüfusu 350–450 olarak tahmin edilen Akdeniz foku, Muğla’da Milas–Bodrum kıyı şeridinde yaşar.",
-    "morphology": "",
+    "morphology": "Ortalama boyu 2-3 metre, ağırlığı 200-300 kg; vücut rengi değişken (gri, kahverengi, siyah; karın beyaz veya bej). Baş yuvarlak, burun kısa, bıyıklar uzun ve çok sayıdadır.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "1380 Su Ürünleri, 4915 Kara Avcılığı ve 2872 Çevre Kanunu ile ulusal düzeyde korunuyor",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern Ek-II · CITES kapsamında koruma altında",
     "localities": [
       {
         "name": "Bodrum–Milas kıyıları (Muğla)",
@@ -519,17 +705,17 @@
     "name": "Çöl Varanı",
     "sci": "Varanus griseus",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Varanus_griseus_griseus_349843922.jpg/960px-Varanus_griseus_griseus_349843922.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/col-varani.jpg",
     "imageCredit": {
       "author": "Marius Burger",
       "license": "CC0",
       "source": "https://commons.wikimedia.org/wiki/File:Varanus_griseus_griseus_349843922.jpg"
     },
     "description": "Şanlıurfa, Adıyaman ve Şırnak illerinde yaşayan, oyuk açan büyük bir sürüngendir.",
-    "morphology": "",
+    "morphology": "Türkiye'deki en büyük kertenkele; boyu 1 metreyi geçer. Sırt sarımsı-turuncumsu gri, sırtta ve kuyrukta koyu enine şeritler; boyun uzun, kuyruk enine kesitte yuvarlak ve kırbaç gibi kullanılabilir.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Ulusal koruma statüsü olarak VU (Hassas) belirlenmesi gerektiği vurgulanmış",
+    "statusIntl": "IUCN: NE (Değerlendirilmemiş) · CITES Ek-I · Bern Ek-3",
     "localities": [
       {
         "name": "Şanlıurfa çevresi",
@@ -558,19 +744,19 @@
   {
     "id": "sakalli-yarasa",
     "name": "Sakallı Yarasa",
-    "sci": "Myotis mystacinus",
+    "sci": "Myotis brandtii",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Whiskered_bat_%28Myotis_mystacinus%29_Rochovce.jpg/960px-Whiskered_bat_%28Myotis_mystacinus%29_Rochovce.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/sakalli-yarasa.jpg",
     "imageCredit": {
-      "author": "Charles J. Sharp",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Whiskered_bat_(Myotis_mystacinus)_Rochovce.jpg"
+      "author": "Борисенко",
+      "license": "CC BY-SA",
+      "source": "https://www.inaturalist.org/photos/2802374"
     },
     "description": "Küçük-orta boyutlu, orman yaşamına bağlı bir yarasadır. Rize’de Kaçkar Dağı eteklerinde Fırtına Vadisi’nin Çat ve Meydan köylerinde araştırılmıştır.",
-    "morphology": "",
+    "morphology": "Gövde 37-51 mm, kuyruk 32-44 mm, kanat açıklığı 210-250 mm, önkol 33,0–39,2 mm; ortalama ağırlık 4,3-9,5 g. Sırt kürkü gri-kırmızı-kahverengi, genellikle altın rengi parıltılı; tragus uzun ve sivri.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Demirsoy (1996) Türkiye Memelileri Red List'ine göre V (Hassas); MAK kararlarında Ek-I listesinde yer alan korunan tür",
+    "statusIntl": "IUCN: LC (Asgari Endişe) · Bern Ek-2 · AB Habitat ve Tür Direktifi Ek-IV",
     "localities": [
       {
         "name": "Çat (Çamlıhemşin, Rize)",
@@ -587,17 +773,17 @@
     "name": "Saz Kedisi",
     "sci": "Felis chaus",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/FelisChausMunsiari1.jpg/960px-FelisChausMunsiari1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/saz-kedisi.jpg",
     "imageCredit": {
       "author": "L. Shyamal",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:FelisChausMunsiari1.jpg"
     },
     "description": "Geniş ama parçalı dağılan bir kedi türüdür. Türkiye’de Adana’daki Akyatan Yaban Hayatı Geliştirme Sahası gibi sulak alanlarda bulunur.",
-    "morphology": "",
+    "morphology": "İnce uzun bacaklı, yaban kedisinden büyük, vaşaktan küçük bir kedi; genellikle boz renkli. Kuyruk nispeten kısa ve ucunda koyu halkalar var; kulak uçlarında siyah püsküller, gözler sarı veya yeşil.",
     "flowering": "",
     "statusNational": "",
-    "statusIntl": "",
+    "statusIntl": "IUCN: LC (Asgari Endişe) · CITES Ek-II",
     "localities": [
       {
         "name": "Akyatan Lagünü (Adana)",
@@ -612,15 +798,15 @@
   {
     "id": "siraz-baligi",
     "name": "Siraz Balığı",
-    "sci": "",
+    "sci": "Capoeta mauricii",
     "group": "fauna",
     "image": null,
     "imageCredit": null,
     "description": "Beyşehir Gölü ve onu besleyen dereler, Bakaran Çayı, Çarşamba Kanalı ve Suğla Gölü çevresinde yayılış gösteren tatlı su balığıdır.",
-    "morphology": "",
+    "morphology": "Vücut genç bireylerde yanlardan oldukça fazla, olgun bireylerde hafif yassılaşmıştır; ağız küçük ve kavisli, ağız çevresinde bir çift bıyık var. Yanal çizgi tam, 80-87 delikli pul; dorsal yüzgeç 4 basit, 8 dallanmış ışınlıdır.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Endemik (Beyşehir Sirazı, Capoeta mauricii); Türkiye'deki tehlike durumu: bilinmiyor",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · CITES ve Bern listelerinde yok",
     "localities": [
       {
         "name": "Beyşehir Gölü (Konya)",
@@ -642,8 +828,8 @@
     "description": "Küresel ölçekte çok dar bir alanda, Denizli’nin Tavas ilçesinde Çakıroluk mevkiinde yaşayan yerel endemik bir kurbağadır.",
     "morphology": "Sırtın yanlarındaki kıvrımlar daima daha açık renklidir; hemen her zaman açık renkli bir sırt orta şeridi bulunur.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Lokal endemik (yalnızca Denizli); nesli tehlike altında",
+    "statusIntl": "IUCN: EN (Tehlike Altında) · Bern Sözleşmesi Ek-3",
     "localities": [
       {
         "name": "Tavas (Denizli)",
@@ -660,7 +846,7 @@
     "name": "Tepeli Pelikan",
     "sci": "Pelecanus crispus",
     "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Dalmatian_Pelican_Pelecanus_crispus_by_Dr._Raju_Kasambe_DSCN6899_%283%29.jpg/960px-Dalmatian_Pelican_Pelecanus_crispus_by_Dr._Raju_Kasambe_DSCN6899_%283%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/tepeli-pelikan.jpg",
     "imageCredit": {
       "author": "Dr. Raju Kasambe",
       "license": "CC BY-SA 4.0",
@@ -669,8 +855,8 @@
     "description": "Ülkemizde üreyen ve yıl boyu kalan yerli bir popülasyonu ve Balkanlar ile Karadeniz’in kuzeyinden gelen bir kışlayan popülasyonu vardır. Menderes Deltası ve Azap Gölü önemli alanlardandır.",
     "morphology": "Erişkinlerde boy 160–180 cm, kanat açıklığı 310–345 cm, ağırlık 10–12 kg’dır.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "4915 sayılı Kara Avcılığı Kanunu kapsamında korunan tür",
+    "statusIntl": "IUCN: NT (Tehdide Yakın) · Bern Ek-2 · Bonn Ek-II · AB Yabani Kuşlar Direktifi Ek-I",
     "localities": [
       {
         "name": "Büyük Menderes Deltası (Aydın)",
@@ -683,21 +869,90 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Tepeli%20Pelikan%20Eylem%20Plan%C4%B1_V3.8%2012.pdf"
   },
   {
+    "id": "toy",
+    "name": "Toy",
+    "sci": "Otis tarda",
+    "group": "fauna",
+    "image": "./species-img/toy.jpg",
+    "imageCredit": {
+      "author": "zh:User:Snowyowls",
+      "license": "CC BY-SA 1.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Dabao.jpg"
+    },
+    "description": "Dünyanın en ağır uçabilen kuşlarından biridir.",
+    "morphology": "Başı ve boynu gri, sırtı kızıl üzerine enine siyah çizgili, alt tarafı beyazdır. Erkeğin beyaz bıyıkları her yıl uzar ve yaşlı bireylerde 20 cm’yi geçer.",
+    "flowering": "",
+    "statusNational": "Kara Avcılığı Kanunu kapsamında korunması gereken türler listesinde; avı yasak",
+    "statusIntl": "IUCN: VU (Hassas) · Bern Sözleşmesi Ek-2",
+    "localities": [
+      {
+        "name": "Doğanay (Çifteler, Eskişehir)",
+        "lat": 39.28316,
+        "lng": 31.21669,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Altınova Tarım İşletmesi (Kadınhanı, Konya)",
+        "lat": 38.71707,
+        "lng": 32.18079,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Alican Köyü güneyi, Berce Tarım İşletmesi arazisi (Merkez, Muş)",
+        "lat": 38.83466,
+        "lng": 41.56185,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Kuzayca – Gavurören (Şefaatli, Yozgat)",
+        "lat": 39.37827,
+        "lng": 34.82681,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Sadıkkırı Köyü (Altıntaş, Kütahya)",
+        "lat": 39.19167,
+        "lng": 30.08364,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Seyfe Gölü kenarı (Mucur, Kırşehir)",
+        "lat": 39.21486,
+        "lng": 34.38829,
+        "radiusKm": 8,
+        "approx": true
+      },
+      {
+        "name": "Tersakan – Kumluk (Kulu, Konya)",
+        "lat": 39.03706,
+        "lng": 33.02863,
+        "radiusKm": 8,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Toy.pdf"
+  },
+  {
     "id": "turna",
     "name": "Turna",
     "sci": "Grus grus",
     "group": "fauna",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/4/40/Grus_grus_1_%28Marek_Szczepanek%29.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/turna.jpg",
     "imageCredit": {
       "author": "Marek Szczepanek",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Grus_grus_1_(Marek_Szczepanek).jpg"
     },
     "description": "Ülkemizde kuluçkaya yattığı belirlenen alanların 9’u Sivas ili sınırları içindedir. Tuz Gölü göç döneminde binlerce bireyin toplandığı bir alandır.",
-    "morphology": "",
+    "morphology": "Uzun bacaklı, uzun ve dar boyunlu su kuşu; tüyleri kirli mavimsi-gri, baş ve boyun üstü siyah-beyaz, gözün üstünde kırmızı çıplak deri vardır. Kuyruk gösterişli ve geniş, kanatlar uzun; erkekler daha iri.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Koruma altında, avı yasak",
+    "statusIntl": "IUCN: LC (Düşük Öncelikli)",
     "localities": [
       {
         "name": "Tuz Gölü",
@@ -717,6 +972,163 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Turna.pdf"
   },
   {
+    "id": "trakya-tosbagasi",
+    "name": "Trakya Tosbağası",
+    "sci": "Testudo hermanni",
+    "group": "fauna",
+    "image": "./species-img/trakya-tosbagasi.jpg",
+    "imageCredit": {
+      "author": "",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Testudo_hermanni_boettgeri.jpg"
+    },
+    "description": "Balkan'larda yaşayan alttürü (Testudo hermanni boettgeri) Türkiye'de yalnızca Trakya Bölgesi'nde yayılış gösterir; T. graeca ibera'dan kuyruk ucundaki tırnak, kalçada tüberkül bulunmaması ve plastrondaki iki parçalı renklenmeyle ayrılır.",
+    "morphology": "Kuyruk ucunda tırnak bulunur, kalçada tüberkül yoktur, plastronda tipik iki parçalı renklenme vardır. Erkeklerde plastron içeriye girintili, kuyruk dişilerden uzun ve şişkindir; dişiler erkeklerden daha büyüktür.",
+    "flowering": "",
+    "statusNational": "4915 sayılı Kara Avcılığı Kanunu, Çevre Kanunu ve Merkez Av Komisyonu kararları kapsamında koruma altında",
+    "statusIntl": "IUCN: NT (Yakın Tehdit) · CITES Ek-2 · Bern Ek-2",
+    "localities": [
+      {
+        "name": "Kozyörük (Tekirdağ)",
+        "lat": 41.0173,
+        "lng": 26.9442,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Orhaniye (Edirne)",
+        "lat": 40.73241,
+        "lng": 26.43268,
+        "radiusKm": 5,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Tu%CC%88r%20Eylem%20Plan%C4%B1%20Testudo%20hermanni.pdf"
+  },
+  {
+    "id": "van-kertenkelesi",
+    "name": "Van Kertenkelesi",
+    "sci": "Darevskia sapphirina",
+    "group": "fauna",
+    "image": null,
+    "imageCredit": null,
+    "description": "Kesin olarak tek bir lokalitede yaşadığı belirtilen, kaya kertenkelesi (Darevskia) cinsinin en küçük türüdür.",
+    "morphology": "Kaya kertenkeleleri arasında en kısa boyludur (99 mm); kesikli oksipital çizgisi ve 5–7 mavi yan lekesi vardır.",
+    "flowering": "",
+    "statusNational": "Endemik (Türkiye endemiği)",
+    "statusIntl": "IUCN: LC (Asgari Endişe) (planda EN olması gerektiği belirtilmiş) · Bern Ek-3 · CITES eklerinde yok",
+    "localities": [
+      {
+        "name": "Derecik Köyü (Patnos, Ağrı)",
+        "lat": 39.16902,
+        "lng": 43.0344,
+        "radiusKm": 4,
+        "approx": false
+      },
+      {
+        "name": "Duracak Köyü (Erciş, Van)",
+        "lat": 39.10191,
+        "lng": 43.06431,
+        "radiusKm": 4,
+        "approx": false
+      },
+      {
+        "name": "Ortayayla Köyü (Erciş, Van)",
+        "lat": 39.08101,
+        "lng": 43.06298,
+        "radiusKm": 4,
+        "approx": false
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Van%20Kertenkelesi.pdf"
+  },
+  {
+    "id": "yer-yediuyuru",
+    "name": "Yer Yediuyuru",
+    "sci": "Myomimus roachi",
+    "group": "fauna",
+    "image": null,
+    "imageCredit": null,
+    "description": "Yer yediuyuru (Myomimus roachi), dünyada yalnızca Bulgaristan ve Türkiye'de yayılış gösteren bir ağaç faresidir; Türkiye'de Trakya'da, Edirne ve çevre illerdeki birkaç küçük alanda, eski bağlık ve tarla aralarındaki çalılıklarda yaşar. Yaşam alanı kaybı nedeniyle acil önlem alınmazsa yok olma tehlikesi taşır.",
+    "morphology": "Tıknaz vücutlu, başı geniş, bıyıkları kısa (27 mm). Üst tarafı kırçıllı grimsi, altı kirli beyaz veya kurşuni; kuyruğu farekuyruğunu andırır. M. setzeri'den büyük bedenli (baş-vücut 85 mm'den büyük) ve üst kürü gridir.",
+    "flowering": "",
+    "statusNational": "Orman ve Su İşleri Bakanlığınca koruma altına alınan yaban hayvanları (Ek III - Memeliler)",
+    "statusIntl": "IUCN: VU (Duyarlı) · Bern Ek-2 (Kesinlikle Korunması Gereken Hayvan Türleri)",
+    "localities": [
+      {
+        "name": "Vaysal (Lalapaşa, Edirne)",
+        "lat": 41.94207,
+        "lng": 26.87172,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Hamzabeyli (Lalapaşa, Edirne)",
+        "lat": 41.96502,
+        "lng": 26.64296,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Orhaniye (Merkez, Edirne)",
+        "lat": 41.51478,
+        "lng": 26.65292,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Azatlı (Havsa, Edirne)",
+        "lat": 41.50103,
+        "lng": 26.70233,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Şerbettar (Havsa, Edirne)",
+        "lat": 41.47098,
+        "lng": 26.76315,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Enez (Edirne)",
+        "lat": 40.72503,
+        "lng": 26.08457,
+        "radiusKm": 8,
+        "approx": true
+      },
+      {
+        "name": "Olacak Köyü (Meriç, Edirne) – eski kayıt",
+        "lat": 41.21538,
+        "lng": 26.47426,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Üsküp (Kırklareli) – literatür kaydı",
+        "lat": 41.47766,
+        "lng": 27.2494,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Kumbağ (Tekirdağ) – literatür kaydı",
+        "lat": 40.86851,
+        "lng": 27.45883,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Terzialan (Çan, Çanakkale) – literatür kaydı",
+        "lat": 39.9645,
+        "lng": 27.02204,
+        "radiusKm": 5,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Yer7uyuru.pdf"
+  },
+  {
     "id": "avanos-keveni",
     "name": "Avanos Keveni",
     "sci": "Acantholimon avanosicum",
@@ -724,10 +1136,10 @@
     "image": null,
     "imageCredit": null,
     "description": "Nevşehir’in Avanos çevresinde yayılış gösteren endemik bir kevendir (Acantholimon).",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Gevşek, dikenli, öbek oluşturan yastık formunda çalı. Yapraklar subulat, 10-35 x 1-1.5 mm; skape 4-8 cm; spike sık dizilişli, 15-40 mm, 8-14 spikeletli; petaller pembemsi, dudak beyaz.",
+    "flowering": "Temmuz başı – Ağustos sonu",
+    "statusNational": "Lokal endemik; IUCN: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern ve CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Avanos (Nevşehir)",
@@ -740,16 +1152,99 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Acantholimon%20avanosicum%20%28Avanos%20keveni%29.pdf"
   },
   {
+    "id": "sari-dag-gulu",
+    "name": "Sarı Dağ Gülü",
+    "sci": "Adonis cyllenea var. paryadrica",
+    "group": "flora",
+    "image": "./species-img/sari-dag-gulu.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=94193"
+    },
+    "description": "Türkiye endemiği, çok yıllık, sarı çiçekli otsu bir bitkidir. 2018 çalışmasında Giresun'un Şebinkarahisar ve Alucra ilçelerindeki 1700–2400 m yüksekliklerde, yoğun kar alan bölgelerde sarıçam orman açıklıklarında ve subalpinde belirlenmiştir.",
+    "morphology": "Çok yıllık, rizomlu bitki; gövde 40-70 cm, tüylü. Taban yaprakları saplı, yaprak ayası 10-15 cm, çok parçalı. Çiçekler tek tek, petaller sarı, 4-4,5 cm; meyve çok sayıda, uçta çengelsi aken.",
+    "flowering": "Nisan – Mayıs",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: DD (Veri Yetersiz); bu çalışmada EN (Tehlikede) olarak belirlenmiş",
+    "statusIntl": "Bern Sözleşmesi Ek-1 (tür düzeyinde, A. cyllenea); CITES flora listesinde yok",
+    "localities": [
+      {
+        "name": "Tutak Yaylası / Tutak Dağı (Şebinkarahisar, Giresun)",
+        "lat": 40.38956,
+        "lng": 38.29518,
+        "radiusKm": 6,
+        "approx": true
+      },
+      {
+        "name": "Erimez Dağı çevresi (Giresun)",
+        "lat": 40.47,
+        "lng": 38.554,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Kurtbeli mevkii (Alucra, Giresun)",
+        "lat": 40.49148,
+        "lng": 38.75883,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Demirözü Köyü, Almaoğlu ve Gölçayır mevkileri (Alucra, Giresun)",
+        "lat": 40.42651,
+        "lng": 38.90148,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Yeşilyurt mevkii (Alucra, Giresun)",
+        "lat": 40.32131,
+        "lng": 38.91689,
+        "radiusKm": 5,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Adonis%20cyllenea%20var.%20paryadrica%20%28Sar%C4%B1%20da%C4%9F%20g%C3%BCl%C3%BC%29.pdf"
+  },
+  {
+    "id": "karaman-kayagulu",
+    "name": "Karaman Kayagülü",
+    "sci": "Aethionema karamanicum",
+    "group": "flora",
+    "image": null,
+    "imageCredit": null,
+    "description": "Karaman ilinde Ayrancı (Kayaönü) ve Akçaşehir (Çakırdağ) çevresindeki üç yayılış alanından bilinen, dünyada başka yerde bulunmayan lokal endemik, çok yıllık bir bitkidir; kalkerli taşlı bozkır yamaçlarda yetişir.",
+    "morphology": "Çok yıllık, tabanı fazla odunlaşmış, 15-22 cm boyunda, yatık yükselen çok sayıda gövdeli. Yapraklar dar lanseolat, 12-20x1.5-2 mm; sepaller ortası yeşil, kenarları mor, petaller dıştan görünmeyecek kadar sıkışık.",
+    "flowering": "Mayıs ortası – Haziran başı (literatürde Haziran – Temmuz)",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede)",
+    "statusIntl": "",
+    "localities": [
+      {
+        "name": "Kayaönü (Küçükkoraş) Köyü çevresi (Ayrancı, Karaman)",
+        "lat": 37.1255,
+        "lng": 33.83225,
+        "radiusKm": 5,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Aethionema%20karamanicum%20%28Karaman%20kayag%C3%BCl%C3%BC%29.pdf"
+  },
+  {
     "id": "kabamayasil",
     "name": "Kabamayasıl",
     "sci": "Ajuga xylorrhiza",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/kabamayasil.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575030734",
+      "type": "specimen"
+    },
     "description": "Diyarbakır’ın Çermik ilçesinde dar alanda bilinen bir mayasıl otudur.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Çok yıllık, odunsu köklü, yelpazemsi yapraklı ve beyaz çiçekli otsu bir bitkidir; çiçekli gövdeler yükselici, 9-24 cm uzunluktadır. Korolla 19-21 mm uzunluğunda ve beyaz renklidir.",
+    "flowering": "Mayıs başı – Haziran ortası",
+    "statusNational": "Endemik; Ulusal Kırmızı Liste: EN (Tehlikede)",
     "statusIntl": "",
     "localities": [
       {
@@ -767,13 +1262,18 @@
     "name": "Yalı Havacivası",
     "sci": "Alkanna mughlae",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/yali-havacivasi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/574894737",
+      "type": "specimen"
+    },
     "description": "Yalnızca Muğla’nın Marmaris ve Ortaca ilçelerinde yayılış gösteren oldukça dar yayılışlı bir endemiktir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "8-15 cm boylanan, yoğun tüy örtülü bitki. Taban yaprakları 2,5-5 X 0,5-1 cm, eliptik veya ters mızraksı; taç yapraklar sarı, 13-15 mm; çiçekler 7-10 mm çapında.",
+    "flowering": "Mart – Mayıs",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede)",
+    "statusIntl": "IUCN resmi sitesindeki listelerde yer almıyor",
     "localities": [
       {
         "name": "Marmaris (Muğla)",
@@ -797,13 +1297,18 @@
     "name": "Nezaket Kevkesi",
     "sci": "Alyssum nezaketiae",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/nezaket-kevkesi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575111117",
+      "type": "specimen"
+    },
     "description": "Çankırı ilinde yayılış gösteren endemik bir bitkidir. İlin Devrez Çayı’nın suladığı bölgelerinde bulunur.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Yarı çalımsı, çok gövdeli, çok yıllık bir bitki. Gövdeler dik, 3-6 cm; sık tüylerden dolayı grimsi beyaz görünümlü. Yapraklar şeritsi-ters mızrak biçiminde, 5-13 x 1.5-2,5 mm; tohumlar yumurtamsı, kahverengimsi.",
+    "flowering": "Mayıs ortası",
+    "statusNational": "Endemik",
+    "statusIntl": "IUCN kategorilerinde henüz yer almıyor",
     "localities": [
       {
         "name": "Çankırı çevresi",
@@ -820,13 +1325,17 @@
     "name": "Gövrek",
     "sci": "Anchusa limbata",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/govrek.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=118070"
+    },
     "description": "Antalya’dan Elmalı’ya giderken Gümüş Bucağı mevkiinde de kaydedilmiş bir bitkidir. Elmalı yöresinde bilinir.",
     "morphology": "Taban yaprakları şeritsi-dar tersmızraksı, 4–10 × 0,4–0,8 cm, tam kenarlı veya hafif dalgalıdır.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Mart – Haziran ortası",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "CITES ve Bern Ek-1 listelerinde yok; IUCN (2012) ölçütleriyle değerlendirme: CR (Kritik Tehlikede)",
     "localities": [
       {
         "name": "Elmalı (Antalya)",
@@ -843,13 +1352,18 @@
     "name": "Tuz Kırgını",
     "sci": "Asparagus lycaonicus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/tuz-kirgini.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/574975020",
+      "type": "specimen"
+    },
     "description": "Türkiye’de yalnızca Konya’nın Cihanbeyli ilçesinde, Bolluk Gölü kıyılarında yetişen yerel endemik bir bitkidir.",
     "morphology": "Herdem yeşil, çok yıllık; yaprakları küçük pullara indirgenmiştir.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Mayıs ortası – Haziran ortası",
+    "statusNational": "Endemik (nokta endemiği); Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlike Altında)",
+    "statusIntl": "Bern Sözleşmesi Ek Liste-I; CITES liste dışı",
     "localities": [
       {
         "name": "Bolluk Gölü (Cihanbeyli, Konya)",
@@ -866,7 +1380,7 @@
     "name": "Beypazarı Geveni",
     "sci": "Astragalus beypazaricus",
     "group": "flora",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Astragalus_beypazaricus.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/beypazari-geveni.jpg",
     "imageCredit": {
       "author": "SerdarÖlez",
       "license": "CC BY-SA 4.0",
@@ -875,7 +1389,7 @@
     "description": "Yaklaşık 50 cm boyunda, tabanda çalımsı, parçalı yapraklı bir geven türüdür.",
     "morphology": "Yaprakçıkları 3–4 çift, eliptik–ters yumurtamsı, basık tüylüdür. Çiçekleri mavimsi menekşe rengindedir.",
     "flowering": "Mayıs ortası – Haziran ortası",
-    "statusNational": "",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Listesi: CR (Kritik Tehlikede)",
     "statusIntl": "",
     "localities": [
       {
@@ -893,13 +1407,17 @@
     "name": "Er Geveni",
     "sci": "Astragalus bozakmanii",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/er-geveni.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=98213"
+    },
     "description": "Bugün yalnızca Ankara’nın Çamlıdere ve Kızılcahamam ilçelerinde yerel olarak yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Yaklaşık 15 cm’ye kadar boylanan, kısa gövdeli, kırmızımsı-beyaz tüylerle örtülü bitki. Yapraklar 15-20 cm, yaprakçıklar 10-15 çift; çiçek kurulu 15-20 çiçekli, taç yapraklar tüysüz, sarı.",
+    "flowering": "Mayıs – Temmuz ortası",
+    "statusNational": "Lokal endemik",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede) · Bern ve CITES’te değerlendirmesi yok",
     "localities": [
       {
         "name": "Çamlıdere (Ankara)",
@@ -923,13 +1441,18 @@
     "name": "Niğde Obrizyası",
     "sci": "Aubrieta vulcanica",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/nigde-obrizyasi.jpg",
+    "imageCredit": {
+      "author": "JE",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/3028975513",
+      "type": "specimen"
+    },
     "description": "Niğde’de Üçkapılı Köyü çevresinde volkanik kayalar üzerinde yayılış gösteren bir bitkidir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Narin, çok yıllık otsu bitki; tüysüz veya seyrek çatallı tüylü. Yapraklar çok dar eliptik–dar ters mızraksı; petaller 6-7 mm, açık mordan beyaza, tabanda yeşilimsi sarı; silikula meyve 8-10 x 3-3,2 mm.",
+    "flowering": "Mayıs başı – Temmuz ortası",
+    "statusNational": "Nokta endemiği; Türkiye Bitkileri Kırmızı Kitabı: DD (Veri Yetersiz); sonraki yayında CR önerilmiş",
+    "statusIntl": "Bern ve CITES kapsamında değerlendirmesi yok; IUCN listelerinde yer almıyor",
     "localities": [
       {
         "name": "Üçkapılı yöresi (Niğde)",
@@ -946,13 +1469,18 @@
     "name": "Edirne Sümbülü",
     "sci": "Bellevalia edirnensis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/edirne-sumbulu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Gardens, Kew",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/4607956268",
+      "type": "specimen"
+    },
     "description": "Edirne, Kırklareli ve Tekirdağ illerinde doğal yayılış gösteren soğanlı bir bitkidir. Tip lokalitesi Uzunköprü, Karapınar Köyü civarındadır.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Soğan küresel-ovoit, 2.5-3.5 cm çapında; yapraklar (2-)3-4, 30–42 cm x 15-20 mm, çok dar oblanseolat, undulat. Çiçek durumu yoğun, 50-60 çiçekli salkım; skapus 15-33 cm; perigon 8–11 mm, krem renkli.",
+    "flowering": "Nisan ortası – Mayıs başı",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern ve CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Uzunköprü (Edirne)",
@@ -983,13 +1511,17 @@
     "name": "Ayaş Çançiçeği",
     "sci": "Campanula damboldtiana",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/ayas-cancicegi.jpg",
+    "imageCredit": {
+      "author": "Mustafa Gökmen",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=111030"
+    },
     "description": "Ankara’da Ayaş’ın Aysantıbeli geçidi yol kenarı ile Kahramankazan’ın Orhaniye (Çal Tepesi) çevresinde yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok gövdeli, çok yıllık; çiçekli gövdeler 5.5-22 cm, taban yaprağı yok, gövde yaprakları sert tüylü, 12-25/2-4 mm. Korolla huni-çan şekilli, yaklaşık 12/12 mm, leylak-mavi.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Ankara için endemik; Türkiye Bitkileri Kırmızı Kitabı: CR (Çok Tehlikede)",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede) · Bern Sözleşmesi Ek-1 · CITES’te değerlendirmesi yok",
     "localities": [
       {
         "name": "Ayaş (Ankara)",
@@ -1013,12 +1545,16 @@
     "name": "Tüylü Çançiçeği",
     "sci": "Campanula tomentosa",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/tuylu-cancicegi.jpg",
+    "imageCredit": {
+      "author": "Joey Bom",
+      "license": "CC BY",
+      "source": "https://www.inaturalist.org/photos/440362304"
+    },
     "description": "Aydın yöresinde Söke ve Kuşadası dolaylarında görülen bir çançiçeğidir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "30-70 cm boyunda, yoğun tomentose tüylü, tabanı odunsu bitki. Taban yaprakları lirat şekilli, 6.5-17.5 x 1.8-5.0 cm; çiçekler menekşe-mavi, korolla çansı veya geniş huni şeklinde, 26-53 x 18-45 mm.",
+    "flowering": "Mayıs – Haziran",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: VU (Duyarlı), sonradan EN (Tehlikede) olarak güncellenmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1043,16 +1579,16 @@
     "name": "İspir Çıngırağı",
     "sci": "Campanula troegerae",
     "group": "flora",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Campanula_troegerae.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/ispir-cingiragi.jpg",
     "imageCredit": {
       "author": "Philippe.pechoux",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Campanula_troegerae.jpg"
     },
     "description": "Erzurum’da küçük bir alanda, İspir yöresinde Çoruh Vadisi’nde birkaç küçük popülasyon halinde bulunur.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Çok yıllık, yoğun tüylü bitki; gövde 12-17 cm, yapraklar ovat-kordat, tırtıklı, altı grimsi ipeksi. Çiçekler 1-3 adet, korolla geniş huni şeklinde (2 x 3-4,5 cm); tomurcuklar açık pembe veya beyaz.",
+    "flowering": "Haziran",
+    "statusNational": "Endemik; plan değerlendirmesi: EN (Tehlikede)",
     "statusIntl": "",
     "localities": [
       {
@@ -1070,14 +1606,15 @@
     "name": "Kulindor",
     "sci": "Centaurea hermannii",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Cabo_da_Roca_-_Sintra_-_060415_34.JPG/960px-Cabo_da_Roca_-_Sintra_-_060415_34.JPG?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/kulindor.jpg",
     "imageCredit": {
-      "author": "Luis Miguel Bugallo Sánchez (Lmbuga Commons)(Lmbuga Galipedia)",
-      "license": "CC BY-SA 2.5 es",
-      "source": "https://commons.wikimedia.org/wiki/File:Cabo_da_Roca_-_Sintra_-_060415_34.JPG"
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575178715",
+      "type": "specimen"
     },
     "description": "İstanbul’da Anadolu yakasında Aydos Dağı ve Avrupa yakasında Subaşı çevresinde en iyi popülasyonları bulunan bir bitkidir.",
-    "morphology": "",
+    "morphology": "İki yıllık (nadiren çok yıllık); gövde 30-60 cm, dallanmaz, genç iken yünsü tüylü. Çiçek durumu 15-25 x 10-18 mm; çiçekler genellikle portakal renkli, dilsi çiçek yok; akenler 4-5 mm, kahverengi.",
     "flowering": "",
     "statusNational": "",
     "statusIntl": "",
@@ -1100,10 +1637,10 @@
     "image": null,
     "imageCredit": null,
     "description": "Türkiye’de Yozgat’ın Şefaatli ilçesinde sınırlı bir alanda yayılış gösteren bir bitkidir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, tabanı odunsu otlar; gövde dik veya yükselici, 25–50 cm. Yapraklar şeritsi, tam; kapitula tek, diskoid, involukrum 15–22 x 8–15 mm; çiçekler erdişi, sarı.",
+    "flowering": "Mayıs sonu – Temmuz ortası",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede); Bern ve CITES kapsamında değerlendirmesi yok",
     "localities": [
       {
         "name": "Şefaatli (Yozgat)",
@@ -1125,7 +1662,7 @@
     "description": "Dünyada yalnızca İstanbul’un Avrupa yakasında kireçten zengin toprak ve kayalıklarda yetişir. Yarımburgaz ve Ispartakule vadilerinde alanlar tespit edilmiştir.",
     "morphology": "Çok yıllık, 100 cm’ye kadar boylanan çok gövdeli bir çalıdır; sarımsı krem renkli çok sayıda çiçeği baş şeklinde toplanmıştır.",
     "flowering": "",
-    "statusNational": "",
+    "statusNational": "Endemik (dünyada yalnızca İstanbul’un Avrupa yakasında, çok lokal yayılışlı)",
     "statusIntl": "",
     "localities": [
       {
@@ -1143,16 +1680,16 @@
     "name": "Sinop Çiğdemi",
     "sci": "Crocus speciosus subsp. xantholaimos",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Crocus_speciosus_flower_close-up.jpg/960px-Crocus_speciosus_flower_close-up.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/sinop-cigdemi.jpg",
     "imageCredit": {
       "author": "Meneerke bloem",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Crocus_speciosus_flower_close-up.jpg"
     },
     "description": "Sinop’un çayırlık yaşam alanlarında yayılış gösteren, süsengiller (Iridaceae) familyasından bir çiğdem türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Periant boğazı sarı. Yapraklar 3-4 adet, 4-5 mm genişlikte, çiçeklerden sonra gelişir; segmentler 2,5-6 x 0,8-2,2 cm, anterler sarı (Crocus speciosus tür tanımı).",
+    "flowering": "Eylül – Ekim",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede)",
     "statusIntl": "",
     "localities": [
       {
@@ -1170,13 +1707,18 @@
     "name": "Kızıl Kaplanotu",
     "sci": "Dorycnium sanguineum",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/kizil-kaplanotu.jpg",
+    "imageCredit": {
+      "author": "UNIBAS:HERBARIA",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/6572644408",
+      "type": "specimen"
+    },
     "description": "Dünyada yalnızca Karaman merkeze bağlı Bucakkışla, Kurucabel, Aşağıakın ve Çukur mevkilerinde, 100 km²’den az bir alanda yayılış gösterir. 350–900 m yükseklikte kızılçam orman açıklıklarında kalkerli yüzeylerde yetişir.",
-    "morphology": "",
+    "morphology": "Çok yıllık, tabanda odunsu; gövde 20–25 cm, beyaz yumuşak tüylü. Yapraklar 5 parçalı, yaprakçıklar 5–20 x 3–10 mm; çiçekler kan kırmızısı renkte, 5–7 mm; kaliks dişlerinin uçları siyaha yakın morumsu kırmızı.",
     "flowering": "Mayıs – Temmuz",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Lokal endemik; Türkiye Bitkileri Kırmızı Kitabı (Ekim vd., 2000): VU (Duyarlı); plan çalışmasında CR (Kritik Tehlikede) önerilmiş (planda önerilmiş)",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede) (planda önerilmiş) · Bern ve CITES'te herhangi bir değerlendirmesi yok",
     "localities": [
       {
         "name": "Karaman çevresi",
@@ -1197,9 +1739,9 @@
     "imageCredit": null,
     "description": "Türkiye’ye endemiktir; yalnızca Denizli’nin Acıpayam ilçesinde, Karaismailler–Suçatı köyleri arasında 630–950 m yükseklikte doğal olarak yetişir.",
     "morphology": "Boyu 130 cm’ye kadar olabilen çok yıllık bir bitkidir.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Haziran – Ağustos ortası",
+    "statusNational": "Türkiye endemiği; eylem planında CR (Kritik) olarak tanımlanmış",
+    "statusIntl": "Bern, CITES ve CBD kapsamında değerlendirmesi yok",
     "localities": [
       {
         "name": "Acıpayam (Denizli)",
@@ -1216,13 +1758,18 @@
     "name": "Güdük İğnelik",
     "sci": "Erodium hendrikii",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/guduk-ignelik.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/574843708",
+      "type": "specimen"
+    },
     "description": "Gümüşhane Merkez ilçesine bağlı Akocak ve Yağmurdere köyleri mevkiinde yayılış gösterir; Gümüşhane ve Trabzon kayıtları dışında başka bilgi yoktur.",
     "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Temmuz – Ağustos",
+    "statusNational": "Lokal endemik",
+    "statusIntl": "IUCN: CR (Kritik Seviyede Tehdit Altında)",
     "localities": [
       {
         "name": "Akocak yöresi (Gümüşhane)",
@@ -1235,6 +1782,36 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Erodium%20hendrikii%20%28G%C3%BCd%C3%BCk%20i%C4%9Fnelik%29.pdf"
   },
   {
+    "id": "kerkur",
+    "name": "Kerkür",
+    "sci": "Ferula mervynii",
+    "group": "flora",
+    "image": null,
+    "imageCredit": null,
+    "description": "Kerkür (Ferula mervynii), dünyada yalnızca Erzurum (Uzundere) ve Artvin (Yusufeli) çevresindeki küçük popülasyonlardan bilinen endemik bir bitkidir. Baraj projeleri ve yerleşim baskısı nedeniyle nesli tehlike altındadır; IUCN'de EN, CR olarak değerlendirilmesi önerilmiştir.",
+    "morphology": "Polikarpik, çok yıllık; gövde silindirik, 30-90 (-130) cm, tüysüz. Taban yaprakları triangular-ovat, 10-20 x 6-15 cm, 3-4 pinnat; petaller koyu sarı, 1-1,5 mm; meyveler olgunlaşınca koyu kahve.",
+    "flowering": "Haziran sonu – Temmuz ortası",
+    "statusNational": "Yöresel endemik; tehlike kategorisi CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern ve CITES’te değerlendirmesi yok",
+    "localities": [
+      {
+        "name": "Altınçanak Köyü (Uzundere, Erzurum)",
+        "lat": 40.57072,
+        "lng": 41.6198,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Yusufeli – Sarıgöl yolu (Yusufeli, Artvin)",
+        "lat": 40.81083,
+        "lng": 41.52709,
+        "radiusKm": 8,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Ferula%20mervynii%20%28Kerk%C3%BCr%29.pdf"
+  },
+  {
     "id": "baskil-lalesi",
     "name": "Baskil Lalesi",
     "sci": "Fritillaria baskilensis",
@@ -1242,7 +1819,7 @@
     "image": null,
     "imageCredit": null,
     "description": "Elazığ ili sınırlarında dar bir alanda yayılış gösteren, soğanlı ve yerel endemik bir lale türüdür. Tür eylem planı 2015’te hazırlanmıştır.",
-    "morphology": "",
+    "morphology": "Bitkinin boyu 9-13 cm; perigon mor, soğan 1.5 cm çapında ve küre şeklinde. Çiçek tek, nadiren 2, gösterişli, dar çan şeklinde; stamenler perigondan daha uzundur.",
     "flowering": "Nisan sonu – Mayıs (mayıs ortasında tohuma geçer)",
     "statusNational": "Endemik, nesli tehlike altında",
     "statusIntl": "",
@@ -1262,14 +1839,10 @@
     "name": "Truva Kardeleni",
     "sci": "Galanthus trojanus",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Distribution_of_the_galanthus_species.png/960px-Distribution_of_the_galanthus_species.png?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Nalagtus",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Distribution_of_the_galanthus_species.png"
-    },
+    "image": null,
+    "imageCredit": null,
     "description": "Dünyada yalnızca Çanakkale’de parçalı olarak yayılış gösteren yerel endemik, soğanlı bir bitkidir. Denizden 400–600 m yükseklikte yetişir. Çanakkale yöresinde “boynueğri” olarak da bilinir.",
-    "morphology": "",
+    "morphology": "Soğan 1.5-2 x 1-1.6 cm; yapraklar çizgimsi, (6-) 8-19 x 0.4-0.8 cm, üst yüz koyu yeşil, alt yüz parlak yeşil. Çiçek durumu sapı (6-)8-17 cm; dış tepaller (1.2-) 2-2.6 (-3.4) x 0.7-1.3 cm.",
     "flowering": "Kış sonu – erken ilkbahar",
     "statusNational": "Yerel endemik",
     "statusIntl": "IUCN: CR (Kritik Tehlikede) · CITES Ek-II",
@@ -1289,17 +1862,17 @@
     "name": "Sarı Afat",
     "sci": "Gentiana lutea",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Gentiana_lutea_090705.jpg/960px-Gentiana_lutea_090705.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/sari-afat.jpg",
     "imageCredit": {
       "author": "Bernd Haynold",
       "license": "CC BY-SA 2.5",
       "source": "https://commons.wikimedia.org/wiki/File:Gentiana_lutea_090705.jpg"
     },
     "description": "Kütahya ili sınırlarında yayılış gösteren bir bitkidir; en fazla birey Acısu–Çiçekli Yayla mevkiinde bulunmuştur.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Boyu 80-130 cm’ye kadar çıkan kuvvetli otsu bitki; gövde basit. Taban yaprakları 21-40 x 8-25 cm, donuk mavimsi yeşil; çiçekler üst yaprak koltuğunda yoğun kafa şeklinde, korolla sarı, 20-32 mm.",
+    "flowering": "Temmuz",
+    "statusNational": "Endemik değil; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede); bu planda CR önerilmiş",
+    "statusIntl": "IUCN: LC (Asgari Endişe)",
     "localities": [
       {
         "name": "Kütahya çevresi",
@@ -1320,9 +1893,9 @@
     "imageCredit": null,
     "description": "Konya ilinde doğal yayılış gösterir. En önemli tehdit, yayılış alanının Gözlü Tarım İşletmesi sınırları içindeki tarım arazisi ile karayolu arasında kalmasıdır.",
     "morphology": "Yaprakları pinnat, salgı benekli bir meyan türüdür.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Lokal endemik; Türkiye Bitkileri Kırmızı Listesi: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern Sözleşmesi Ek-1; IUCN (1997): E (Tehlikede)",
     "localities": [
       {
         "name": "Gözlü yöresi (Konya)",
@@ -1339,16 +1912,16 @@
     "name": "Sümbül",
     "sci": "Hyacinthus orientalis subsp. chionophilus",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Hyacinth_flower.jpg/960px-Hyacinth_flower.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/sumbul.jpg",
     "imageCredit": {
       "author": "Plantman",
       "license": "CC BY-SA 4.0",
       "source": "https://commons.wikimedia.org/wiki/File:Hyacinth_flower.jpg"
     },
     "description": "“Kaya sümbülü” olarak da bilinen ve yalnızca Türkiye’ye özgü bir alttürdür. Kahramanmaraş yöresinde doğal olarak yayılış gösterir; çiçeklerinin güçlü kokusuyla tanınır.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Endemik soğanlı bitki; yapraklar tabanda, linear-eliptik, 12-15 mm genişliğinde, 4-6 adet. Skapus rasemle birlikte 10-33 cm; çiçekler açık griden morumsu maviye, 20-30(35) mm; yaprak diplerinde mor-mavi benekler vardır.",
+    "flowering": "Mart sonu – Nisan (yükseltiye bağlı olarak Mayıs’ın ilk haftalarına kadar)",
+    "statusNational": "Endemik (alttür yalnızca Türkiye’ye has); Türkiye Bitkileri Kırmızı Kitabı: NT (Yakın Tehdit)",
     "statusIntl": "",
     "localities": [
       {
@@ -1366,13 +1939,17 @@
     "name": "Tuz Beğendiotu",
     "sci": "Iberis halophila",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/tuz-begendiotu.jpg",
+    "imageCredit": {
+      "author": "Mecit Vural, Zeki Aytaç, Nezaket Adıgüzel",
+      "license": "CC BY 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Iberis_halophila.jpg"
+    },
     "description": "İran-Turan bölgesine endemik; Tuz Gölü’nün güney-güneybatısında, Konya Cihanbeyli’de Tersakan Gölü kıyılarında ve Aksaray Eskil’de yayılış gösterir.",
     "morphology": "Çiçekleri lilamsı beyazımsı, çok yıllık bir bitkidir.",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Endemik; nesli tehdit altında",
+    "statusIntl": "IUCN tehlike kategorilerinde henüz yer almıyor",
     "localities": [
       {
         "name": "Cihanbeyli (Konya)",
@@ -1389,13 +1966,18 @@
     "name": "Kır Navruzu",
     "sci": "Iris farashae",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/kir-navruzu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/912729834",
+      "type": "specimen"
+    },
     "description": "Kayseri’nin Yahyalı ilçesinde Çamlıca Mahallesi yöresinde yayılış gösteren bir süsen (Iris) türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, tek çiçekli; çiçek zamanı toprak üstü 10-15 cm, yapraklar 8-40 cm. Soğan 1,5-2,5x1,2-1,6 cm. Çiçekler mor, dış tepaller sarı ibikli, periant tüpü 8-11,5 cm.",
+    "flowering": "Mart",
+    "statusNational": "Nokta endemiği",
+    "statusIntl": "IUCN: henüz değerlendirilmemiş",
     "localities": [
       {
         "name": "Çamlıca (Yahyalı, Kayseri)",
@@ -1412,12 +1994,17 @@
     "name": "Peşmen Navruzu",
     "sci": "Iris peshmeniana",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/pesmen-navruzu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/912729844",
+      "type": "specimen"
+    },
     "description": "Malatya’da Pötürge yöresinde bilinen bir Iris türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Çiçeklenmede 9-12 cm, meyvede 10-16 cm boylu; soğan 3.5–5.5 x 2.2–3.8 cm, yumurtamsı. Yapraklar 5–8 adet, oraksı, şeritsi-mızraksı; çiçek kremsi sarı, dış segmentler ortada koyu sarı yamalı.",
+    "flowering": "Nisan – Mayıs",
+    "statusNational": "Endemik (yerel); Kırmızı Kitapta kategori belirtilmemiş, bu çalışmada VU (Duyarlı) önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1437,10 +2024,10 @@
     "group": "flora",
     "image": null,
     "imageCredit": null,
-    "description": "Malatya ilinde bilinen bir ornithogalum türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "description": "Malatya ilinde bilinen, Ornithogalum cinsinden bir bitkidir.",
+    "morphology": "Bitki 46-73 cm; soğan oval-yuvarlak, 1.5-2.5 cm çapında, tunika beyazımsı. Gövde 34–53 cm, tüysüz, beyaz; yapraklar 5-7, şeritsi, kenarları tüylü. Çiçek düzeni silindirik, 12-20 cm, 20-30 çiçekli.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Endemik; Kırmızı Kitap'ta kategorisi yok, çalışmada EN (Tehlikede) önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1458,12 +2045,17 @@
     "name": "Malatya Kantaronu",
     "sci": "Hypericum malatyanum",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/malatya-kantaronu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/574946286",
+      "type": "specimen"
+    },
     "description": "Malatya ilinde bilinen bir kantaron türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Çok yıllık, otsu, tüysüz; gövde sürünücü, 5-12 cm, zayıf, tabanı odunsu. Yapraklar derimsi, ters yumurtamsı-eliptik, 3-7(-9) x 2-3(-4) mm, gri-yeşil; petal 8-10 x 3-4 mm; kapsül 4-5 mm.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Çok Tehlikede)",
     "statusIntl": "",
     "localities": [
       {
@@ -1481,16 +2073,16 @@
     "name": "Ak Navruz",
     "sci": "Iris stenophylla subsp. margaretiae",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Iris_stenophylla_GotBot_2015_002.JPG/960px-Iris_stenophylla_GotBot_2015_002.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/ak-navruz.jpg",
     "imageCredit": {
       "author": "Averater",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Iris_stenophylla_GotBot_2015_002.JPG"
     },
     "description": "Osmaniye ilinde 21 lokalitede tespit edilmiş bir Iris alttürüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "6-12 cm boylu soğanlı bitki; soğan 1.5-2 cm çapında. Yapraklar 4-10 adet, dik ve dar, çiçeklenme sonrası 10-20 x 0.5-1 cm. Çiçekler genellikle tek, menekşe mavisi veya leylak mavisi, lamina sarı veya portakal lekeli.",
+    "flowering": "Şubat ortası – Mayıs başı",
+    "statusNational": "Lokal endemik; Kırmızı Kitap'ta kategorisi yok, EN (Tehlikede) önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1508,17 +2100,17 @@
     "name": "Ak Zambak",
     "sci": "Lilium candidum",
     "group": "flora",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/ShoshanTzachor-2-wiki-Zachi-Evenor.jpg/960px-ShoshanTzachor-2-wiki-Zachi-Evenor.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "image": "./species-img/ak-zambak.jpg",
     "imageCredit": {
       "author": "Zachi Evenor",
       "license": "CC BY 2.0",
       "source": "https://commons.wikimedia.org/wiki/File:ShoshanTzachor-2-wiki-Zachi-Evenor.jpg"
     },
     "description": "İzmir ili sınırlarında yayılış gösteren popülasyonlar için eylem planı hazırlanmıştır.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Soğanlı bitki, 160 (-200) cm’ye kadar boylanır; taban yaprakları parlak yeşil, 2-6 cm eninde, 4-20 cm boyunda. Çiçekler geniş borazansı, kremsi beyaz; anterler sarı, polenler turuncu.",
+    "flowering": "Mayıs sonundan itibaren (1000 m üzeri popülasyonlarda Temmuz’dan itibaren)",
+    "statusNational": "Endemik değil; ulusal VU (Zarar Görebilir)",
+    "statusIntl": "Uluslararası tehlike kategorisi: VU (Zarar Görebilir)",
     "localities": [
       {
         "name": "İzmir çevresi",
@@ -1535,13 +2127,18 @@
     "name": "Kum Emziği",
     "sci": "Onosma propontica",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/kum-emzigi.jpg",
+    "imageCredit": {
+      "author": "UNIBAS:HERBARIA",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/6572707865",
+      "type": "specimen"
+    },
     "description": "İstanbul’da kumullarda yetişen bir emzik otu türüdür.",
     "morphology": "Kaide yaprakları 25–35 × 2,5–3 mm, gövde yaprakları 20–55 × 3,7 mm, lineer-spatulat – lineer-lanseolattır.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "flowering": "Temmuz",
+    "statusNational": "Endemik (İstanbul’a özgü, en nadir endemik bitkilerden); İstanbul endemik taksonları listesinde EN (güncellenmemiş kategori)",
+    "statusIntl": "Bern Sözleşmesi Ek Liste-I",
     "localities": [
       {
         "name": "Altınşehir yöresi (İstanbul)",
@@ -1554,6 +2151,71 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Onosma%20propontica%20%28Kum%20emzi%C4%9Fi%29.pdf"
   },
   {
+    "id": "gezertere",
+    "name": "Gezertere",
+    "sci": "Physoptychis hausknechtii",
+    "group": "flora",
+    "image": null,
+    "imageCredit": null,
+    "description": "Nisan ayında uyanıp gelişimine başlayan, Mayıs’ta çiçek açan, Haziran–Temmuz’da meyve veren ve Ağustos’ta tohumlarını döken bir bitkidir.",
+    "morphology": "Çok yıllık ot, boyu 5–22 cm; gövde çok dallanmış, beyazımsı gri tüylü. Bazal yapraklar 18–42×3–6.5 mm, darca spatulat; petaller 9–13×2–3 mm, pembe-mor (kısmen beyazımsı-krem). Silikula 10–26×9–16 mm, konik.",
+    "flowering": "Mayıs",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlike Altında)",
+    "statusIntl": "Bern Sözleşmesi listesinde yer almıyor",
+    "localities": [
+      {
+        "name": "Deliilyas Beldesi (Altınyayla/Ulaş, Sivas)",
+        "lat": 39.32934,
+        "lng": 36.79964,
+        "radiusKm": 5,
+        "approx": false
+      },
+      {
+        "name": "Gürlevik Dağı, Aktaş Köyü (Celalli, Hafik, Sivas)",
+        "lat": 39.5755,
+        "lng": 37.50414,
+        "radiusKm": 8,
+        "approx": false
+      },
+      {
+        "name": "Güvenkaya Köyü (Divriği, Sivas)",
+        "lat": 39.31028,
+        "lng": 37.74118,
+        "radiusKm": 4,
+        "approx": false
+      },
+      {
+        "name": "Pınargözü Köyü (Divriği, Sivas)",
+        "lat": 39.25028,
+        "lng": 37.68444,
+        "radiusKm": 4,
+        "approx": false
+      },
+      {
+        "name": "Maltepe Köyü civarı (Divriği, Sivas)",
+        "lat": 39.47079,
+        "lng": 38.11761,
+        "radiusKm": 4,
+        "approx": false
+      },
+      {
+        "name": "Ulaş (Sivas)",
+        "lat": 39.38411,
+        "lng": 36.93025,
+        "radiusKm": 10,
+        "approx": false
+      },
+      {
+        "name": "Salihli Köyü üstü (Kemaliye, Erzincan)",
+        "lat": 39.33424,
+        "lng": 38.49892,
+        "radiusKm": 8,
+        "approx": false
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Physoptychis%20hausknechtii%20%28Gezertere%29.pdf"
+  },
+  {
     "id": "samsun-madimagi",
     "name": "Samsun Madımağı",
     "sci": "Polygonum samsunicum",
@@ -1561,10 +2223,10 @@
     "image": null,
     "imageCredit": null,
     "description": "Samsun’un Lâdik ve Havza çevresinde, Tersakan Çayı kıyılarında ve köy mera alanlarında yayılış gösteren endemik bir bitkidir.",
-    "morphology": "",
-    "flowering": "",
+    "morphology": "Tabanı odunsu, çok yıllık ot; gövde 30-80 (-90) cm, tüysüz, yeşil renkli. Yapraklar eliptik-hançer-doğrusal, boyu 9-15 mm, eni 3-5 mm; çiçekler 2,5-3,5 mm, pembe-gül kırmızısı ya da beyaz.",
+    "flowering": "Haziran sonu / Temmuz başı – Eylül sonu",
     "statusNational": "Endemik",
-    "statusIntl": "",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede)",
     "localities": [
       {
         "name": "Lâdik (Samsun)",
@@ -1584,17 +2246,44 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Polygonum%20samsunicum%20%28Samsun%20mad%C4%B1ma%C4%9F%C4%B1%29.pdf"
   },
   {
+    "id": "disli-caksi",
+    "name": "Dişli Çakşı",
+    "sci": "Prangos denticulata",
+    "group": "flora",
+    "image": null,
+    "imageCredit": null,
+    "description": "Türkiye endemiği, çok yıllık Prangos türüdür. Dünyada ve Türkiye'de yalnızca Ankara'nın Mamak ilçesindeki Hüseyin Gazi Dağı'nda, volkanik arazide, andezit anakayalı taşlık ve kayalık yamaçlarda yaşar; planda CR (Kritik Tehlikede) olarak önerilmiştir.",
+    "morphology": "Çok yıllık bitki; taban yaprakları büyük, 5-6 yaprakçıklı, lopları 7-12x0,5 mm. Petaller sarı ve tüysüz; meyveler geniş ovalimsi, 13-15x8 mm, kanatları yaklaşık 3 mm genişliğinde, dalgalı ve ortası dişli.",
+    "flowering": "Mayıs – Haziran (meyve: Temmuz – Ağustos)",
+    "statusNational": "Türkiye endemiği; Kırmızı Kitap: DD (Veri Yetersiz); eylem planında CR (Kritik Tehlikede) önerilmiş",
+    "statusIntl": "CITES 2003 Flora listesinde ve Bern Ek-1 listesinde yok",
+    "localities": [
+      {
+        "name": "Hüseyin Gazi Dağı, Türbe civarı (Mamak, Ankara)",
+        "lat": 39.94588,
+        "lng": 32.9628,
+        "radiusKm": 3,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Prangos%20denticulata%20%28Di%C5%9Fli%20%C3%A7ak%C5%9F%C4%B1r%29.pdf"
+  },
+  {
     "id": "has-tulubasi",
     "name": "Has Tülübaşı",
     "sci": "Psephellus brevifimbriatus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/has-tulubasi.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=129031"
+    },
     "description": "Temel yayılış alanı Malatya’da Darende ve Gürün ilçeleri arasından geçen Tohma Vadisi’dir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, tabanı odunsu otsu bitki; gövde 20-70 cm, yapraklar gri tomentoz, gövde yaprakları derin loblu. Kapitula 20-25 x 15-20 mm, çiçekler morumsu pembe, kenar çiçekler uzun ve büyük.",
+    "flowering": "Mayıs – Haziran",
+    "statusNational": "Endemik",
+    "statusIntl": "IUCN: EN (Tehlikede) · Bern ve CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Tohma Vadisi (Darende, Malatya)",
@@ -1611,12 +2300,17 @@
     "name": "Koyak Tülübaşı",
     "sci": "Psephellus hadimensis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/koyak-tulubasi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575083949",
+      "type": "specimen"
+    },
     "description": "Konya’nın Hadim ilçesinde Gevne Vadisi’nde yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Yaklaşık 40 cm’ye kadar boylanan, tabanda odunsu rizomlu, çok yıllık otsu bitki; gövde yatık-yükselici, yoğun tomentoz tüylü. Kapitula 29-39 mm; dış çiçekler pembe, merkezi çiçekler beyaz-krem.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Lokal endemik; IUCN tehlike kategorisi CR (B1a+b) olarak önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1630,6 +2324,34 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Psephellus%20hadimensis%20%28Koyak%20t%C3%BCl%C3%BCba%C5%9F%C4%B1%29.pdf"
   },
   {
+    "id": "yurt-tulubasi",
+    "name": "Yurt Tülübaşı",
+    "sci": "Psephellus turcicus",
+    "group": "flora",
+    "image": "./species-img/yurt-tulubasi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575058773",
+      "type": "specimen"
+    },
+    "description": "Dünyada yalnızca Yozgat'ın Aydıncık ilçesindeki Kazankaya kanyonunda, yaklaşık 0,51 km²'lik tek lokalitede, kalker kaya çatlaklarında yetişen bir bitkidir; IUCN'ye göre Kritik Tehlikede (CR) değerlendirilmiştir.",
+    "morphology": "Çok yıllık, tabanı odunsu otlar; gövde dik, 20–40 cm boyunda. Yapraklar genellikle tabana yığılmış, 2.5–8 (–12) cm boyunda ve 2–6 mm eninde; kapitula tek, 18–26 mm; çiçekler morumsu–pembemsi.",
+    "flowering": "Mayıs sonu – Temmuz ortası",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Çok Tehlikede)",
+    "statusIntl": "IUCN (2001): CR (Kritik Tehlikede) · Bern ve CITES'te değerlendirmesi yok",
+    "localities": [
+      {
+        "name": "Kazankaya Kanyonu (Aydıncık, Yozgat)",
+        "lat": 40.23284,
+        "lng": 35.32583,
+        "radiusKm": 4,
+        "approx": false
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Psephellus%20turcicus%20%28Yurt%20t%C3%BCl%C3%BCba%C5%9F%C4%B1%29.pdf"
+  },
+  {
     "id": "mevzek",
     "name": "Mevzek",
     "sci": "Pseudodelphinium turcicum",
@@ -1637,9 +2359,9 @@
     "image": null,
     "imageCredit": null,
     "description": "Türkiye’ye endemiktir; yalnızca Konya’nın Karapınar ilçesinde çok dar bir alanda yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Donuk mavimsi-yeşil, çubuksu, tek yıllık, 3-25 cm boyunda; gövde silindirik, kısa kıvrık-yumuşak tüylü. Taç yapraklar 5, menekşe-morumsu, 5-9 x 2.5-3 mm; meyve üçlü folikül, 5-8 x 2 mm.",
+    "flowering": "Mayıs sonu – Temmuz",
+    "statusNational": "Lokal endemik; eylem planında IUCN CR (Kritik) önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -1657,13 +2379,18 @@
     "name": "Aydın Gaşağı",
     "sci": "Rhaponticoides mykalea",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/aydin-gasagi.jpg",
+    "imageCredit": {
+      "author": "Meise Botanic Garden",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/2595655643",
+      "type": "specimen"
+    },
     "description": "Aydın’daki Samsun Dağı’na özgü yerel endemik olarak bilinirken, 2001’de ikinci bir lokalite saptanmıştır.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Kalın rizomlu, 3 metreye kadar boylanabilen çok yıllık otsu bitki. Bazal yapraklar ikili derin tüysü, 40 x 12 cm; çiçekler açık sarı-altın sarısı, yaklaşık 5 cm; involukrum tüysüz, 4 x 3 cm.",
+    "flowering": "Haziran – Temmuz (en iyi dönem 15 Haziran – 15 Temmuz)",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik Tehlikede)",
+    "statusIntl": "Bern ve CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Samsun Dağı (Aydın)",
@@ -1683,10 +2410,10 @@
     "image": null,
     "imageCredit": null,
     "description": "Artvin’in Murgul ilçesinde Tiryal Dağı’nda yayılış gösteren bir bitkidir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Herdem yeşil, 10 cm boylanabilen çalımsı bitki. Yapraklar ters yumurtamsı, 0,7-1,2 x 0,3-0,5 cm, tüylü ve kirpikli; taç yaprak eflatun-pembe renkte, 1,6-2,6 cm; çiçek kurulu 1-3 çiçekli.",
+    "flowering": "Haziran – Temmuz",
+    "statusNational": "Türkiye endemiği (lokal endemik)",
+    "statusIntl": "IUCN: CR (Kritik Seviyede Nesli Tehlike Altında)",
     "localities": [
       {
         "name": "Tiryal Dağı (Murgul, Artvin)",
@@ -1703,13 +2430,17 @@
     "name": "Dicle Koruğu",
     "sci": "Rosularia blepharophylla",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/dicle-korugu.jpg",
+    "imageCredit": {
+      "author": "Dûrzan Cîrano",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Rosularia_blepharophylla.jpg"
+    },
     "description": "Diyarbakır ilinde yayılış gösteren, kirpikli yapraklarından adını alan bir koruk otu türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, rozetli, sukulent bitki; gövde 10-15 cm, tüysüz. Rozetler 2-6 cm çapında, rozet yaprakları 12-30 mm, kenarları kirpikli tüylü; çiçekler 10-12 mm, korolla çan şeklinde, beyaz, yeşil damarlı.",
+    "flowering": "Nisan sonu – Haziran",
+    "statusNational": "Endemik; IUCN kriterlerine göre EN (Tehlikede)",
+    "statusIntl": "IUCN: EN (Tehlikede) · Bern Ek-I ve CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Diyarbakır çevresi",
@@ -1722,17 +2453,100 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Rosularia%20blepharophylla%20%28Dicle%20koru%C4%9Fu%29.pdf"
   },
   {
+    "id": "koca-soda",
+    "name": "Koca Soda",
+    "sci": "Salsola grandis",
+    "group": "flora",
+    "image": "./species-img/koca-soda.jpg",
+    "imageCredit": {
+      "author": "Ahmet Demirtaş",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=114682"
+    },
+    "description": "Koca soda (Salsola grandis), Ankara, Çankırı, Çorum ve Kırıkkale'de dört noktadan bilinen, dünyada başka yayılışı olmayan bir Türkiye endemiğidir. En büyük popülasyonu Nallıhan Kuş Cenneti çevresinde, kireçtaşı, kumtaşı ve kiltaşlı erozyonlu, nispeten tuzlu alanlarda yaşar.",
+    "morphology": "Tek yıllık, dik ve sert gövdeli; (10) 20-60 (100) cm boyunda, grimsi yeşil, tüysüz. Yapraklar etli, (2) 3-5 (7) cm uzunluğunda; meyveli periant 14-17 mm çapında, kanatları saman renginde.",
+    "flowering": "Haziran – Temmuz (çiçek/meyve dönemi)",
+    "statusNational": "Türkiye endemiği; tehlike kategorisi: CR (Kritik Tehlikede)",
+    "statusIntl": "CITES 2003 Flora listesinde ve Bern Ek-1 listesinde yok",
+    "localities": [
+      {
+        "name": "Davutoğlan / Nallıhan Kuş Cenneti çevresi (Nallıhan, Ankara)",
+        "lat": 40.11412,
+        "lng": 31.63225,
+        "radiusKm": 6,
+        "approx": true
+      },
+      {
+        "name": "Karaçay Köyü civarı (Sungurlu, Çorum)",
+        "lat": 40.24152,
+        "lng": 34.22466,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Bahşılı Köyü civarı (Kırıkkale–Çorum yolu)",
+        "lat": 39.72785,
+        "lng": 33.33206,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Delice civarı (Kırıkkale)",
+        "lat": 39.94552,
+        "lng": 34.0313,
+        "radiusKm": 8,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Salsola%20grandis%20%28Koca%20soda%29.pdf"
+  },
+  {
+    "id": "siirt-adacayi",
+    "name": "Siirt Adaçayı",
+    "sci": "Salvia siirtica",
+    "group": "flora",
+    "image": null,
+    "imageCredit": null,
+    "description": "Dünyada yalnızca Siirt'in Tillo ilçesindeki Sinep (Çatılı) köyü çevresinde bilinen yerel endemik bir adaçayıdır; yaklaşık 0,2 km²'lik alanda meşelikler ve bıttım ağaçları arasında yaklaşık 720 birey saptanmıştır.",
+    "morphology": "Kazık köklü, çok yıllık otsu bitki; gövde 50-130 cm boyunda, alt yapraklar 24-40 cm uzunluğunda ve 15-35 cm eninde, korolla tamamen beyaz ve morumsu salgı tüylüdür.",
+    "flowering": "Mayıs ortası – Haziran ortası",
+    "statusNational": "Endemik (yerel endemik); planda Kritik Tehlikede (CR) olarak değerlendirilmiş",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede)",
+    "localities": [
+      {
+        "name": "Sinep (Çatılı) Köyü, bahçeler kesimi (Tillo, Siirt)",
+        "lat": 37.97194,
+        "lng": 42.03067,
+        "radiusKm": 3,
+        "approx": false
+      },
+      {
+        "name": "Sinep Köyü, tarlalar kesimi (Tillo, Siirt)",
+        "lat": 37.97133,
+        "lng": 42.03413,
+        "radiusKm": 3,
+        "approx": false
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Salvia%20siirtica%20%28Siirt%20ada%C3%A7ay%C4%B1%29.pdf"
+  },
+  {
     "id": "karausmen",
     "name": "Karaüşmen",
     "sci": "Saponaria karapinarensis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/karausmen.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Gardens, Kew",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/5083003376",
+      "type": "specimen"
+    },
     "description": "Konya’nın Karapınar yöresinde Meke Gölü volkan konisinin güneydoğusundaki küçük tepelerde ve volkan ağzının doğusunda yayılış gösterir. 950–1076 m yükseklikte yetişir.",
-    "morphology": "",
+    "morphology": "Çok yıllık otsu bitki; gövde dikey-yayık dallanan, 4-10 cm, üst kısmı salgı tüylü. Yapraklar spatulat, 12-15 mm. Petaller 5-7,5 x 1,5-3 mm, koyu pembe, siyah çizgili.",
     "flowering": "Haziran",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Endemik; tehlike kategorisi: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN kategorilerinde henüz yer almıyor",
     "localities": [
       {
         "name": "Meke Gölü (Karapınar, Konya)",
@@ -1745,15 +2559,48 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Saponaria%20karapinarensis%20%28Kara%C3%BC%C5%9Fmen%29.pdf"
   },
   {
+    "id": "hos-sumbul",
+    "name": "Hoş Sümbül",
+    "sci": "Scilla mesopotamica",
+    "group": "flora",
+    "image": "./species-img/hos-sumbul.jpg",
+    "imageCredit": {
+      "author": "Meise Botanic Garden",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/4072668566",
+      "type": "specimen"
+    },
+    "description": "Mart ayında açık mavi çiçek açan, Şanlıurfa'ya özgü yöresel endemik bir soğanlı bitkidir. Dünyadaki tek bilinen yeri Halfeti'de Fırat kenarında, yaklaşık 0,2 km² alanda, 525 m yükseklikte kalker kayalıklardır; birey sayısı 100'ün altına düşmüştür.",
+    "morphology": "Soğan 1.0−3 × 0.8−2.5 cm, yumurtamsı; yapraklar 2−5, 8−40 × 0.3−1.8 cm. Salkım 1−6 çiçekli; çiçek örtüsü segmentleri açık mavi, koyu orta damarlı, 10−15 × 2−6 mm; filamentler beyaz.",
+    "flowering": "Mart",
+    "statusNational": "Şanlıurfa’ya ait lokal endemik; CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern ve CITES listelerinde değerlendirmesi yok",
+    "localities": [
+      {
+        "name": "Eski Halfeti çıkışı, Fırat kıyısı (Halfeti, Şanlıurfa)",
+        "lat": 37.24507,
+        "lng": 37.86869,
+        "radiusKm": 3,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Scilla%20mesopotamica%20%28Ho%C5%9F%20s%C3%BCmb%C3%BCl%29.pdf"
+  },
+  {
     "id": "trabzon-kanaryaotu",
     "name": "Trabzon Kanaryaotu",
     "sci": "Senecio trapezuntinus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/trabzon-kanaryaotu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Gardens, Kew",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/4866495771",
+      "type": "specimen"
+    },
     "description": "Trabzon ve Gümüşhane illerinde yayılış gösteren endemik bir papatyagiller (Asteraceae) bitkisidir.",
-    "morphology": "",
-    "flowering": "",
+    "morphology": "Çok yıllık, dik ve tüysüz gövdeli; 40-200 m rakımda 96 cm'ye, yüksek rakımda 50-85 cm'ye ulaşır. Bazal yapraklar 6-18 x 3.5-10 cm, kenarı dişli; dilsi çiçekler 13-14 adet, 10-15 x 1.5-2 mm.",
+    "flowering": "Nisan – Mayıs",
     "statusNational": "Endemik",
     "statusIntl": "IUCN: CR · Bern ve CITES ek listelerinde yok",
     "localities": [
@@ -1779,13 +2626,18 @@
     "name": "Bozdağ Sivri Çayı",
     "sci": "Sideritis tmolea",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/bozdag-sivri-cayi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Gardens, Kew",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/5004290817",
+      "type": "specimen"
+    },
     "description": "İzmir Ödemiş’in Bozdağlar bölgesinde tek nokta endemiği olarak yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, 20-55 cm boyunda, yükselici-dik bitki; orta gövde yaprakları oblong, 2-5 x 0,5-2,5 cm. Korolla sarı, 11-14 mm, tüylü ve içinde kahverengi lekeli.",
+    "flowering": "Temmuz – Ağustos",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: LR",
+    "statusIntl": "Bern ve CITES listelerinde yok",
     "localities": [
       {
         "name": "Bozdağlar (Ödemiş, İzmir)",
@@ -1802,13 +2654,18 @@
     "name": "Denizli Nakılı",
     "sci": "Silene denizliensis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/denizli-nakili.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Gardens, Kew",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/5085132266",
+      "type": "specimen"
+    },
     "description": "Türkiye’ye endemiktir; yalnızca Denizli il sınırları içinde yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, kaespitoz, tabanda odunsu; gövdeler narin, silindirik, dik, tüysüz, 14-30 cm. Alt yapraklar linear, 10-15 x 0,9-1,2 mm; çiçek durumu 1(-2) çiçekli, kaliks 12-15 mm.",
+    "flowering": "Haziran başı – Temmuz ortası",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: EN (Tehlikede); bu planda CR önerilmiş",
+    "statusIntl": "Bern ve CITES listelerinde değerlendirmesi yok",
     "localities": [
       {
         "name": "Denizli çevresi",
@@ -1825,13 +2682,18 @@
     "name": "Testi Otu",
     "sci": "Amphoricarpos praedictus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/testi-otu.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/574668456",
+      "type": "specimen"
+    },
     "description": "Denizli Nakılı ile birlikte aynı eylem planı kapsamında korunan, yakın zamanda tanıtılmış bir bitkidir.",
-    "morphology": "",
+    "morphology": "Çok yıllık, otsu bitki; gövde basit, 6-32 cm, beyaz yünsü. Yapraklar obovat (22-52 x 10-12 mm); kapitulum uçta tek, 12-14 x 12-13 mm; çiçekler soluk pembe (8-9 mm).",
     "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Endemik; Türkiye Bitkileri Kırmızı Kitabı: LR (cd) (Düşük Riskli – korumaya bağlı); plan çalışmasında EN önerilmiş",
+    "statusIntl": "Bern, CITES ve CBD kapsamında değerlendirmesi yok",
     "localities": [
       {
         "name": "Denizli çevresi",
@@ -1848,13 +2710,17 @@
     "name": "Erzincan Sütotu",
     "sci": "Sonchus erzincanicus",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/erzincan-sutotu.jpg",
+    "imageCredit": {
+      "author": "Serdar Ölez",
+      "license": "CC BY-SA 4.0",
+      "source": "https://www.floranatolica.com/eukaria/gui/observation.php?XID=109865"
+    },
     "description": "Erzincan ili sınırları içinde yayılış gösteren endemik bir bitkidir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Tuberli, çok yıllık bitki; gövde 150 cm’ye kadar uzar, tüysüz. Taban yaprakları rozet, dikdörtgenimsi-eliptik; kapitula 1,5-2 cm genişliğinde, dilsi çiçekler sarı; akenler 3-4 mm, pappus 7-8 mm.",
+    "flowering": "Temmuz başı – Ağustos",
+    "statusNational": "Lokal endemik (dünyada yalnızca Erzincan Ovası); IUCN: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern Ek-1 · CITES ek listelerinde yok",
     "localities": [
       {
         "name": "Erzincan çevresi",
@@ -1871,13 +2737,18 @@
     "name": "Çarşak Çayı",
     "sci": "Stachys bayburtensis",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/carsak-cayi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/4420474749",
+      "type": "specimen"
+    },
     "description": "Dünyada yalnızca Bayburt ili sınırlarında, Kop Dağı Geçidi’ndeki Bahtlı Dağ’da bulunur.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Çok yıllık, yükselici ve dallanan; boyu 30-60 cm, üst kısımları pamuksu kısa tüylü. Gövde yaprakları 3 x 1.5 cm, ters yumurtamsı; taç yapraklar kremsi, alt dudak 3 loblu ve yamalı desenli.",
+    "flowering": "Haziran – Ağustos",
+    "statusNational": "Lokal endemik; tehlike kategorisi: CR (Kritik Tehlikede)",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede)",
     "localities": [
       {
         "name": "Bahtlı Dağ (Kop Dağı, Bayburt)",
@@ -1890,6 +2761,62 @@
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Stachys%20bayburtensis%20%28%C3%87ar%C5%9Fak%20%C3%A7ay%C4%B1%29.pdf"
   },
   {
+    "id": "alligelin",
+    "name": "Allıgelin",
+    "sci": "Tchihatchewia isatidea",
+    "group": "flora",
+    "image": "./species-img/alligelin.jpg",
+    "imageCredit": {
+      "author": "W",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/2846650306",
+      "type": "specimen"
+    },
+    "description": "Allıgelin (Tchihatchewia isatidea), Brassicaceae familyasından, Tchihatchewia cinsinin tek türü olan bir Türkiye endemiğidir. Doğu ve Orta Karadeniz ile Yukarı Kızılırmak ve Fırat bölümlerinde, 1002-1616 m arasında yol kenarı ve erozyona açık hareketli topraklarda yetişir.",
+    "morphology": "İki ya da çok yıllık, iri köklü otsu bitki; gövde 24-40 × 0,4-0,6 cm, dik, açık yeşil. Taban yaprakları 4,1-9,3 × 1,8-2,6 cm, ters mızraksı-spatulat; petaller 11-16 mm, kırmızı-mor.",
+    "flowering": "Nisan – Haziran",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: VU (Duyarlı); tür eylem planında yeniden değerlendirme: LC (Düşük Riskli)",
+    "statusIntl": "CITES Flora ve Bern Ek-1 listelerinde yok",
+    "localities": [
+      {
+        "name": "Arzular Köyü (Merkez, Gümüşhane)",
+        "lat": 40.41673,
+        "lng": 39.66719,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Sinanlı Köyü (Şiran, Gümüşhane)",
+        "lat": 40.13151,
+        "lng": 38.96395,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Kabaköy (Gümüşhane)",
+        "lat": 40.43657,
+        "lng": 39.69525,
+        "radiusKm": 4,
+        "approx": true
+      },
+      {
+        "name": "Çakılkaya – Arda köyleri arası (Çamoluk, Giresun)",
+        "lat": 40.20687,
+        "lng": 38.82964,
+        "radiusKm": 5,
+        "approx": true
+      },
+      {
+        "name": "Avutmuş Mahallesi (Şebinkarahisar, Giresun)",
+        "lat": 40.30958,
+        "lng": 38.46852,
+        "radiusKm": 4,
+        "approx": true
+      }
+    ],
+    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Tchihatchewia%20isatidea%20%28All%C4%B1gelin%29.pdf"
+  },
+  {
     "id": "eber-sarisi",
     "name": "Eber Sarısı",
     "sci": "Thermopsis turcica",
@@ -1897,7 +2824,7 @@
     "image": null,
     "imageCredit": null,
     "description": "Dünyada yalnızca Eber Gölü çevresinde yetişen, Türkiye’nin en dar yayılışlı bitkilerinden biridir. Yöresel adı piyan veya acı piyandır. Baklagiller (Fabaceae) familyasındandır.",
-    "morphology": "",
+    "morphology": "Toprak altı uzun rizomlu çok yıllık bitki; gövde dik, 35-80 cm, yukarıda sık beyaz tüylü. Yapraklar 3 yaprakçıklı, çiçek durumu 12-35 cm’lik başak, çanak yapraklar altın sarısı; meyve legümdür.",
     "flowering": "Nisan sonu – Mayıs",
     "statusNational": "Türkiye Bitkileri Kırmızı Listesi: CR (Kritik Tehlikede)",
     "statusIntl": "Bern Sözleşmesi Ek-I (mutlak korunan bitki)",
@@ -1924,17 +2851,17 @@
     "name": "Manisa Lalesi",
     "sci": "Tulipa orphanidea",
     "group": "flora",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Tulipa_orphanidea_060506.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/manisa-lalesi.jpg",
     "imageCredit": {
       "author": "Bernd Haynold",
       "license": "CC BY 2.5",
       "source": "https://commons.wikimedia.org/wiki/File:Tulipa_orphanidea_060506.jpg"
     },
     "description": "Doğu Akdeniz bölgesinin bir lale türüdür. Türkiye’de yalnızca batıda yayılış gösterir. Çiçeklenme mevsimi baharın ilk aylarına denk gelir.",
-    "morphology": "",
+    "morphology": "Bitki 24.0-50.0 cm; soğan 1.9-3.0 x 1.5-2.6 cm, tunik derimsi koyu kahverengi. Yapraklar 3-6, mavimsi-yeşil, doğrusal-mızraksı; çiçekler 1(-2), huni şekilli–yıldızsı, kıpkırmızıdan turuncu kırmızıya.",
     "flowering": "İlkbaharın ilk ayları",
-    "statusNational": "",
-    "statusIntl": "",
+    "statusNational": "Kırmızı Kitap'ta kategori önerilmemiş; Eker ve ark. (2014): NT (Yakın Tehdit)",
+    "statusIntl": "IUCN'de değerlendirilmemiş",
     "localities": [
       {
         "name": "Spil Dağı (Manisa)",
@@ -1951,13 +2878,18 @@
     "name": "Terli Sığırkuyruğu",
     "sci": "Verbascum adenocaulon",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/terli-sigirkuyrugu.jpg",
+    "imageCredit": {
+      "author": "UNIBAS:HERBARIA",
+      "license": "CC BY",
+      "source": "https://www.gbif.org/occurrence/6572886359",
+      "type": "specimen"
+    },
     "description": "Niğde’nin Çamardı ilçesinde Çukurbağ Köyü dolaylarında, Emli Vadisi girişinde ve Elekgölü’nün kuzeyinde yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "İki yıllık bitki, 60 cm'ye kadar boylanır; gövde kalın, silindirik, yoğun dallı. Taban yaprakları 3,5-6x2,5-4 cm; korolla yaklaşık 20 mm çapında, sarı; meyve kapsül, 4-5,5x 3-4 mm.",
+    "flowering": "Haziran",
+    "statusNational": "Endemik; eylem planında CR (Çok Tehlikede) önerilmiş",
+    "statusIntl": "IUCN tarafından henüz değerlendirilmemiş",
     "localities": [
       {
         "name": "Çamardı (Niğde)",
@@ -1974,16 +2906,16 @@
     "name": "Riva Sığırkuyruğu",
     "sci": "Verbascum bugulifolium",
     "group": "flora",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Verbascum_bugulifolium_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "image": "./species-img/riva-sigirkuyrugu.jpg",
     "imageCredit": {
       "author": "selbst",
       "license": "CC BY-SA 3.0",
       "source": "https://commons.wikimedia.org/wiki/File:Verbascum_bugulifolium_2.jpg"
     },
     "description": "Kırklareli’nde Demirköy ilçesinde İğneada Longoz Ormanları ve Kıyıköy doğal sit alanları türün esas yayılış alanlarıdır.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "morphology": "Çok yıllık bitki; yoğun kısa salgı tüyleri ve basit tüyler taşır. Taban yaprakları uzun saplı, yumurtamsı, 2.5-8 (-12) x 1-3 (-6) cm; korolla sarımsı-yeşil ila mavimsi yeşil, çapı 20-35 mm.",
+    "flowering": "Nisan – Haziran",
+    "statusNational": "Endemik değil (nadir); IUCN: VU (Duyarlı)",
     "statusIntl": "",
     "localities": [
       {
@@ -2012,8 +2944,8 @@
     "imageCredit": null,
     "description": "Eskişehir’in Sivrihisar ilçesi ve çevresinde yetişir; ilçenin her yerinde bulunmaz.",
     "morphology": "",
-    "flowering": "",
-    "statusNational": "",
+    "flowering": "Mayıs – Haziran",
+    "statusNational": "Lokal endemik; eylem planında CR (Çok Tehlikede) önerilmiş",
     "statusIntl": "",
     "localities": [
       {
@@ -2034,10 +2966,10 @@
     "image": null,
     "imageCredit": null,
     "description": "Bursa il sınırlarında yayılış gösteren bir sığırkuyruğu türüdür.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "İki yıllık bitki; 90-107 cm, arazide 200 cm'ye kadar boylanır. Taban yaprakları 4-15,5 x 1,5-6,5 cm; korolla 15-20 mm çapında, mor, üst loblarda morumsu beyaz çizgili; stamen 4.",
+    "flowering": "Mayıs sonu – Temmuz başı",
+    "statusNational": "Lokal endemik",
+    "statusIntl": "IUCN tehlike kategorilerinde henüz yer almıyor",
     "localities": [
       {
         "name": "Bursa çevresi",
@@ -2054,13 +2986,18 @@
     "name": "Karacafiği",
     "sci": "Vicia parvula",
     "group": "flora",
-    "image": null,
-    "imageCredit": null,
+    "image": "./species-img/karacafigi.jpg",
+    "imageCredit": {
+      "author": "Royal Botanic Garden Edinburgh",
+      "license": "CC0",
+      "source": "https://www.gbif.org/occurrence/575164363",
+      "type": "specimen"
+    },
     "description": "Dünyada yalnızca Ankara’nın Kızılcahamam ilçesinde Akyarma Geçidi yakınlarında 1400–1500 m arasında çok sınırlı bir alanda yayılış gösterir.",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
+    "morphology": "Tek yıllık, 8 (-10) cm’ye kadar yükselir; gövde dallanmış, köşeli, hemen hemen tüysüz. Yapraklar 1.5-2 x 1-1.5 cm, 6-8 yaprakçıklı; taç yapraklar sarımtırak-beyaz, bayrakçık ve kanatlar leylak veya mavi beneklidir.",
+    "flowering": "Haziran",
+    "statusNational": "Türkiye Bitkileri Kırmızı Kitabı: CR (Kritik/Çok Tehlikede); dünyada yalnızca Ankara-Kızılcahamam’da",
+    "statusIntl": "IUCN: CR (Kritik Tehlikede) · Bern ve CITES listelerinde değerlendirmesi yok",
     "localities": [
       {
         "name": "Akyarma Geçidi (Kızılcahamam, Ankara)",
@@ -2071,280 +3008,5 @@
       }
     ],
     "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Vicia%20parvula%20%28Karacafi%C4%9Fi%29.pdf"
-  },
-  {
-    "id": "cizgili-sirtlan",
-    "name": "Çizgili Sırtlan",
-    "sci": "Hyaena hyaena",
-    "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Striped_hyena_in_Bhigwan_August_2025_by_Tisha_Mukherjee_07_%28cropped%29.jpg/960px-Striped_hyena_in_Bhigwan_August_2025_by_Tisha_Mukherjee_07_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Tisha Mukherjee",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Striped_hyena_in_Bhigwan_August_2025_by_Tisha_Mukherjee_07_(cropped).jpg"
-    },
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/CzgSirtlan.pdf"
-  },
-  {
-    "id": "dag-horozu",
-    "name": "Dağ Horozu",
-    "sci": "Lyrurus mlokosiewiczi",
-    "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Tetrao_mlokosiewiczi_67094840.jpg/960px-Tetrao_mlokosiewiczi_67094840.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Andrew Bazdyrev",
-      "license": "CC BY 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Tetrao_mlokosiewiczi_67094840.jpg"
-    },
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Daghorozu.pdf"
-  },
-  {
-    "id": "mersin-ili-akdeniz-foku",
-    "name": "Mersin İli Akdeniz Foku",
-    "sci": "Monachus monachus",
-    "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Monachus_monachus_DSC_0274.jpg/960px-Monachus_monachus_DSC_0274.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "Marinko Babić",
-      "license": "CC BY-SA 4.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Monachus_monachus_DSC_0274.jpg"
-    },
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/MersinFok.pdf"
-  },
-  {
-    "id": "toy",
-    "name": "Toy",
-    "sci": "Otis tarda",
-    "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Dabao.jpg/960px-Dabao.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "zh:User:Snowyowls",
-      "license": "CC BY-SA 1.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Dabao.jpg"
-    },
-    "description": "Dünyanın en ağır uçabilen kuşlarından biridir.",
-    "morphology": "Başı ve boynu gri, sırtı kızıl üzerine enine siyah çizgili, alt tarafı beyazdır. Erkeğin beyaz bıyıkları her yıl uzar ve yaşlı bireylerde 20 cm’yi geçer.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Toy.pdf"
-  },
-  {
-    "id": "trakya-tosbagasi",
-    "name": "Trakya Tosbağası",
-    "sci": "Testudo hermanni",
-    "group": "fauna",
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Testudo_hermanni_boettgeri.jpg/960px-Testudo_hermanni_boettgeri.jpg?utm_source=tr.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "imageCredit": {
-      "author": "",
-      "license": "CC BY-SA 3.0",
-      "source": "https://commons.wikimedia.org/wiki/File:Testudo_hermanni_boettgeri.jpg"
-    },
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Tu%CC%88r%20Eylem%20Plan%C4%B1%20Testudo%20hermanni.pdf"
-  },
-  {
-    "id": "van-kertenkelesi",
-    "name": "Van Kertenkelesi",
-    "sci": "Darevskia sapphirina",
-    "group": "fauna",
-    "image": null,
-    "imageCredit": null,
-    "description": "Kesin olarak tek bir lokalitede yaşadığı belirtilen, kaya kertenkelesi (Darevskia) cinsinin en küçük türüdür.",
-    "morphology": "Kaya kertenkeleleri arasında en kısa boyludur (99 mm); kesikli oksipital çizgisi ve 5–7 mavi yan lekesi vardır.",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Van%20Kertenkelesi.pdf"
-  },
-  {
-    "id": "yer-yediuyuru",
-    "name": "Yer Yediuyuru",
-    "sci": "Myomimus roachi",
-    "group": "fauna",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Yer7uyuru.pdf"
-  },
-  {
-    "id": "sari-dag-gulu",
-    "name": "Sarı Dağ Gülü",
-    "sci": "Adonis cyllenea var. paryadrica",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Adonis%20cyllenea%20var.%20paryadrica%20%28Sar%C4%B1%20da%C4%9F%20g%C3%BCl%C3%BC%29.pdf"
-  },
-  {
-    "id": "karaman-kayagulu",
-    "name": "Karaman Kayagülü",
-    "sci": "Aethionema karamanicum",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Aethionema%20karamanicum%20%28Karaman%20kayag%C3%BCl%C3%BC%29.pdf"
-  },
-  {
-    "id": "kerkur",
-    "name": "Kerkür",
-    "sci": "Ferula mervynii",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Ferula%20mervynii%20%28Kerk%C3%BCr%29.pdf"
-  },
-  {
-    "id": "gezertere",
-    "name": "Gezertere",
-    "sci": "Physoptychis hausknechtii",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "Nisan ayında uyanıp gelişimine başlayan, Mayıs’ta çiçek açan, Haziran–Temmuz’da meyve veren ve Ağustos’ta tohumlarını döken bir bitkidir.",
-    "morphology": "",
-    "flowering": "Mayıs",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Physoptychis%20hausknechtii%20%28Gezertere%29.pdf"
-  },
-  {
-    "id": "disli-caksi",
-    "name": "Dişli Çakşı",
-    "sci": "Prangos denticulata",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Prangos%20denticulata%20%28Di%C5%9Fli%20%C3%A7ak%C5%9F%C4%B1r%29.pdf"
-  },
-  {
-    "id": "yurt-tulubasi",
-    "name": "Yurt Tülübaşı",
-    "sci": "Psephellus turcicus",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Psephellus%20turcicus%20%28Yurt%20t%C3%BCl%C3%BCba%C5%9F%C4%B1%29.pdf"
-  },
-  {
-    "id": "koca-soda",
-    "name": "Koca Soda",
-    "sci": "Salsola grandis",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Salsola%20grandis%20%28Koca%20soda%29.pdf"
-  },
-  {
-    "id": "siirt-adacayi",
-    "name": "Siirt Adaçayı",
-    "sci": "Salvia siirtica",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Salvia%20siirtica%20%28Siirt%20ada%C3%A7ay%C4%B1%29.pdf"
-  },
-  {
-    "id": "hos-sumbul",
-    "name": "Hoş Sümbül",
-    "sci": "Scilla mesopotamica",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Scilla%20mesopotamica%20%28Ho%C5%9F%20s%C3%BCmb%C3%BCl%29.pdf"
-  },
-  {
-    "id": "alligelin",
-    "name": "Allıgelin",
-    "sci": "Tchihatchewia isatidea",
-    "group": "flora",
-    "image": null,
-    "imageCredit": null,
-    "description": "",
-    "morphology": "",
-    "flowering": "",
-    "statusNational": "",
-    "statusIntl": "",
-    "localities": [],
-    "pdf": "https://www.tarimorman.gov.tr/DKMP/Belgeler/T%C3%9CR%20EYLEM%20PLANI/Tchihatchewia%20isatidea%20%28All%C4%B1gelin%29.pdf"
   }
 ]
