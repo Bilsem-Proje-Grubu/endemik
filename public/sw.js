@@ -43,7 +43,7 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(req).then((hit) => {
       const net = fetch(req).then((res) => {
-        if (res.ok && (url.origin === location.origin || url.hostname.endsWith('tile.openstreetmap.org') || url.hostname.endsWith('wikimedia.org') || url.hostname.endsWith('inaturalist.org') || url.hostname.endsWith('inaturalist-open-data.s3.amazonaws.com'))) {
+        if (res.ok && (url.origin === location.origin || url.hostname.endsWith('tile.openstreetmap.org') || url.hostname.endsWith('tile.opentopomap.org') || url.hostname === 'server.arcgisonline.com' || url.hostname.endsWith('wikimedia.org') || url.hostname.endsWith('inaturalist.org') || url.hostname.endsWith('inaturalist-open-data.s3.amazonaws.com'))) {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(req, copy));
         }

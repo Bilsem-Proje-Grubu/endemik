@@ -107,6 +107,36 @@ function viewHome() {
   document.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => { filter = b.dataset.f; viewHome(); }));
 }
 
+
+// Altlık seçici (OSM / Topografik / Uydu) – anahtar gerektirmez.
+function addBaseLayers(m) {
+  const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
+  const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, attribution: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)' });
+  const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Tiles © Esri — Maxar, Earthstar Geographics' });
+  let saved = 'Harita';
+  try { saved = localStorage.getItem('endemik.base') || 'Harita'; } catch { /* yoksay */ }
+  const bases = { 'Harita': osm, 'Topografik': topo, 'Uydu': sat };
+  (bases[saved] || osm).addTo(m);
+  L.control.layers(bases, null, { position: 'topright' }).addTo(m);
+  m.on('baselayerchange', (e) => { try { localStorage.setItem('endemik.base', e.name); } catch { /* yoksay */ } });
+}
+
+// Tehlike düzeyi (CR/EN/VU) – statü metinlerinden çıkarılır.
+const threatened = (s) => /\b(CR|EN|VU)\b|nesli tehlike|Kritik|Tehlike Altında/i.test(`${s.statusNational || ''} ${s.statusIntl || ''}`);
+
+// Hassas türler: tam konum yerine ~10 km'lik ızgara hücresi gösterilir.
+// `sensitive` alanı verilmemişse kritik tehlikedeki (CR) türler hassas sayılır.
+const isSensitive = (s) => s.sensitive ?? /\bCR\b|Kritik|nesli tehlike/i.test(`${s.statusNational || ''} ${s.statusIntl || ''}`);
+const CELL = 0.1;
+function drawLocality(s, l, color, popup, target) {
+  if (!isSensitive(s)) {
+    return L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color, weight: 2 }).bindPopup(popup).addTo(target);
+  }
+  const la = Math.floor(l.lat / CELL) * CELL, lo = Math.floor(l.lng / CELL) * CELL;
+  return L.rectangle([[la, lo], [la + CELL, lo + CELL]], { color, weight: 2, dashArray: '5 4', fillOpacity: 0.15 })
+    .bindPopup(`${popup}<br><span class="note">Hassas tür: konum bilerek ~10 km'lik hücre olarak genelleştirilmiştir.</span>`).addTo(target);
+}
+
 // ---------- Tür detayı ----------
 function allLocalities(s) {
   const extra = approved.filter((a) => a.species_id === s.id).map((a) => ({ name: 'Kullanıcı kaydı', lat: a.lat, lng: a.lng, radiusKm: USER_RADIUS_KM, user: true }));
@@ -163,22 +193,49 @@ function viewSpecies(id) {
   }
   if (locs.length) {
     map = L.map('m');
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
-    locs.forEach((l) => L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: l.user ? '#e8b84a' : '#6fcf4f', weight: 2 }).bindPopup(esc(l.name)).addTo(map));
+    addBaseLayers(map);
+    locs.forEach((l) => drawLocality(s, l, l.user ? '#e8b84a' : '#6fcf4f', esc(l.name), map));
     // Daire sınırları harita görünümü olmadan hesaplanamaz; merkez noktalarına göre sığdır.
     map.fitBounds(L.latLngBounds(locs.map((l) => [l.lat, l.lng])).pad(0.5), { animate: false, maxZoom: 10 });
   }
 }
 
 // ---------- Genel harita ----------
+let mapFilter = { group: 'all', threat: false };
 function viewMap() {
-  shell('<h2 class="section-title">Yayılış haritası</h2><div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>', 'map');
+  const chip = (k, v, label, on) => `<button class="chip${on ? ' on' : ''}" data-k="${k}" data-v="${v}">${label}</button>`;
+  shell(`<h2 class="section-title">Yayılış haritası</h2>
+    <div class="chips" id="mf">
+      ${chip('group', 'all', 'Tümü', mapFilter.group === 'all')}
+      ${chip('group', 'fauna', '🦎 Fauna', mapFilter.group === 'fauna')}
+      ${chip('group', 'flora', '🌿 Flora', mapFilter.group === 'flora')}
+      ${chip('threat', 'toggle', '⚠ Tehlike altında', mapFilter.threat)}
+    </div>
+    <div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>`, 'map');
   map = L.map('m').setView([39, 35], 6);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
-  for (const s of species) for (const l of allLocalities(s)) {
-    L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color: s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', weight: 2 })
-      .bindPopup(`<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`).addTo(map);
-  }
+  addBaseLayers(map);
+  const layer = L.layerGroup().addTo(map);
+  const draw = () => {
+    layer.clearLayers();
+    for (const s of species) {
+      if (mapFilter.group !== 'all' && s.group !== mapFilter.group) continue;
+      if (mapFilter.threat && !threatened(s)) continue;
+      for (const l of allLocalities(s)) {
+        drawLocality(s, l, s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', `<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`, layer);
+      }
+    }
+  };
+  draw();
+  document.querySelectorAll('#mf .chip').forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.k === 'group') {
+      mapFilter.group = b.dataset.v;
+      document.querySelectorAll('#mf .chip[data-k="group"]').forEach((x) => x.classList.toggle('on', x === b));
+    } else {
+      mapFilter.threat = !mapFilter.threat;
+      b.classList.toggle('on', mapFilter.threat);
+    }
+    draw();
+  }));
   navigator.geolocation?.getCurrentPosition((p) => {
     const me = { lat: p.coords.latitude, lng: p.coords.longitude };
     L.circleMarker([me.lat, me.lng], { radius: 8, color: '#4aa3e8', fillOpacity: 0.8 }).addTo(map).bindPopup('Buradasınız');
