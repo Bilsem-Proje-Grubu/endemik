@@ -138,3 +138,16 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 
 .actions .gear { flex: 0 0 44px; padding: 8px 0; }
 .chatset summary { cursor: pointer; font-weight: 600; }
+
+/* Yakındaki türler listesi (harita sayfası) */
+.near { margin: 10px 0; }
+.near-title { font-size: 15px; margin: 4px 0 8px; }
+.near-empty { color: var(--muted); font-size: 13px; margin: 6px 0; }
+.near-item { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+.near-row { width: 100%; display: flex; align-items: center; gap: 8px; padding: 12px; background: none; border: 0; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+.near-nm { flex: 1; font-weight: 600; }
+.near-d { color: var(--accent); font-size: 13px; }
+.near-ch { color: var(--muted); }
+.near-more { padding: 0 12px 12px; font-size: 14px; }
+.near-more p { margin: 6px 0; }
+.near-loc, .note-inline { color: var(--muted); font-size: 13px; }

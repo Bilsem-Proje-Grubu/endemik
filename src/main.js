@@ -3,7 +3,7 @@ import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos, submitScore, getTopScores, adminDeleteScore, validName } from './supabase.js';
-import { startWatching, stopWatching, notifyEnabled, speciesNear } from './geo.js';
+import { startWatching, stopWatching, notifyEnabled, speciesNear, distanceKm } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
 import { makeQuiz } from './quiz.js';
@@ -211,7 +211,7 @@ function viewMap() {
       ${chip('group', 'flora', '🌿 Flora', mapFilter.group === 'flora')}
       ${chip('threat', 'toggle', '⚠ Tehlike altında', mapFilter.threat)}
     </div>
-    <div id="m" class="map tall"></div><p class="note" id="mi">Konumunuz için Ayarlar’dan bildirimi açın.</p>`, 'map');
+    <div id="m" class="map tall"></div><div id="mi" class="near"><p class="near-empty">Konumunuz alınıyor… İzin vermediyseniz tarayıcıdan konum iznini açın.</p></div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
   const layer = L.layerGroup().addTo(map);
@@ -239,9 +239,54 @@ function viewMap() {
   navigator.geolocation?.getCurrentPosition((p) => {
     const me = { lat: p.coords.latitude, lng: p.coords.longitude };
     L.circleMarker([me.lat, me.lng], { radius: 8, color: '#4aa3e8', fillOpacity: 0.8 }).addTo(map).bindPopup('Buradasınız');
-    const hits = speciesNear(me, species, approved);
-    document.getElementById('mi').textContent = hits.length ? `Yakınınızdaki türler: ${hits.map((h) => h.sp.name).join(', ')}` : 'Bulunduğunuz yerde kayıtlı tür lokalitesi yok.';
-  }, () => {}, { timeout: 8000 });
+    showNearby(me);
+  }, () => { document.getElementById('mi').innerHTML = '<p class="near-empty">Konum alınamadı. Yakınınızdaki türleri görmek için konum iznini açın.</p>'; }, { timeout: 8000 });
+}
+
+// Konuma göre yakın türler: dokununca kısa özet, uzaklık ve haritada göster seçeneği açılır.
+function showNearby(me) {
+  const box = document.getElementById('mi');
+  if (!box) return;
+  const rows = [];
+  for (const sp of species) {
+    let best = null;
+    for (const l of allLocalities(sp)) {
+      const d = distanceKm(me, l);
+      if (!best || d < best.d) best = { l, d, inside: d <= (l.radiusKm || 5) };
+    }
+    if (best) rows.push({ sp, ...best });
+  }
+  rows.sort((a, b) => a.d - b.d);
+  const inside = rows.filter((r) => r.inside);
+  const list = inside.length ? inside : rows.slice(0, 3);
+  const fmt = (r) => (r.inside ? 'bu bölgedesiniz' : `${r.d < 10 ? r.d.toFixed(1) : Math.round(r.d)} km uzakta`);
+  const brief = (sp) => {
+    const t = sp.description || sp.morphology || '';
+    return t.length > 160 ? `${t.slice(0, 157).trimEnd()}…` : t;
+  };
+  box.innerHTML = `<h3 class="near-title">${inside.length ? '📍 Yakınınızdaki türler' : 'Yakınınızda kayıtlı tür yok · en yakın 3 tür'}</h3>
+    ${list.map((r, i) => `<div class="near-item" data-i="${i}">
+      <button type="button" class="near-row" aria-expanded="false">
+        <span class="near-nm">${icon(r.sp)} ${esc(r.sp.name)}</span><span class="near-d">${fmt(r)}</span><span class="near-ch">▾</span>
+      </button>
+      <div class="near-more" hidden>
+        <p>${brief(r.sp) ? esc(brief(r.sp)) : '<span class="note-inline">Bu tür için kısa özet henüz eklenmedi.</span>'}</p>
+        <p class="near-loc">En yakın lokalite: ${esc(r.l.name)} · ${fmt(r)}</p>
+        <div class="row"><a class="btn" style="text-decoration:none" href="#/tur/${r.sp.id}">Detaya git</a>
+          <button type="button" class="btn ghost" data-show="${i}">Haritada göster</button></div>
+      </div></div>`).join('')}`;
+  box.querySelectorAll('.near-row').forEach((b) => b.addEventListener('click', () => {
+    const more = b.nextElementSibling;
+    const open = more.hidden;
+    more.hidden = !open;
+    b.setAttribute('aria-expanded', String(open));
+    b.querySelector('.near-ch').textContent = open ? '▴' : '▾';
+  }));
+  box.querySelectorAll('[data-show]').forEach((b) => b.addEventListener('click', () => {
+    const r = list[+b.dataset.show];
+    map.flyTo([r.l.lat, r.l.lng], 10);
+    document.getElementById('m').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
 }
 
 // ---------- Lokalite ekle ----------
