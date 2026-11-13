@@ -1,6 +1,6 @@
 // DKMP Tür Eylem Planları sayfasından alınan liste (91 tür).
 // https://www.tarimorman.gov.tr/DKMP/Menu/49/Tur-Eylem-Planlari
-export const BASE_PDF = 'https://www.tarimorman.gov.tr/DKMP/Belgeler/TÜR%20EYLEM%20PLANI/';
+export const BASE_PDF = 'https://www.tarimorman.gov.tr/DKMP/BelgelerArsiv/TÜR%20EYLEM%20PLANI/';
 
 // [ad, bilimsel ad, pdf]
 export const fauna = [
