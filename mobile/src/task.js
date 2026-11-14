@@ -3,6 +3,7 @@ import * as TaskManager from 'expo-task-manager';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { speciesNear } from './geo';
+import species from '../data/species.json';
 
 export const TASK = 'endemik-konum';
 const COOLDOWN_MS = 24 * 3600 * 1000;
@@ -29,3 +30,16 @@ TaskManager.defineTask(TASK, async ({ data, error }) => {
   }
   try { await AsyncStorage.setItem('endemik.seen', JSON.stringify(seen)); } catch { /* yoksay */ }
 });
+
+// Deneme: rastgele bir türün bölgesindeymiş gibi davranıp 10 sn sonra bildirim gönderir (uygulama kapatılabilir).
+export async function testNotification() {
+  const sp = species[Math.floor(Math.random() * species.length)];
+  const loc = sp.localities[0];
+  const hits = speciesNear({ lat: loc.lat, lng: loc.lng }).filter((h) => h.sp.id === sp.id);
+  const h = hits[0] || { sp, loc };
+  await Notifications.scheduleNotificationAsync({
+    content: { title: `Yakınınızda: ${h.sp.name}`, body: `[DENEME] ${h.loc.name} çevresinde ${h.sp.name} (${h.sp.sci || h.sp.group}) yaşar.` },
+    trigger: { type: 'timeInterval', seconds: 10 },
+  });
+  return h.sp.name;
+}

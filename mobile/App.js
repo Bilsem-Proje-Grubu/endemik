@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Li
 import { WebView } from 'react-native-webview';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
-import { TASK } from './src/task';
+import { TASK, testNotification } from './src/task';
 
 const SITE = 'https://bilsem-proje-grubu.github.io/endemik/';
 
@@ -39,6 +39,12 @@ export default function App() {
     });
     setOn(true); setMsg('');
   }
+  async function test() {
+    const n = await Notifications.requestPermissionsAsync();
+    if (!n.granted) return setMsg('Bildirim izni verilmedi.');
+    const name = await testNotification();
+    setMsg(`Deneme: 10 saniye sonra "${name}" bildirimi gelecek. Uygulamayı kapatabilirsiniz.`);
+  }
   async function disable() {
     await Location.stopLocationUpdatesAsync(TASK).catch(() => {});
     setOn(false);
@@ -65,6 +71,9 @@ export default function App() {
       <View style={s.bar}>
         <Pressable style={[s.btn, on && s.off]} onPress={on ? disable : enable}>
           <Text style={s.bt}>{on ? '🔔 Bölge bildirimi açık · kapat' : '🔕 Bölge bildirimini aç'}</Text>
+        </Pressable>
+        <Pressable style={[s.btn, s.off, { marginTop: 6 }]} onPress={test}>
+          <Text style={s.bt}>🧪 Bildirimi dene (10 sn)</Text>
         </Pressable>
         {!!msg && <Text style={s.err}>{msg}</Text>}
       </View>
