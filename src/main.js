@@ -8,7 +8,6 @@ import { startWatching, stopWatching, notifyEnabled, speciesNear, distanceKm } f
 import { aiFillSpeciesInfo } from './ai.js';
 import { chatAvailable, ask, preloadLM } from './chat.js';
 import { makeQuiz } from './quiz.js';
-import { onlineAsked, onlineEnabled, setOnline } from './online.js';
 import { visionMeta, loadVision, recognize } from './vision.js';
 import { waitSeconds } from './ratelimit.js';
 import * as offline from './offline.js';
@@ -484,32 +483,19 @@ let chatLog = []; // {role:'user'|'assistant', text, ids}
 function viewChat() {
   shell(`<a class="back" href="#/">← Türler</a>
     <h2 class="section-title">💬 Endemik'e sor</h2>
-    <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Cevapları, proje grubumuzun sıfırdan yazıp eğittiği küçük bir dil modeli telefonunuzda yazar (ilk açılışta yaklaşık 2 MB model indirilir). Sorularınız varsayılan olarak hiçbir yere gönderilmez (yalnızca izin verirseniz, bilmediğim bir canlı adı Vikipedi'de aranır). Model bilgiyi kayıtlardan okur; kayıtta olmayan bir şeyi söylerse cevap hazır kalıba döner. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
-    <div id="onl"></div>
+    <p class="note">Türün nerede yaşadığını, neye benzediğini, ne zaman çiçek açtığını, korunma durumunu ya da bir yerde hangi türlerin bulunduğunu sorabilirsiniz. Cevapları, proje grubumuzun sıfırdan yazıp eğittiği küçük bir dil modeli telefonunuzda yazar (ilk açılışta yaklaşık 2 MB model indirilir). Sorularınız hiçbir yere gönderilmez. Model bilgiyi kayıtlardan okur; kayıtta olmayan bir şeyi söylerse cevap hazır kalıba döner. Yalnızca uygulamadaki 94 türün kayıtlarını bilir.</p>
     <details class="panel chatset"><summary>⚙️ Sohbet ayarları</summary>
-      <label class="chk"><input type="checkbox" id="onlchk2"> Bilmediğim canlıları Vikipedi'de ara</label>
-      <p class="note">Açıkken, elimizde olmayan bir canlı adı ya da bölge sorduğunuzda aranan sözcükler tr.wikipedia.org'a gönderilir. Kapalıyken sohbet tamamen telefonunuzda çalışır.</p>
+      <p class="note">Sohbet tamamen telefonunuzda çalışır; sorularınız hiçbir yere gönderilmez.</p>
       <p class="note"><a href="#/ayarlar">Tüm ayarlar →</a> · <a href="#/gizlilik">Gizlilik</a></p></details>
     <div class="chatbox" id="chat" aria-live="polite"></div>
     <form class="chatform" id="cf"><input id="cq" maxlength="400" placeholder="Örn. Kelaynak nerede yaşar?" autocomplete="off" required>
       <button class="btn" id="cs" type="submit">Gönder</button></form>`, 'home');
   const box = document.getElementById('chat'), inp = document.getElementById('cq'), btn = document.getElementById('cs');
-  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${isAdmin && m.debug ? `<details class="dbg"><summary>🛠 Yönetici: model çıktısı</summary>${m.debug.map((d, i) => `<div class="dbgrow"><b>${m.debug.length > 1 ? `Parça ${i + 1}: ` : ''}${d.ok ? '✅ kabul edildi' : '❌ reddedildi, hazır kalıp gösterildi'}</b>${d.why ? `<div class="why">${esc(d.why)}</div>` : ''}<div><i>Modele verilen bilgi:</i> ${esc(d.prompt.slice(0, 500))}</div><div><i>Modelin yazdığı:</i> ${esc(d.raw || '(boş)')}</div>${d.fixed ? `<div><i>Harf onarımından sonra:</i> ${esc(d.fixed)}</div>` : ''}</div>`).join('')}</details>` : ''}${m.src ? `<div class="src">${m.online ? '🌐 İnternette arandı · ' : ''}Kaynak: <a href="${esc(m.src.url)}" target="_blank" rel="noopener">Vikipedi — ${esc(m.src.title)}</a> (CC BY-SA 4.0)</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
+  const bubble = (m) => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}${m.source ? `<div class="src">${m.source === 'model' ? '🤖 Cevabı model yazdı' : m.source === 'karisik' ? '🤖 Kısmen model, kısmen hazır kalıp' : 'Hazır kalıp (model cevabı doğrulanamadı)'}</div>` : ''}${isAdmin && m.debug ? `<details class="dbg"><summary>🛠 Yönetici: model çıktısı</summary>${m.debug.map((d, i) => `<div class="dbgrow"><b>${m.debug.length > 1 ? `Parça ${i + 1}: ` : ''}${d.ok ? '✅ kabul edildi' : '❌ reddedildi, hazır kalıp gösterildi'}</b>${d.why ? `<div class="why">${esc(d.why)}</div>` : ''}<div><i>Modele verilen bilgi:</i> ${esc(d.prompt.slice(0, 500))}</div><div><i>Modelin yazdığı:</i> ${esc(d.raw || '(boş)')}</div>${d.fixed ? `<div><i>Harf onarımından sonra:</i> ${esc(d.fixed)}</div>` : ''}</div>`).join('')}</details>` : ''}${m.ids?.length ? `<div class="src">Kaynak: <a href="${esc(m.ids.length === 1 && byId.get(m.ids[0])?.pdf ? byId.get(m.ids[0]).pdf : LIST_PAGE)}" target="_blank" rel="noopener">T.C. Tarım ve Orman Bakanlığı, DKMP Tür Eylem Planı</a> · konum noktaları: <a href="https://www.gbif.org" target="_blank" rel="noopener">GBIF</a> (açık lisans)</div>` : ''}${m.ids?.length ? `<div class="refs">${m.ids.map((i) => byId.get(i)).filter(Boolean).map((t) => `<a href="#/tur/${t.id}">${esc(t.name)} ↗</a>`).join(' ')}</div>` : ''}</div>`;
   const draw = () => {
     box.innerHTML = chatLog.length ? chatLog.map(bubble).join('') : '<div class="msg assistant">Merhaba! Ben Endemik. Türkiye\'nin endemik türleri hakkında soru sorabilirsiniz.</div>';
     box.scrollTop = box.scrollHeight;
   };
-  const onlPanel = () => {
-    const el = document.getElementById('onl'); if (!el) return;
-    if (onlineAsked()) { el.innerHTML = ''; return; }
-    el.innerHTML = `<div class="panel"><b>🌐 İnternette arayayım mı?</b><p class="note">Bilmediğim bir canlıyı Vikipedi'de arayabilirim. Bunun için sorudaki ad/sözcükler Vikipedi'ye (tr.wikipedia.org) gönderilir ve internet adresin onlara görünür. Sorularının geri kalanı yine hiçbir yere gitmez. İstersen sonra Ayarlar'dan kapatabilirsin.</p>
-      <div class="row"><button class="btn" id="onlyes">Evet, ara</button><button class="btn ghost" id="onlno">Hayır</button></div></div>`;
-    document.getElementById('onlyes').onclick = () => { setOnline(true); const c = document.getElementById('onlchk2'); if (c) c.checked = true; onlPanel(); toast('Vikipedi araması açıldı.'); };
-    document.getElementById('onlno').onclick = () => { setOnline(false); const c = document.getElementById('onlchk2'); if (c) c.checked = false; onlPanel(); };
-  };
-  const chk2 = document.getElementById('onlchk2'); chk2.checked = onlineEnabled();
-  chk2.onchange = () => { setOnline(chk2.checked); onlPanel(); toast(chk2.checked ? 'Vikipedi araması açıldı.' : 'Vikipedi araması kapatıldı.'); };
-  onlPanel();
   draw(); preloadLM();
   if (hasBackend) adminSession().then((ses) => { if (!!ses !== isAdmin) { isAdmin = !!ses; draw(); } }).catch(() => {});
   document.getElementById('cf').onsubmit = async (e) => {
@@ -689,14 +675,14 @@ function viewPrivacy() {
     <div class="panel"><b>Yarışma sıralaması</b>
       <p>Sıralamaya katılırsan yazdığın takma ad ve puanın herkese görünür (ve sunucuda saklanır). Gerçek adını yazmak zorunda değilsin. Katılmazsan hiçbir şey gönderilmez; en yüksek puanın yalnızca telefonunda durur. Uygunsuz bir ad görürsen yönetici siler.</p></div>
     <div class="panel"><b>Sohbet botu</b>
-      <p>“Sor” bölümündeki sohbet botu telefonunuzda çalışır. Yazdığınız sorular saklanmaz; sayfayı kapatınca sohbet silinir.</p>
-      <p><b>İnternette arama (isteğe bağlı, varsayılan kapalı):</b> Sohbette bu özelliğe izin verirseniz, elimizde olmayan bir canlı adı sorduğunuzda aradığınız sözcükler Vikipedi'ye (tr.wikipedia.org, Wikimedia Vakfı) gönderilir ve internet adresiniz onlara görünür. Bulunan metin cevapta kaynak bağlantısıyla gösterilir. Ayarlar'dan istediğiniz zaman kapatabilirsiniz. İzin vermezseniz hiçbir soru telefonunuzdan çıkmaz.</p></div>
+      <p>“Sor” bölümündeki sohbet botu telefonunuzda çalışır. Yazdığınız sorular saklanmaz, hiçbir yere gönderilmez; sayfayı kapatınca sohbet silinir.</p></div>
+
     <div class="panel"><b>Başka kimler veri alır?</b>
       <ul><li><b>Supabase:</b> Kayıtlar bu hizmette saklanır.</li>
       <li><b>OpenStreetMap:</b> Harita açıldığında harita parçaları OpenStreetMap sunucularından indirilir; bu sunucular internet adresinizi görebilir.</li>
       <li><b>GitHub:</b> Site GitHub Pages üzerinde yayınlanır.</li></ul>
       <p>Reklam ya da izleme (analitik) aracı kullanmıyoruz.</p>
-      <p><b>Yurt dışı:</b> Bu hizmetlerin sunucuları Türkiye dışında olabilir (Supabase, GitHub, Wikimedia ve OpenStreetMap yurt dışı kuruluşlardır). Kayıt göndermeniz ve izin verdiğiniz özellikleri kullanmanız, verinin bu hizmetlere aktarılmasını kabul etmeniz anlamına gelir.</p></div>
+      <p><b>Yurt dışı:</b> Bu hizmetlerin sunucuları Türkiye dışında olabilir (Supabase, GitHub ve OpenStreetMap yurt dışı kuruluşlardır). Kayıt göndermeniz ve izin verdiğiniz özellikleri kullanmanız, verinin bu hizmetlere aktarılmasını kabul etmeniz anlamına gelir.</p></div>
     <div class="panel"><b>Haklarınız</b>
       <p>6698 sayılı KVKK kapsamında; verinizin işlenip işlenmediğini öğrenme, bilgi isteme, düzeltilmesini ya da silinmesini isteme, işlenmesine itiraz etme ve Kişisel Verileri Koruma Kurumu'na başvurma hakkınız vardır. Başvuru için yukarıdaki e-posta adresine yazabilirsiniz. Verdiğiniz izni istediğiniz zaman geri alabilirsiniz.</p></div>
     <div class="panel"><b>Cihazınızda saklananlar</b>
@@ -719,9 +705,6 @@ function viewSettings() {
       <div id="offst" class="sci"></div>
       <label class="chk"><input type="checkbox" id="offauto"> Wi‑Fi'deyken fotoğrafları otomatik indir <small>(mobil veride önce size sorulur)</small></label>
       <div class="row"><button class="btn" id="offdl">📥 Fotoğrafları indir</button></div></div>
-    <div class="panel"><b>Sohbet: internette arama</b>
-      <label class="chk"><input type="checkbox" id="onlchk"> Bilmediğim canlıları Vikipedi'de ara</label>
-      <p class="note">Açıkken, sohbette elimizde olmayan bir canlı adı sorduğunuzda o ad tr.wikipedia.org'a gönderilir (internet adresiniz onlara görünür). Kapalıyken sohbet tamamen telefonunuzda çalışır.</p></div>
     <div class="panel"><b>Gezinme</b>
       <label class="chk"><input type="checkbox" id="swon"> Ekranı yana kaydırarak sekme değiştir</label>
       <label class="chk"><input type="checkbox" id="swnat"> Yönü ters çevir <small>(kapalıyken: sola kaydırınca sağdaki sekmeye, sağa kaydırınca soldaki sekmeye geçilir)</small></label>
@@ -736,10 +719,9 @@ function viewSettings() {
       </details></div>
     <div id="srv"></div>
     ${local.length ? `<div class="panel"><p>Bu cihazda gönderilmemiş ${local.length} kayıt var.</p></div>` : ''}
-    <div class="panel"><b>Hakkında</b><p>Sohbet botundaki ek bilgi parçaları <a href="https://tr.wikipedia.org" target="_blank" rel="noopener">Vikipedi</a> maddelerinden alınmıştır (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.tr" target="_blank" rel="noopener">CC BY-SA 4.0</a>); her cevapta ilgili maddenin bağlantısı gösterilir. Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
+    <div class="panel"><b>Hakkında</b><p>Veriler Doğa Koruma ve Milli Parklar Genel Müdürlüğü <a href="${LIST_PAGE}" target="_blank" rel="noopener">Tür Eylem Planları</a> sayfasından alınmıştır. Lokaliteler yaklaşık konumdur.</p>
       <p><a href="#/gizlilik">Gizlilik ve veri kullanımı</a></p>
       <p><a href="#/yonetim">Yönetici girişi</a></p></div>`, 'set');
-  const onl = document.getElementById('onlchk'); onl.checked = onlineEnabled(); onl.onchange = () => setOnline(onl.checked);
   const swon = document.getElementById('swon'), swnat = document.getElementById('swnat');
   swon.checked = swipeEnabled(); swnat.checked = swipeReverse(); swnat.disabled = !swon.checked;
   swon.onchange = () => { setSwipeEnabled(swon.checked); swnat.disabled = !swon.checked; };
