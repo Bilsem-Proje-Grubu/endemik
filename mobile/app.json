@@ -12,7 +12,12 @@
         "ACCESS_BACKGROUND_LOCATION",
         "POST_NOTIFICATIONS",
         "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_LOCATION"
+        "FOREGROUND_SERVICE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
       ]
     },
     "ios": {
@@ -36,6 +41,12 @@
       ],
       "expo-notifications",
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "196a45b1-5564-4445-8ff7-2480a5c05f21"
+      }
+    },
+    "owner": "anklew"
   }
 }
