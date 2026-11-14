@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Endemik",
+    "slug": "endemik-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "android": {
+      "package": "io.github.bilsemprojegrubu.endemik",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "POST_NOTIFICATIONS",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "io.github.bilsemprojegrubu.endemik",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Bulunduğunuz bölgedeki endemik türleri göstermek için konum gerekir.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Uygulama kapalıyken bir türün bölgesine girdiğinizde sizi uyarmak için konum gerekir.",
+        "UIBackgroundModes": [
+          "location"
+        ]
+      }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Uygulama kapalıyken bir türün bölgesine girdiğinizde sizi uyarmak için konum gerekir.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      "expo-notifications",
+      "expo-asset"
+    ]
+  }
+}
