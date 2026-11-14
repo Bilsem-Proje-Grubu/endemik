@@ -2,6 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './style.css';
 import species from './data/species.json';
+import gbif from './data/gbif.json';
 import { hasBackend, addSighting, getApprovedSightings, getLocalSightings, adminLogin, adminLogout, adminSession, adminList, adminSetStatus, adminDelete, blurCoord, USER_RADIUS_KM, flushQueue, getSpeciesPhotos, submitScore, getTopScores, adminDeleteScore, validName } from './supabase.js';
 import { startWatching, stopWatching, notifyEnabled, speciesNear, distanceKm } from './geo.js';
 import { aiFillSpeciesInfo } from './ai.js';
@@ -201,27 +202,49 @@ function viewSpecies(id) {
 }
 
 // ---------- Genel harita ----------
+// Tehlike derecesi: kayıttaki ulusal/uluslararası kodlardan en ağırı alınır; kod yoksa gri
+const THREAT = {
+  CR: { c: '#d62828', t: 'Kritik tehlikede (CR)' }, EN: { c: '#f77f00', t: 'Tehlikede (EN)' }, VU: { c: '#e9c46a', t: 'Hassas (VU)' },
+  NT: { c: '#3b7dd8', t: 'Tehdide yakın (NT)' }, LC: { c: '#2a9d8f', t: 'Az endişe verici (LC)' },
+};
+const THREAT_ORDER = ['CR', 'EN', 'VU', 'NT', 'LC'];
+const THREAT_NONE = { c: '#9aa0a6', t: 'Kategori belirtilmemiş' };
+function threatOf(s) {
+  const codes = new Set(`${s.statusNational || ''} ${s.statusIntl || ''}`.match(/\b(CR|EN|VU|NT|LC)\b/g) || []);
+  const k = THREAT_ORDER.find((x) => codes.has(x));
+  return k ? THREAT[k] : THREAT_NONE;
+}
 let mapFilter = { group: 'all', threat: false };
 function viewMap() {
   const chip = (k, v, label, on) => `<button class="chip${on ? ' on' : ''}" data-k="${k}" data-v="${v}">${label}</button>`;
   shell(`<h2 class="section-title">Yayılış haritası</h2>
+    <div class="msearchbox"><input id="msearch" type="search" placeholder="Tür ara: Türkçe ya da bilimsel ad" autocomplete="off" class="msearch"><div id="msug" class="msug" hidden></div></div>
+    <p class="note" id="msinfo"></p>
     <div class="chips" id="mf">
       ${chip('group', 'all', 'Tümü', mapFilter.group === 'all')}
       ${chip('group', 'fauna', '🦎 Fauna', mapFilter.group === 'fauna')}
       ${chip('group', 'flora', '🌿 Flora', mapFilter.group === 'flora')}
       ${chip('threat', 'toggle', '⚠ Tehlike altında', mapFilter.threat)}
     </div>
-    <div id="m" class="map tall"></div><div id="mi" class="near"><p class="near-empty">Konumunuz alınıyor… İzin vermediyseniz tarayıcıdan konum iznini açın.</p></div>`, 'map');
+    <div id="m" class="map tall"></div><div id="mi" class="near"><p class="near-empty">Konumunuz alınıyor… İzin vermediyseniz tarayıcıdan konum iznini açın.</p></div>
+    <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
+      ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
+      <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
-  const layer = L.layerGroup().addTo(map);
+  const layer = L.layerGroup().addTo(map), focus = L.layerGroup().addTo(map);
   const draw = () => {
     layer.clearLayers();
     for (const s of species) {
       if (mapFilter.group !== 'all' && s.group !== mapFilter.group) continue;
       if (mapFilter.threat && !threatened(s)) continue;
+      const th = threatOf(s), ic = s.group === 'fauna' ? '🐾' : '🌿';
       for (const l of allLocalities(s)) {
-        drawLocality(s, l, s.group === 'fauna' ? '#e8b84a' : '#6fcf4f', `<b>${esc(s.name)}</b><br>${esc(l.name)}<br><a href="#/tur/${s.id}">Detay</a>`, layer);
+        drawLocality(s, l, th.c, `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`, layer);
+      }
+      for (const [lat, lng, n] of gbif[s.id] || []) {
+        L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 })
+          .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
       }
     }
   };
@@ -234,8 +257,29 @@ function viewMap() {
       mapFilter.threat = !mapFilter.threat;
       b.classList.toggle('on', mapFilter.threat);
     }
-    draw();
+    draw(); reset();
   }));
+  // Arama: Türkçe ad, bilimsel ad ya da bir parçası; seçilen türün noktaları öne çıkar, diğerleri gizlenir
+  const fold = (t) => String(t || '').toLocaleLowerCase('tr').replace(/ı/g, 'i');
+  const box = document.getElementById('msearch'), sug = document.getElementById('msug'), info = document.getElementById('msinfo');
+  function reset() { focus.clearLayers(); layer.addTo(map); sug.hidden = true; info.textContent = ''; }
+  const pick = (sp) => {
+    focus.clearLayers(); map.removeLayer(layer); sug.hidden = true; box.value = sp.name;
+    const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => [l.lat, l.lng])];
+    const th = threatOf(sp);
+    for (const [lat, lng] of pts) L.circleMarker([lat, lng], { radius: 8, color: '#111', weight: 2, fillColor: th.c, fillOpacity: 0.9 }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
+    if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.3), { maxZoom: 9 });
+    const nb = (gbif[sp.id] || []).reduce((a, c) => a + c[2], 0);
+    info.innerHTML = `<b>${esc(sp.name)}</b> (<i>${esc(sp.sci)}</i>): ${pts.length} konum noktası${nb ? `, ${nb >= 600 ? '600+' : nb} GBIF gözlemi` : ''}. <a href="#/tur/${sp.id}">Tür sayfası</a>`;
+  };
+  box.oninput = () => {
+    const q = fold(box.value.trim());
+    if (!q) { reset(); return; }
+    const hits = species.filter((s) => fold(s.name).includes(q) || fold(s.sci).includes(q)).slice(0, 8);
+    sug.innerHTML = hits.length ? hits.map((s) => `<button type="button" data-id="${s.id}">${esc(s.name)} <i>${esc(s.sci)}</i></button>`).join('') : '<div class="note">Bu adla kayıtlı tür yok.</div>';
+    sug.hidden = false;
+    sug.querySelectorAll('button').forEach((b) => b.onclick = () => pick(byId.get(b.dataset.id)));
+  };
   navigator.geolocation?.getCurrentPosition((p) => {
     const me = { lat: p.coords.latitude, lng: p.coords.longitude };
     L.circleMarker([me.lat, me.lng], { radius: 8, color: '#4aa3e8', fillOpacity: 0.8 }).addTo(map).bindPopup('Buradasınız');
