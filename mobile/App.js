@@ -1,16 +1,27 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Platform } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Linking } from 'react-native';
+import { WebView } from 'react-native-webview';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import { TASK } from './src/task';
-import { speciesNear } from './src/geo';
+
+const SITE = 'https://bilsem-proje-grubu.github.io/endemik/';
 
 export default function App() {
+  const web = useRef(null);
+  const [canBack, setCanBack] = useState(false);
   const [on, setOn] = useState(false);
   const [msg, setMsg] = useState('');
-  const [near, setNear] = useState(null);
 
   useEffect(() => { Location.hasStartedLocationUpdatesAsync(TASK).then(setOn).catch(() => {}); }, []);
+  useEffect(() => {
+    Location.requestForegroundPermissionsAsync().catch(() => {});
+    const h = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (canBack && web.current) { web.current.goBack(); return true; }
+      return false;
+    });
+    return () => h.remove();
+  }, [canBack]);
 
   async function enable() {
     const n = await Notifications.requestPermissionsAsync();
@@ -18,7 +29,7 @@ export default function App() {
     const fg = await Location.requestForegroundPermissionsAsync();
     if (!fg.granted) return setMsg('Konum izni verilmedi.');
     const bg = await Location.requestBackgroundPermissionsAsync();
-    if (!bg.granted) return setMsg('Uygulama kapalıyken çalışması için konum iznini "Her zaman izin ver" yapın (Ayarlar → Uygulamalar → Endemik → Konum).');
+    if (!bg.granted) return setMsg('Konum iznini "Her zaman izin ver" yapın (Ayarlar → Uygulamalar → Endemik → Konum).');
     await Location.startLocationUpdatesAsync(TASK, {
       accuracy: Location.Accuracy.Balanced,
       distanceInterval: 300,
@@ -32,36 +43,41 @@ export default function App() {
     await Location.stopLocationUpdatesAsync(TASK).catch(() => {});
     setOn(false);
   }
-  async function check() {
-    const fg = await Location.requestForegroundPermissionsAsync();
-    if (!fg.granted) return setMsg('Konum izni verilmedi.');
-    const p = await Location.getCurrentPositionAsync({});
-    setNear(speciesNear({ lat: p.coords.latitude, lng: p.coords.longitude }));
-  }
 
   return (
-    <ScrollView contentContainerStyle={s.wrap}>
-      <Text style={s.h1}>Endemik</Text>
-      <Text style={s.p}>Bir türün yaşadığı bölgeye girince telefonunuza bildirim gelir. Konumunuz yalnızca telefonda kalır.</Text>
-      <Pressable style={[s.btn, on && s.off]} onPress={on ? disable : enable}>
-        <Text style={s.bt}>{on ? 'Bildirimi kapat' : 'Bildirimi aç'}</Text>
-      </Pressable>
-      {!!msg && <Text style={s.err}>{msg}</Text>}
-      <Pressable style={[s.btn, s.off]} onPress={check}><Text style={s.bt}>Şu an buradaki türler</Text></Pressable>
-      {near && (near.length
-        ? near.map(({ sp, loc }) => <Text key={sp.id} style={s.item}>• {sp.name} — {loc.name}</Text>)
-        : <Text style={s.p}>Bulunduğunuz yerde kayıtlı tür yok.</Text>)}
-    </ScrollView>
+    <View style={s.root}>
+      <StatusBar barStyle="light-content" backgroundColor="#0b1218" />
+      <WebView
+        ref={web}
+        source={{ uri: SITE }}
+        style={s.web}
+        geolocationEnabled
+        javaScriptEnabled
+        domStorageEnabled
+        onNavigationStateChange={(st) => setCanBack(st.canGoBack)}
+        onShouldStartLoadWithRequest={(r) => {
+          if (r.url.startsWith(SITE) || r.url.startsWith('about:') || r.url.startsWith('blob:') || r.url.startsWith('data:')) return true;
+          if (/^https?:/.test(r.url) && /tile\.openstreetmap|unpkg|cdnjs|supabase|wikimedia|gbif|inaturalist/.test(r.url)) return true;
+          Linking.openURL(r.url).catch(() => {});
+          return false;
+        }}
+      />
+      <View style={s.bar}>
+        <Pressable style={[s.btn, on && s.off]} onPress={on ? disable : enable}>
+          <Text style={s.bt}>{on ? '🔔 Bölge bildirimi açık · kapat' : '🔕 Bölge bildirimini aç'}</Text>
+        </Pressable>
+        {!!msg && <Text style={s.err}>{msg}</Text>}
+      </View>
+    </View>
   );
 }
 
 const s = StyleSheet.create({
-  wrap: { padding: 24, paddingTop: Platform.OS === 'android' ? 60 : 80, gap: 14 },
-  h1: { fontSize: 28, fontWeight: '700' },
-  p: { fontSize: 16, color: '#444' },
-  btn: { backgroundColor: '#2a7f4f', padding: 14, borderRadius: 10, alignItems: 'center' },
-  off: { backgroundColor: '#5b6b75' },
-  bt: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  err: { color: '#b00020' },
-  item: { fontSize: 16 },
+  root: { flex: 1, backgroundColor: '#0b1218', paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 40 },
+  web: { flex: 1 },
+  bar: { padding: 8, backgroundColor: '#0b1218' },
+  btn: { backgroundColor: '#2a7f4f', paddingVertical: 10, borderRadius: 10, alignItems: 'center' },
+  off: { backgroundColor: '#3b4a55' },
+  bt: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  err: { color: '#ff8a80', marginTop: 6, fontSize: 13 },
 });
