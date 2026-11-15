@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Linking } from 'react-native';
+import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Linking, AppState } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
-import { TASK, testNotification } from './src/task';
+import { TASK, testNotification, ensureChannel, readLog, log } from './src/task';
 
 const SITE = 'https://bilsem-proje-grubu.github.io/endemik/';
 
@@ -12,6 +12,17 @@ export default function App() {
   const [canBack, setCanBack] = useState(false);
   const [on, setOn] = useState(false);
   const [msg, setMsg] = useState('');
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    ensureChannel();
+    readLog().then(setLogs);
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') { log('uygulama açıldı').then(() => readLog().then(setLogs)); }
+      if (st === 'background') { log('uygulama arka plana gitti'); }
+    });
+    return () => sub.remove();
+  }, []);
 
   useEffect(() => { Location.hasStartedLocationUpdatesAsync(TASK).then(setOn).catch(() => {}); }, []);
   useEffect(() => {
@@ -79,6 +90,8 @@ export default function App() {
           <Text style={s.bt}>🧪 Bildirimi dene (10 sn)</Text>
         </Pressable>
         {!!msg && <Text style={s.err}>{msg}</Text>}
+        {logs.length > 0 && <Text style={s.log}>{'Kayıt:\n' + logs.join('\n')}</Text>}
+        <Pressable onPress={() => Linking.openSettings()}><Text style={s.link}>Bildirim ayarlarını aç</Text></Pressable>
       </View>
     </View>
   );
@@ -92,4 +105,6 @@ const s = StyleSheet.create({
   off: { backgroundColor: '#3b4a55' },
   bt: { color: '#fff', fontSize: 15, fontWeight: '600' },
   err: { color: '#ff8a80', marginTop: 6, fontSize: 13 },
+  log: { color: '#cfd8dc', marginTop: 6, fontSize: 12, fontFamily: 'monospace' },
+  link: { color: '#80cbc4', marginTop: 6, fontSize: 13, textDecorationLine: 'underline' },
 });
