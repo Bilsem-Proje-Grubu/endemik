@@ -37,9 +37,12 @@ export async function testNotification() {
   const loc = sp.localities[0];
   const hits = speciesNear({ lat: loc.lat, lng: loc.lng }).filter((h) => h.sp.id === sp.id);
   const h = hits[0] || { sp, loc };
-  await Notifications.scheduleNotificationAsync({
-    content: { title: `Yakınınızda: ${h.sp.name}`, body: `[DENEME] ${h.loc.name} çevresinde ${h.sp.name} (${h.sp.sci || h.sp.group}) yaşar.` },
-    trigger: { type: 'timeInterval', seconds: 10 },
-  });
+  // Telefon alarmı yerine takip servisinin canlı tuttuğu süreçten gönderilir (gerçek bildirimle aynı yol).
+  setTimeout(() => {
+    Notifications.scheduleNotificationAsync({
+      content: { title: `Yakınınızda: ${h.sp.name}`, body: `[DENEME] ${h.loc.name} çevresinde ${h.sp.name} (${h.sp.sci || h.sp.group}) yaşar.` },
+      trigger: null,
+    });
+  }, 10000);
   return h.sp.name;
 }
