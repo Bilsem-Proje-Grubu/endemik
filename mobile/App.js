@@ -42,7 +42,9 @@ export default function App() {
   async function test() {
     const n = await Notifications.requestPermissionsAsync();
     if (!n.granted) return setMsg('Bildirim izni verilmedi.');
-    if (!on) return setMsg('Önce yukarıdaki düğmeyle arka plan takibini açın, sonra denemeyi yapın.');
+    const fg = await Location.requestForegroundPermissionsAsync();
+    const bg = fg.granted && (await Location.requestBackgroundPermissionsAsync());
+    if (!bg || !bg.granted) return setMsg('Konum iznini "Her zaman izin ver" yapın.');
     const name = await testNotification();
     setMsg(`Deneme: 10 saniye sonra "${name}" bildirimi gelecek. Uygulamayı kapatabilirsiniz.`);
   }

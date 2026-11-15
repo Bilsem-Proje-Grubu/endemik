@@ -1,6 +1,7 @@
 // Arka plan görevi: uygulama kapalıyken de konum gelir; yeni bir türün bölgesine girilince bildirim atılır.
 import * as TaskManager from 'expo-task-manager';
 import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { speciesNear } from './geo';
 import species from '../data/species.json';
@@ -31,18 +32,32 @@ TaskManager.defineTask(TASK, async ({ data, error }) => {
   try { await AsyncStorage.setItem('endemik.seen', JSON.stringify(seen)); } catch { /* yoksay */ }
 });
 
-// Deneme: rastgele bir türün bölgesindeymiş gibi davranıp 10 sn sonra bildirim gönderir (uygulama kapatılabilir).
+// Deneme: gerçek konum görevi gibi, uygulama kapalıyken de çalışan ayrı bir görev kullanır.
+export const TEST_TASK = 'endemik-deneme';
+
+TaskManager.defineTask(TEST_TASK, async ({ data, error }) => {
+  if (error) return;
+  let t = null;
+  try { t = JSON.parse((await AsyncStorage.getItem('endemik.test')) || 'null'); } catch { /* yoksay */ }
+  if (!t || Date.now() < t.due) return;
+  await AsyncStorage.removeItem('endemik.test');
+  await Notifications.scheduleNotificationAsync({
+    content: { title: `Yakınınızda: ${t.name}`, body: `[DENEME] ${t.loc} çevresinde ${t.name} (${t.sci}) yaşar.` },
+    trigger: null,
+  });
+  try { await Location.stopLocationUpdatesAsync(TEST_TASK); } catch { /* yoksay */ }
+});
+
 export async function testNotification() {
   const sp = species[Math.floor(Math.random() * species.length)];
   const loc = sp.localities[0];
-  const hits = speciesNear({ lat: loc.lat, lng: loc.lng }).filter((h) => h.sp.id === sp.id);
-  const h = hits[0] || { sp, loc };
-  // Telefon alarmı yerine takip servisinin canlı tuttuğu süreçten gönderilir (gerçek bildirimle aynı yol).
-  setTimeout(() => {
-    Notifications.scheduleNotificationAsync({
-      content: { title: `Yakınınızda: ${h.sp.name}`, body: `[DENEME] ${h.loc.name} çevresinde ${h.sp.name} (${h.sp.sci || h.sp.group}) yaşar.` },
-      trigger: null,
-    });
-  }, 10000);
-  return h.sp.name;
+  await AsyncStorage.setItem('endemik.test', JSON.stringify({ due: Date.now() + 10000, name: sp.name, loc: loc.name, sci: sp.sci || sp.group }));
+  await Location.startLocationUpdatesAsync(TEST_TASK, {
+    accuracy: Location.Accuracy.Balanced,
+    timeInterval: 3000,
+    distanceInterval: 0,
+    pausesUpdatesAutomatically: false,
+    foregroundService: { notificationTitle: 'Endemik deneme', notificationBody: 'Deneme bildirimi bekleniyor' },
+  });
+  return sp.name;
 }
