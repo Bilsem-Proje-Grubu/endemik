@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Linking, AppState } from 'react-native';
+import { View, Text, Pressable, StyleSheet, BackHandler, Platform, StatusBar, Linking, AppState, Share } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
@@ -50,6 +50,15 @@ export default function App() {
     });
     setOn(true); setMsg('');
   }
+  async function fcm() {
+    try {
+      const p = await Notifications.requestPermissionsAsync();
+      if (!p.granted) { setMsg('Bildirim izni verin'); return; }
+      const t = await Notifications.getDevicePushTokenAsync();
+      await Share.share({ message: String(t.data) });
+    } catch (e) { setMsg('FCM hata: ' + (e && e.message)); }
+  }
+
   async function test() {
     const n = await Notifications.requestPermissionsAsync();
     if (!n.granted) return setMsg('Bildirim izni verilmedi.');
@@ -91,6 +100,7 @@ export default function App() {
         </Pressable>
         {!!msg && <Text style={s.err}>{msg}</Text>}
         {logs.length > 0 && <Text style={s.log}>{'Kayıt:\n' + logs.join('\n')}</Text>}
+        <Pressable onPress={fcm}><Text style={s.link}>FCM kodunu paylaş</Text></Pressable>
         <Pressable onPress={() => Linking.openSettings()}><Text style={s.link}>Bildirim ayarlarını aç</Text></Pressable>
       </View>
     </View>
