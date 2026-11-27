@@ -128,6 +128,20 @@ const threatened = (s) => /\b(CR|EN|VU)\b|nesli tehlike|Kritik|Tehlike Altında/
 // `sensitive` alanı verilmemişse kritik tehlikedeki (CR) türler hassas sayılır.
 const isSensitive = (s) => s.sensitive ?? /\bCR\b|Kritik|nesli tehlike/i.test(`${s.statusNational || ''} ${s.statusIntl || ''}`);
 const CELL = 0.1;
+// Haritada tür sembolü: hayvan için pati, bitki için yaprak; zemin rengi tehlike derecesi.
+const SYM_SVG = {
+  fauna: '<svg viewBox="3.6 2.4 16.8 18.8" fill="#fff"><ellipse cx="6" cy="9" rx="2.2" ry="3"/><ellipse cx="10" cy="5.5" rx="2.2" ry="3"/><ellipse cx="14" cy="5.5" rx="2.2" ry="3"/><ellipse cx="18" cy="9" rx="2.2" ry="3"/><path d="M12 11c-3 0-6.5 4.2-6.5 7 0 2 1.7 3 3.5 3 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.5-1 3.5-3 0-2.8-3.5-7-6.5-7z"/></svg>',
+  flora: '<svg viewBox="2.8 2.8 17.6 19.4" fill="#fff"><path d="M20 3C9 3 4 8.5 4 15c0 1.4.3 2.7.8 3.8L3 20.6 4.4 22l1.9-1.9C7.4 20.7 8.6 21 10 21c6.5 0 11-5 10-18zM8 17.6l-.3-.3C10 13 13.5 9.5 17 8c-3 2.3-6 5.6-9 9.6z"/></svg>',
+};
+function symIcon(s, color, size) {
+  return L.divIcon({ className: 'sym', iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2],
+    html: `<span style="background:${color};width:${size}px;height:${size}px">${SYM_SVG[s.group === 'fauna' ? 'fauna' : 'flora']}</span>` });
+}
+// Lokalitenin sembolünün konacağı nokta: hassas türde gerçek nokta değil, hücrenin ortası.
+function symPoint(s, l) {
+  if (!isSensitive(s)) return [l.lat, l.lng];
+  return [Math.floor(l.lat / CELL) * CELL + CELL / 2, Math.floor(l.lng / CELL) * CELL + CELL / 2];
+}
 function drawLocality(s, l, color, popup, target) {
   if (!isSensitive(s)) {
     return L.circle([l.lat, l.lng], { radius: (l.radiusKm || 5) * 1000, color, weight: 2 }).bindPopup(popup).addTo(target);
@@ -213,6 +227,17 @@ function threatOf(s) {
   const k = THREAT_ORDER.find((x) => codes.has(x));
   return k ? THREAT[k] : THREAT_NONE;
 }
+// Geniş yayılışlı tür: lokaliteleri 1°'den fazla yayılan ya da alanı büyük (≥15 km yarıçap) olanlar.
+// Bunların sembolü uzaktan da görünür; diğerleri yaklaşınca belirir.
+const wideCache = new Map();
+function isWide(s) {
+  if (!wideCache.has(s.id)) {
+    const ls = allLocalities(s);
+    const span = ls.length ? Math.max(Math.max(...ls.map((l) => l.lat)) - Math.min(...ls.map((l) => l.lat)), Math.max(...ls.map((l) => l.lng)) - Math.min(...ls.map((l) => l.lng))) : 0;
+    wideCache.set(s.id, span >= 1 || ls.some((l) => (l.radiusKm || 0) >= 15));
+  }
+  return wideCache.get(s.id);
+}
 let mapFilter = { group: 'all', threat: false };
 function viewMap() {
   const chip = (k, v, label, on) => `<button class="chip${on ? ' on' : ''}" data-k="${k}" data-v="${v}">${label}</button>`;
@@ -221,33 +246,42 @@ function viewMap() {
     <p class="note" id="msinfo"></p>
     <div class="chips" id="mf">
       ${chip('group', 'all', 'Tümü', mapFilter.group === 'all')}
-      ${chip('group', 'fauna', '🦎 Fauna', mapFilter.group === 'fauna')}
-      ${chip('group', 'flora', '🌿 Flora', mapFilter.group === 'flora')}
+      ${chip('group', 'fauna', '🐾 Hayvan', mapFilter.group === 'fauna')}
+      ${chip('group', 'flora', '🍃 Bitki', mapFilter.group === 'flora')}
       ${chip('threat', 'toggle', '⚠ Tehlike altında', mapFilter.threat)}
     </div>
     <div id="m" class="map tall"></div><div id="mi" class="near"><p class="near-empty">Konumunuz alınıyor… İzin vermediyseniz tarayıcıdan konum iznini açın.</p></div>
     <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
       ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
+      <br><b>Sembol = tür grubu:</b> <span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.fauna}</span></span> Hayvan</span><span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.flora}</span></span> Bitki</span>
+      <br>Uzaktan yalnızca yayılış alanı geniş türlerin sembolü görünür; yaklaştıkça tüm türlerin sembolleri açılır.
       <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
   const layer = L.layerGroup().addTo(map), focus = L.layerGroup().addTo(map);
+  // Uzaktan küçük renkli noktalar; yaklaştıkça pati/yaprak sembolleri görünür.
+  const SYM_ZOOM = 8;
+  let near = false;
   const draw = () => {
+    near = map.getZoom() >= SYM_ZOOM;
     layer.clearLayers();
     for (const s of species) {
       if (mapFilter.group !== 'all' && s.group !== mapFilter.group) continue;
       if (mapFilter.threat && !threatened(s)) continue;
       const th = threatOf(s), ic = s.group === 'fauna' ? '🐾' : '🌿';
       for (const l of allLocalities(s)) {
-        drawLocality(s, l, th.c, `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`, layer);
+        const pop = `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`;
+        drawLocality(s, l, th.c, pop, layer);
+        if (near || isWide(s)) L.marker(symPoint(s, l), { icon: symIcon(s, th.c, near ? 34 : 30), zIndexOffset: near ? 0 : 500 }).bindPopup(pop).addTo(layer);
       }
       for (const [lat, lng, n] of gbif[s.id] || []) {
-        L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 })
+        (near ? L.marker([lat, lng], { icon: symIcon(s, th.c, 26) }) : L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 }))
           .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
       }
     }
   };
   draw();
+  map.on('zoomend', () => { if ((map.getZoom() >= SYM_ZOOM) !== near) draw(); });
   document.querySelectorAll('#mf .chip').forEach((b) => b.addEventListener('click', () => {
     if (b.dataset.k === 'group') {
       mapFilter.group = b.dataset.v;
@@ -264,9 +298,9 @@ function viewMap() {
   function reset() { focus.clearLayers(); layer.addTo(map); sug.hidden = true; info.textContent = ''; }
   const pick = (sp) => {
     focus.clearLayers(); map.removeLayer(layer); sug.hidden = true; box.value = sp.name;
-    const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => [l.lat, l.lng])];
+    const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => symPoint(sp, l))];
     const th = threatOf(sp);
-    for (const [lat, lng] of pts) L.circleMarker([lat, lng], { radius: 8, color: '#111', weight: 2, fillColor: th.c, fillOpacity: 0.9 }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
+    for (const [lat, lng] of pts) L.marker([lat, lng], { icon: symIcon(sp, th.c, 38) }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.3), { maxZoom: 9 });
     const nb = (gbif[sp.id] || []).reduce((a, c) => a + c[2], 0);
     info.innerHTML = `<b>${esc(sp.name)}</b> (<i>${esc(sp.sci)}</i>): ${pts.length} konum noktası${nb ? `, ${nb >= 600 ? '600+' : nb} GBIF gözlemi` : ''}. <a href="#/tur/${sp.id}">Tür sayfası</a>`;

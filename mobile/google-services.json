@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "520293197224",
+    "project_id": "endemik-7b6eb",
+    "storage_bucket": "endemik-7b6eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520293197224:android:07d4befc021dfc0d23e99d",
+        "android_client_info": {
+          "package_name": "io.github.bilsemprojegrubu.endemik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR3lLpA67Ix-xLm7WmCBk9sjQQsu7MxMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
