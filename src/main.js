@@ -245,7 +245,7 @@ function viewMap() {
     <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
       ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
       <br><b>Sembol = tür grubu:</b> <span class="lg"><span class="sym"><span style="background:#666;width:16px;height:16px">${SYM_SVG.fauna}</span></span> Hayvan</span><span class="lg"><span class="sym"><span style="background:#666;width:16px;height:16px">${SYM_SVG.flora}</span></span> Bitki</span>
-      <br>Uzaktan yalnızca alanı geniş bölgelerin sembolü görünür, küçük alanlar halka olarak gösterilir; yaklaştıkça tüm semboller açılır.
+      <br>Uzaktan geniş alanlı bölgeler büyük, küçük alanlı bölgeler küçük sembolle görünür; yaklaştıkça semboller büyür.
       <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
@@ -263,9 +263,9 @@ function viewMap() {
       for (const l of allLocalities(s)) {
         const pop = `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`;
         drawLocality(s, l, th.c, pop, layer);
-        // Uzaktan: yalnızca alanı geniş olan lokalitenin sembolü; küçük alanlar görünür kalsın diye renkli halka.
-        if (near || (l.radiusKm || 5) >= WIDE_KM) L.marker(symPoint(s, l), { icon: symIcon(s, th.c, near ? 22 : 18), zIndexOffset: near ? 0 : 500 }).bindPopup(pop).addTo(layer);
-        else L.circleMarker(symPoint(s, l), { radius: 6, color: th.c, weight: 3, fillColor: '#fff', fillOpacity: 0.7 }).bindPopup(pop).addTo(layer);
+        // Uzaktan: geniş alanlı lokalite büyük, küçük alanlı lokalite küçük sembolle gösterilir.
+        const big = (l.radiusKm || 5) >= WIDE_KM;
+        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, near ? 22 : big ? 20 : 14), zIndexOffset: big ? 500 : 0 }).bindPopup(pop).addTo(layer);
       }
       for (const [lat, lng, n] of gbif[s.id] || []) {
         (near ? L.marker([lat, lng], { icon: symIcon(s, th.c, 16) }) : L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 }))
