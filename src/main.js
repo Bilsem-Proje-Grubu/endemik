@@ -265,10 +265,10 @@ function viewMap() {
         drawLocality(s, l, th.c, pop, layer);
         // Uzaktan: geniş alanlı lokalite büyük, küçük alanlı lokalite küçük sembolle gösterilir.
         const big = (l.radiusKm || 5) >= WIDE_KM;
-        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, near ? 22 : big ? 20 : 14), zIndexOffset: big ? 500 : 0 }).bindPopup(pop).addTo(layer);
+        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, near ? 26 : big ? 26 : 18), zIndexOffset: big ? 500 : 0 }).bindPopup(pop).addTo(layer);
       }
       for (const [lat, lng, n] of gbif[s.id] || []) {
-        (near ? L.marker([lat, lng], { icon: symIcon(s, th.c, 16) }) : L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 }))
+        L.marker([lat, lng], { icon: symIcon(s, th.c, near ? 20 : 14) })
           .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
       }
     }
