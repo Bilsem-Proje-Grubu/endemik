@@ -162,6 +162,6 @@ details.custom summary { cursor: pointer; font-weight: 600; }
 .near-more p { margin: 6px 0; }
 .near-loc, .note-inline { color: var(--muted); font-size: 13px; }
 .sym { background: none; border: 0; }
-.sym > span { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.5); box-sizing: border-box; vertical-align: middle; }
-.sym svg { width: 62%; height: 62%; }
+.sym > span { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; border: 2.5px solid #fff; box-shadow: 0 0 0 1.5px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.45); box-sizing: border-box; vertical-align: middle; }
+.sym svg { width: 74%; height: 74%; filter: drop-shadow(0 0 1px rgba(0,0,0,.6)); }
 .mlegend .lg .sym { display: inline-block; margin-right: 5px; }

@@ -242,7 +242,7 @@ function viewMap() {
     <div id="m" class="map tall"></div><div id="mi" class="near"><p class="near-empty">Konumunuz alınıyor… İzin vermediyseniz tarayıcıdan konum iznini açın.</p></div>
     <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
       ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
-      <br><b>Sembol = tür grubu:</b> <span class="lg"><span class="sym"><span style="background:#666;width:18px;height:18px">${SYM_SVG.fauna}</span></span> Hayvan</span><span class="lg"><span class="sym"><span style="background:#666;width:18px;height:18px">${SYM_SVG.flora}</span></span> Bitki</span>
+      <br><b>Sembol = tür grubu:</b> <span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.fauna}</span></span> Hayvan</span><span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.flora}</span></span> Bitki</span>
       <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
@@ -256,10 +256,10 @@ function viewMap() {
       for (const l of allLocalities(s)) {
         const pop = `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`;
         drawLocality(s, l, th.c, pop, layer);
-        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, 26) }).bindPopup(pop).addTo(layer);
+        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, 34) }).bindPopup(pop).addTo(layer);
       }
       for (const [lat, lng, n] of gbif[s.id] || []) {
-        L.marker([lat, lng], { icon: symIcon(s, th.c, 18) })
+        L.marker([lat, lng], { icon: symIcon(s, th.c, 26) })
           .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
       }
     }
@@ -283,7 +283,7 @@ function viewMap() {
     focus.clearLayers(); map.removeLayer(layer); sug.hidden = true; box.value = sp.name;
     const pts = [...(gbif[sp.id] || []).map(([lat, lng]) => [lat, lng]), ...allLocalities(sp).map((l) => symPoint(sp, l))];
     const th = threatOf(sp);
-    for (const [lat, lng] of pts) L.marker([lat, lng], { icon: symIcon(sp, th.c, 28) }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
+    for (const [lat, lng] of pts) L.marker([lat, lng], { icon: symIcon(sp, th.c, 38) }).bindPopup(`<b>${esc(sp.name)}</b><br>${th.t}`).addTo(focus);
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.3), { maxZoom: 9 });
     const nb = (gbif[sp.id] || []).reduce((a, c) => a + c[2], 0);
     info.innerHTML = `<b>${esc(sp.name)}</b> (<i>${esc(sp.sci)}</i>): ${pts.length} konum noktası${nb ? `, ${nb >= 600 ? '600+' : nb} GBIF gözlemi` : ''}. <a href="#/tur/${sp.id}">Tür sayfası</a>`;
