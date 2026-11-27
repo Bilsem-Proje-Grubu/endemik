@@ -130,8 +130,8 @@ const isSensitive = (s) => s.sensitive ?? /\bCR\b|Kritik|nesli tehlike/i.test(`$
 const CELL = 0.1;
 // Haritada tür sembolü: hayvan için pati, bitki için yaprak; zemin rengi tehlike derecesi.
 const SYM_SVG = {
-  fauna: '<svg viewBox="0 0 24 24" fill="#fff"><ellipse cx="6" cy="9" rx="2.2" ry="3"/><ellipse cx="10" cy="5.5" rx="2.2" ry="3"/><ellipse cx="14" cy="5.5" rx="2.2" ry="3"/><ellipse cx="18" cy="9" rx="2.2" ry="3"/><path d="M12 11c-3 0-6.5 4.2-6.5 7 0 2 1.7 3 3.5 3 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.5-1 3.5-3 0-2.8-3.5-7-6.5-7z"/></svg>',
-  flora: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M20 3C9 3 4 8.5 4 15c0 1.4.3 2.7.8 3.8L3 20.6 4.4 22l1.9-1.9C7.4 20.7 8.6 21 10 21c6.5 0 11-5 10-18zM8 17.6l-.3-.3C10 13 13.5 9.5 17 8c-3 2.3-6 5.6-9 9.6z"/></svg>',
+  fauna: '<svg viewBox="3.6 2.4 16.8 18.8" fill="#fff"><ellipse cx="6" cy="9" rx="2.2" ry="3"/><ellipse cx="10" cy="5.5" rx="2.2" ry="3"/><ellipse cx="14" cy="5.5" rx="2.2" ry="3"/><ellipse cx="18" cy="9" rx="2.2" ry="3"/><path d="M12 11c-3 0-6.5 4.2-6.5 7 0 2 1.7 3 3.5 3 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.5-1 3.5-3 0-2.8-3.5-7-6.5-7z"/></svg>',
+  flora: '<svg viewBox="2.8 2.8 17.6 19.4" fill="#fff"><path d="M20 3C9 3 4 8.5 4 15c0 1.4.3 2.7.8 3.8L3 20.6 4.4 22l1.9-1.9C7.4 20.7 8.6 21 10 21c6.5 0 11-5 10-18zM8 17.6l-.3-.3C10 13 13.5 9.5 17 8c-3 2.3-6 5.6-9 9.6z"/></svg>',
 };
 function symIcon(s, color, size) {
   return L.divIcon({ className: 'sym', iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2],
@@ -243,11 +243,16 @@ function viewMap() {
     <div class="panel mlegend"><b>Renk = tehlike derecesi</b> (uygulamadaki kayıtlara göre; birden fazla kod varsa en ağırı)<br>
       ${THREAT_ORDER.map((k) => `<span class="lg"><i style="background:${THREAT[k].c}"></i>${THREAT[k].t}</span>`).join('')}<span class="lg"><i style="background:${THREAT_NONE.c}"></i>${THREAT_NONE.t}</span>
       <br><b>Sembol = tür grubu:</b> <span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.fauna}</span></span> Hayvan</span><span class="lg"><span class="sym"><span style="background:#666;width:24px;height:24px">${SYM_SVG.flora}</span></span> Bitki</span>
+      <br>Semboller haritaya yaklaştıkça görünür; uzaktan renkli noktalar gösterilir.
       <br>Büyük daireler yaklaşık yayılış alanıdır, küçük noktalar GBIF (açık biyoçeşitlilik veri tabanı) gözlemleridir. Nadir türlerin korunması için konumlar yaklaşık 10 km’lik karelere yuvarlanmıştır.</div>`, 'map');
   map = L.map('m').setView([39, 35], 6);
   addBaseLayers(map);
   const layer = L.layerGroup().addTo(map), focus = L.layerGroup().addTo(map);
+  // Uzaktan küçük renkli noktalar; yaklaştıkça pati/yaprak sembolleri görünür.
+  const SYM_ZOOM = 8;
+  let near = false;
   const draw = () => {
+    near = map.getZoom() >= SYM_ZOOM;
     layer.clearLayers();
     for (const s of species) {
       if (mapFilter.group !== 'all' && s.group !== mapFilter.group) continue;
@@ -256,15 +261,16 @@ function viewMap() {
       for (const l of allLocalities(s)) {
         const pop = `${ic} <b>${esc(s.name)}</b><br>${esc(l.name)}<br>${th.t}<br><a href="#/tur/${s.id}">Detay</a>`;
         drawLocality(s, l, th.c, pop, layer);
-        L.marker(symPoint(s, l), { icon: symIcon(s, th.c, 34) }).bindPopup(pop).addTo(layer);
+        if (near) L.marker(symPoint(s, l), { icon: symIcon(s, th.c, 34) }).bindPopup(pop).addTo(layer);
       }
       for (const [lat, lng, n] of gbif[s.id] || []) {
-        L.marker([lat, lng], { icon: symIcon(s, th.c, 26) })
+        (near ? L.marker([lat, lng], { icon: symIcon(s, th.c, 26) }) : L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1, fillColor: th.c, fillOpacity: 0.9 }))
           .bindPopup(`${ic} <b>${esc(s.name)}</b><br><i>${esc(s.sci)}</i><br>${th.t}<br>${n} gözlem kaydı (GBIF)<br><a href="#/tur/${s.id}">Detay</a>`).addTo(layer);
       }
     }
   };
   draw();
+  map.on('zoomend', () => { if ((map.getZoom() >= SYM_ZOOM) !== near) draw(); });
   document.querySelectorAll('#mf .chip').forEach((b) => b.addEventListener('click', () => {
     if (b.dataset.k === 'group') {
       mapFilter.group = b.dataset.v;
